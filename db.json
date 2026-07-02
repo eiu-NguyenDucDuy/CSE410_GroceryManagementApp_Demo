@@ -1,0 +1,48 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "email": "admin@gmail.com",
+      "password": "123456",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "username": "user1",
+      "email": "user1@gmail.com",
+      "password": "123456",
+      "role": "user"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "categoryName": "Carbonated drinks",
+      "description": ""
+    },
+    {
+      "id": 2,
+      "categoryName": "Snacks",
+      "description": ""
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "title": "Coca-Cola",
+      "thumbnail": "",
+      "price": "11.000",
+      "description": "",
+      "categoryId": 1
+    },
+    {
+      "id": 2,
+      "title": "Rice Paper Salad",
+      "thumbnail": "",
+      "price": "15.000",
+      "description": "",
+      "categoryId": 2
+    }
+  ]
+}
