@@ -10,7 +10,7 @@ export default function Breadcrumb() {
                 <div className="container">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item">
-                            <Link to="/">Home</Link>
+                            <Link to="/admin">Home</Link>
                         </li>
 
                         {pathnames.map((value, index) => {

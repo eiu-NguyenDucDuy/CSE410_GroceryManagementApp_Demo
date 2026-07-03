@@ -6,10 +6,3 @@ export type ProductData = {
     description: string;
     categoryId: number;
 };
-
-export type ProductDataForHomePage = {
-    id: number;
-    title: string;
-    thumbnail: string;
-    price: string;
-};
