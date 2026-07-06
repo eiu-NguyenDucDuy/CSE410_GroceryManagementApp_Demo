@@ -8,16 +8,15 @@ Purpose:
 - Family business - Grocery store, the owner's family members sometimes can't remember prices or are they selling requested goods when owner temporary gone.
 - This app mainly helps their owner's family members able to manage store while the owner not available.
 
-Still on process:
-- No Search function
-- User role not available
+Future features:
+- Search function
 - Allow LAN network or local storage to share data (To run when offline)
 - Run normal on mobile device
 
 Run project on terminal:
 - Run data on port 3001: npx json-server --watch db.json --port 3001
 - Run app: npm run dev
-- api web: /admin
+- api web: /admin/*
 
 # React + TypeScript + Vite
 

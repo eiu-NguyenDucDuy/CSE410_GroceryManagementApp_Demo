@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AdminLoginPage from "./GUI/Pages/admin/AdminLoginPage";
 import AdminLayout from "./GUI/Layouts/AdminLayout";
-import RequireAdmin from "./GUI/Components/RequireAdmin";
+import RequireAdmin from "./GUI/Components/RequireAuth";
 import DashboardPage from "./GUI/Pages/admin/DashboardPage";
 import CategoryManagementPage from "./GUI/Pages/admin/CategoryManagementPage";
 import ProductManagementPage from "./GUI/Pages/admin/ProductManagementPage";

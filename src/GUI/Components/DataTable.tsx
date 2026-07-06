@@ -1,10 +1,12 @@
 import { type ReactNode } from "react";
 
-export type Column<T, K extends keyof T = keyof T> = {
-    header: string;
-    field: keyof T;
-    render?: (value: T[K], row: T) => ReactNode;
-};
+export type Column<T> = {
+    [K in keyof T]: {
+        header: string;
+        field: keyof T;
+        render?: (value: T[K], row: T) => ReactNode;
+    };
+}[keyof T];
 
 type DataTableProps<T> = {
     data: T[];
@@ -35,7 +37,7 @@ export function DataTable<T extends object>({
                                 <td key={j}>
                                     {col.render
                                         ? col.render(value, row)
-                                        : String(value)}
+                                        : String(value ?? "")}
                                 </td>
                             );
                         })}

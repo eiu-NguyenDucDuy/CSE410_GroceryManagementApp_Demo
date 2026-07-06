@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function LeftSidebar() {
     return (
@@ -11,26 +11,29 @@ export default function LeftSidebar() {
                 <nav className="nav-menu">
                     <ul className="nav flex-column">
                         <li className="nav-item">
-                            <Link className="nav-link active" to="/admin">
+                            <NavLink className="nav-link" to="/admin" end>
                                 <i className="fas fa-tachometer-alt">
                                     Dashboard
                                 </i>
-                            </Link>
+                            </NavLink>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/admin/categories">
+                            <NavLink
+                                className="nav-link"
+                                to="/admin/categories"
+                            >
                                 <i className="fas fa-list">
                                     Category Management
                                 </i>
-                            </Link>
+                            </NavLink>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/admin/products">
+                            <NavLink className="nav-link" to="/admin/products">
                                 {" "}
                                 <i className="fas fa-box">
                                     Product Management{" "}
                                 </i>
-                            </Link>
+                            </NavLink>
                         </li>
                     </ul>
                 </nav>

@@ -9,14 +9,8 @@ import {
 import { type ProductData } from "../../../models/ProductData";
 import ProductFormModal from "../../Components/ProductFormModal";
 import "./styles.css";
-
-type ProductFormData = {
-    productTitle: string;
-    productThumbnail: string;
-    productPrice: string;
-    productDescription: string;
-    productCategoryId: number;
-};
+import type { ProductFormData } from "../../../models/ProductFormData";
+import { useAuth } from "../../../context/auth/useAuth";
 
 export default function ProductManagementPage() {
     const [products, setProducts] = useState<ProductData[]>([]);
@@ -24,6 +18,9 @@ export default function ProductManagementPage() {
     const [editingProduct, setEditingProduct] = useState<ProductData | null>(
         null,
     );
+
+    const { state } = useAuth();
+    const isAdmin = state.user?.role === "admin";
 
     const {
         register,
@@ -42,12 +39,33 @@ export default function ProductManagementPage() {
     };
 
     const onSubmit = async (data: ProductFormData) => {
+        let thumbnailString = "";
+
+        if (
+            data.productThumbnail instanceof FileList &&
+            data.productThumbnail.length > 0
+        ) {
+            const file = data.productThumbnail[0];
+
+            thumbnailString = await new Promise<string>((resolve) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result as string);
+                reader.readAsDataURL(file);
+            });
+        } else if (typeof data.productThumbnail === "string") {
+            thumbnailString = data.productThumbnail;
+        }
+
+        if (!thumbnailString && editingProduct) {
+            thumbnailString = editingProduct.thumbnail || "";
+        }
+
         const product = {
             title: data.productTitle,
-            thumbnail: data.productThumbnail,
+            thumbnail: thumbnailString || null,
             price: data.productPrice,
             description: data.productDescription,
-            categoryId: data.productCategoryId,
+            categoryId: Number(data.productCategoryId),
         };
 
         try {
@@ -83,7 +101,7 @@ export default function ProductManagementPage() {
 
         reset({
             productTitle: product.title,
-            productThumbnail: product.thumbnail,
+            productThumbnail: product.thumbnail ?? "",
             productPrice: product.price,
             productDescription: product.description,
             productCategoryId: product.categoryId,
@@ -130,9 +148,11 @@ export default function ProductManagementPage() {
         <>
             <h3 className="mb-4">Product Management</h3>
 
-            <button className="btn btn-success mb-3" onClick={openAddModal}>
-                + Add Product
-            </button>
+            {isAdmin && (
+                <button className="btn btn-success mb-3" onClick={openAddModal}>
+                    + Add Product
+                </button>
+            )}
 
             <div className="table-responsive">
                 <table className="table table-bordered table-hover">
@@ -144,7 +164,7 @@ export default function ProductManagementPage() {
                             <th>Price</th>
                             <th>Description</th>
                             <th>Category ID</th>
-                            <th>Actions</th>
+                            {isAdmin && <th>Actions</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -152,24 +172,34 @@ export default function ProductManagementPage() {
                             <tr key={p.id}>
                                 <td>{p.id}</td>
                                 <td>{p.title}</td>
-                                <td>{p.thumbnail}</td>
+                                <td>
+                                    {p.thumbnail ? (
+                                        <img
+                                            src={p.thumbnail}
+                                            alt={p.title}
+                                            width={50}
+                                        />
+                                    ) : null}
+                                </td>
                                 <td>{p.price}</td>
                                 <td>{p.description}</td>
                                 <td>{p.categoryId}</td>
-                                <td>
-                                    <button
-                                        className="btn btn-sm btn-warning mr-2"
-                                        onClick={() => handleEdit(p)}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        className="btn btn-sm btn-danger"
-                                        onClick={() => handleDelete(p.id)}
-                                    >
-                                        Delete
-                                    </button>
-                                </td>
+                                {isAdmin && (
+                                    <td>
+                                        <button
+                                            className="btn btn-sm btn-warning mr-2"
+                                            onClick={() => handleEdit(p)}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            className="btn btn-sm btn-danger"
+                                            onClick={() => handleDelete(p.id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+                                )}
                             </tr>
                         ))}
                     </tbody>

@@ -9,6 +9,7 @@ import {
 import { type CategoryData } from "../../../models/CategoryData";
 import CategoryFormModal from "../../Components/CategoryFormModal";
 import "./styles.css";
+import { useAuth } from "../../../context/auth/useAuth";
 
 type CategoryFormData = {
     categoryName: string;
@@ -21,6 +22,9 @@ export default function CategoryManagementPage() {
     const [editingCategory, setEditingCategory] = useState<CategoryData | null>(
         null,
     );
+
+    const { state } = useAuth();
+    const isAdmin = state.user?.role === "admin";
 
     const {
         register,
@@ -118,9 +122,11 @@ export default function CategoryManagementPage() {
         <>
             <h3 className="mb-4">Category Management</h3>
 
-            <button className="btn btn-success mb-3" onClick={openAddModal}>
-                + Add Category
-            </button>
+            {isAdmin && (
+                <button className="btn btn-success mb-3" onClick={openAddModal}>
+                    + Add Category
+                </button>
+            )}
 
             <div className="table-responsive">
                 <table className="table table-bordered table-hover">
@@ -129,7 +135,7 @@ export default function CategoryManagementPage() {
                             <th>ID</th>
                             <th>Name</th>
                             <th>Description</th>
-                            <th>Actions</th>
+                            {isAdmin && <th>Actions</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -138,20 +144,22 @@ export default function CategoryManagementPage() {
                                 <td>{c.id}</td>
                                 <td>{c.categoryName}</td>
                                 <td>{c.description}</td>
-                                <td>
-                                    <button
-                                        className="btn btn-sm btn-warning mr-2"
-                                        onClick={() => handleEdit(c)}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        className="btn btn-sm btn-danger"
-                                        onClick={() => handleDelete(c.id)}
-                                    >
-                                        Delete
-                                    </button>
-                                </td>
+                                {isAdmin && (
+                                    <td>
+                                        <button
+                                            className="btn btn-sm btn-warning mr-2"
+                                            onClick={() => handleEdit(c)}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            className="btn btn-sm btn-danger"
+                                            onClick={() => handleDelete(c.id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+                                )}
                             </tr>
                         ))}
                     </tbody>

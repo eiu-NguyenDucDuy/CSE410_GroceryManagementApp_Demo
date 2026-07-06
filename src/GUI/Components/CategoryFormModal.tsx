@@ -48,13 +48,12 @@ export default function CategoryFormModal({
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="modal-body">
                             <div className="form-group">
-                                <label htmlFor="categoryName">
+                                <label className="form-label">
                                     Category Name
                                 </label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    id="categoryName"
                                     {...register("categoryName", {
                                         required: "Category name is required",
                                     })}
@@ -67,10 +66,11 @@ export default function CategoryFormModal({
                             </div>
 
                             <div className="form-group mt-3">
-                                <label htmlFor="description">Description</label>
+                                <label className="form-label">
+                                    Description
+                                </label>
                                 <textarea
                                     className="form-control"
-                                    id="description"
                                     {...register("categoryDescription")}
                                 />
                                 {errors.categoryDescription && (

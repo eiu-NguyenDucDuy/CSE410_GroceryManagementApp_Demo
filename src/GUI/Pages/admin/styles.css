@@ -1,16 +1,25 @@
+:root {
+    --primary-color: #40414d;
+    --secondary-color: #232345;
+    --tertiary-color: #dc143c;
+    --quanternary-color: #f4a470;
+    --quinary-color: #1f1f25;
+    --senary-color: #f8f9fa;
+}
+
 body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 .sidebar {
-    background-color: #343a40;
+    background-color: var(--primary-color);
     min-height: 100vh;
     padding: 0;
 }
 .logo {
     padding: 20px;
     text-align: center;
-    background-color: #212529;
-    color: #fff;
+    background-color: var(--primary-color);
+    color: var(--quanternary-color);
     font-size: 24px;
     font-weight: bold;
 }
@@ -18,7 +27,7 @@ body {
     padding: 20px 0;
 }
 .nav-menu .nav-link {
-    color: #adb5bd;
+    color: var(--quanternary-color);
     padding: 15px 20px;
     transition: all 0.3s;
     border-left: 3px solid transparent;
@@ -26,15 +35,15 @@ body {
 .nav-menu .nav-link:hover,
 .nav-menu .nav-link.active {
     color: #fff;
-    background-color: #495057;
-    border-left-color: #007bff;
+    background-color: var(--quinary-color);
+    border-left-color: var(--quanternary-color);
 }
 .nav-menu .nav-link i {
     margin-right: 10px;
     width: 20px;
 }
 .main-content {
-    background-color: #f8f9fa;
+    background-color: var(--senary-color);
     min-height: 100vh;
 }
 .top-bar {
@@ -58,7 +67,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #007bff;
+    background-color: var(--tertiary-color);
     color: #fff;
     display: flex;
     align-items: center;
@@ -76,7 +85,7 @@ body {
 }
 .table thead th {
     border-top: none;
-    background-color: #f8f9fa;
+    background-color: var(--senary-color);
 }
 .model-overlay {
     background: rgba(0, 0, 0, 0.5);

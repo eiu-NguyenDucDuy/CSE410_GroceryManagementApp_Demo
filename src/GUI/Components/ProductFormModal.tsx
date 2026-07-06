@@ -45,14 +45,13 @@ export default function ProductFormModal({
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="modal-body modal-scroll">
                             <div className="form-group">
-                                <label htmlFor="title">
+                                <label className="form-label">
                                     Title
                                     <span className="text-danger">*</span>
                                 </label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    id="title"
                                     {...register("productTitle", {
                                         required: "Product title is required",
                                     })}
@@ -65,24 +64,30 @@ export default function ProductFormModal({
                             </div>
 
                             <div className="form-group mt-3">
-                                <label htmlFor="thumbnail">Thumbnail URL</label>
+                                <label className="form-label">
+                                    Thumbnail URL
+                                </label>
                                 <input
-                                    type="text"
-                                    className="form-control"
-                                    id="thumbnail"
+                                    type="file"
+                                    accept="image/*"
+                                    className={`form-control ${errors.productThumbnail ? "is-invalid" : ""}`}
                                     {...register("productThumbnail")}
                                 />
                             </div>
+                            {errors.productThumbnail && (
+                                <div className="invalid-feedback">
+                                    {errors.productThumbnail.message}
+                                </div>
+                            )}
 
                             <div className="form-group mt-3">
-                                <label htmlFor="price">
+                                <label className="form-label">
                                     Price
                                     <span className="text-danger">*</span>
                                 </label>
                                 <input
                                     type="number"
                                     className="form-control"
-                                    id="price"
                                     {...register("productPrice", {
                                         required: "Price is required",
                                     })}
@@ -95,24 +100,24 @@ export default function ProductFormModal({
                             </div>
 
                             <div className="form-group mt-3">
-                                <label htmlFor="description">Description</label>
+                                <label className="form-label">
+                                    Description
+                                </label>
                                 <textarea
                                     className="form-control"
-                                    id="description"
                                     rows={3}
                                     {...register("productDescription")}
                                 />
                             </div>
 
                             <div className="form-group mt-3">
-                                <label htmlFor="categoryId">
+                                <label className="form-label">
                                     Category ID
                                     <span className="text-danger">*</span>
                                 </label>
                                 <input
                                     type="number"
                                     className="form-control"
-                                    id="categoryId"
                                     {...register("productCategoryId", {
                                         required: "Category ID is required",
                                         min: {

@@ -30,13 +30,19 @@ export default function DashboardPage() {
         {
             header: "Thumbnail",
             field: "thumbnail",
-            // render: (value) => <img src={value} width={50} alt="product" />,
+            render: (value: string | null) => {
+                return value ? (
+                    <img src={value} width={50} alt="product" />
+                ) : (
+                    <span className="no-image">No Image</span>
+                );
+            },
         },
         { header: "Price", field: "price" },
         {
             header: "Category ID",
             field: "categoryId",
-            render: (value) => {
+            render: (value: number) => {
                 const category = categories.find((c) => c.id === value);
                 return category ? category.categoryName : "N/A";
             },
