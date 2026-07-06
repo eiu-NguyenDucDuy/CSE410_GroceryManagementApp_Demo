@@ -10,6 +10,8 @@ import { type CategoryData } from "../../../models/CategoryData";
 import CategoryFormModal from "../../Components/CategoryFormModal";
 import "./styles.css";
 import { useAuth } from "../../../context/auth/useAuth";
+import SearchBar from "../../Components/SearchBar";
+import Pagination from "../../Components/Pagination";
 
 type CategoryFormData = {
     categoryName: string;
@@ -22,6 +24,10 @@ export default function CategoryManagementPage() {
     const [editingCategory, setEditingCategory] = useState<CategoryData | null>(
         null,
     );
+    const [activeSearchKeyword, setActiveSearchKeyword] = useState<string>("");
+
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const itemsPerPage = 10;
 
     const { state } = useAuth();
     const isAdmin = state.user?.role === "admin";
@@ -118,15 +124,47 @@ export default function CategoryManagementPage() {
         reset();
     };
 
+    const filteredCategories = categories.filter((c) =>
+        c.categoryName
+            .toLowerCase()
+            .includes(activeSearchKeyword.toLowerCase()),
+    );
+
+    const totalPages = Math.ceil(filteredCategories.length / itemsPerPage);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+    const currentCategoriesSlice = filteredCategories.slice(
+        indexOfFirstItem,
+        indexOfLastItem,
+    );
+
+    const handleSearchSubmit = (keyword: string) => {
+        setActiveSearchKeyword(keyword);
+        setCurrentPage(1);
+    };
+
     return (
         <>
             <h3 className="mb-4">Category Management</h3>
 
-            {isAdmin && (
-                <button className="btn btn-success mb-3" onClick={openAddModal}>
-                    + Add Category
-                </button>
-            )}
+            <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+                {isAdmin && (
+                    <button
+                        className="btn btn-success mb-3"
+                        onClick={openAddModal}
+                    >
+                        + Add Category
+                    </button>
+                )}
+
+                <div style={{ minWidth: "350px" }}>
+                    <SearchBar
+                        onSearch={handleSearchSubmit}
+                        placeholder="Search categories..."
+                    />
+                </div>
+            </div>
 
             <div className="table-responsive">
                 <table className="table table-bordered table-hover">
@@ -139,32 +177,54 @@ export default function CategoryManagementPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {categories.map((c) => (
-                            <tr key={c.id}>
-                                <td>{c.id}</td>
-                                <td>{c.categoryName}</td>
-                                <td>{c.description}</td>
-                                {isAdmin && (
-                                    <td>
-                                        <button
-                                            className="btn btn-sm btn-warning mr-2"
-                                            onClick={() => handleEdit(c)}
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            className="btn btn-sm btn-danger"
-                                            onClick={() => handleDelete(c.id)}
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
-                                )}
+                        {currentCategoriesSlice.length > 0 ? (
+                            currentCategoriesSlice.map((c) => (
+                                <tr key={c.id}>
+                                    <td>{c.id}</td>
+                                    <td>{c.categoryName}</td>
+                                    <td>{c.description}</td>
+                                    {isAdmin && (
+                                        <td>
+                                            <button
+                                                className="btn btn-sm btn-warning mr-2"
+                                                onClick={() => handleEdit(c)}
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                className="btn btn-sm btn-danger"
+                                                onClick={() =>
+                                                    handleDelete(c.id)
+                                                }
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
+                                    )}
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td
+                                    colSpan={isAdmin ? 4 : 3}
+                                    className="text-center text-muted py-4"
+                                >
+                                    No categories found matching "
+                                    {activeSearchKeyword}"
+                                </td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                 </table>
             </div>
+
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalItems={filteredCategories.length}
+                itemsPerPage={itemsPerPage}
+                onPageChange={(page) => setCurrentPage(page)}
+            />
 
             <CategoryFormModal
                 show={showModal}

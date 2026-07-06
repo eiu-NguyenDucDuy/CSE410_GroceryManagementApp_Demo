@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AdminLoginPage from "./GUI/Pages/admin/AdminLoginPage";
+import AdminLoginPage from "./GUI/Pages/admin/LoginPage";
 import AdminLayout from "./GUI/Layouts/AdminLayout";
 import RequireAdmin from "./GUI/Components/RequireAuth";
 import DashboardPage from "./GUI/Pages/admin/DashboardPage";
@@ -9,11 +9,11 @@ import ErrorPage from "./GUI/Pages/admin/ErrorPage";
 
 const routers = createBrowserRouter([
     {
-        path: "/admin/login",
+        path: "/login",
         element: <AdminLoginPage />,
     },
     {
-        path: "/admin",
+        path: "/dashboard",
         element: (
             <RequireAdmin>
                 <AdminLayout />

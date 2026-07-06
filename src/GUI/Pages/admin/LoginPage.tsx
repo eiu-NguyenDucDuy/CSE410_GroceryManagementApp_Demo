@@ -3,7 +3,7 @@ import { useState, type FormEvent } from "react";
 import { useAuth } from "../../../context/auth/useAuth";
 import { login } from "../../../DAL/UserService";
 
-export default function AdminLoginPage() {
+export default function LoginPage() {
     const navigate = useNavigate();
     const { dispatch } = useAuth();
 
@@ -24,9 +24,9 @@ export default function AdminLoginPage() {
             console.log("Dispatching LOGIN");
 
             dispatch({ type: "LOGIN", payload: user });
-            console.log("Navigate to /admin");
+            console.log("Navigate to /dashboard");
 
-            navigate("/admin");
+            navigate("/dashboard");
         } catch (error) {
             console.error(error);
             alert("An error occurred during login.");

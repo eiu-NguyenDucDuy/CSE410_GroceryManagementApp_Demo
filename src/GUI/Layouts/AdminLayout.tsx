@@ -9,12 +9,12 @@ export default function AdminLayout() {
 
     function handleLogout() {
         dispatch({ type: "LOGOUT" });
-        navigate("/admin/login");
+        navigate("/login");
     }
 
     return (
         <>
-            <title>Admin Dashboard</title>
+            <title>Grocery Management</title>
 
             {/* Bootstrap 4.6 CSS */}
             <link

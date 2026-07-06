@@ -7,7 +7,7 @@ export default function RequireAdmin({ children }: { children: ReactNode }) {
     console.log("RequireAuth check:", state.user);
 
     if (!state.user) {
-        return <Navigate to="/admin/login" replace />;
+        return <Navigate to="/login" replace />;
     }
 
     return <>{children}</>;

@@ -9,7 +9,6 @@ Purpose:
 - This app mainly helps their owner's family members able to manage store while the owner not available.
 
 Future features:
-- Search function
 - Allow LAN network or local storage to share data (To run when offline)
 - Run normal on mobile device
 

@@ -11,6 +11,8 @@ import ProductFormModal from "../../Components/ProductFormModal";
 import "./styles.css";
 import type { ProductFormData } from "../../../models/ProductFormData";
 import { useAuth } from "../../../context/auth/useAuth";
+import SearchBar from "../../Components/SearchBar";
+import Pagination from "../../Components/Pagination";
 
 export default function ProductManagementPage() {
     const [products, setProducts] = useState<ProductData[]>([]);
@@ -18,6 +20,10 @@ export default function ProductManagementPage() {
     const [editingProduct, setEditingProduct] = useState<ProductData | null>(
         null,
     );
+    const [activeSearchKeyword, setActiveSearchKeyword] = useState<string>("");
+
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const itemsPerPage = 10;
 
     const { state } = useAuth();
     const isAdmin = state.user?.role === "admin";
@@ -144,15 +150,45 @@ export default function ProductManagementPage() {
         reset();
     };
 
+    const filteredProducts = products.filter((p) =>
+        p.title.toLowerCase().includes(activeSearchKeyword.toLowerCase()),
+    );
+
+    const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+    const currentProductsSlice = filteredProducts.slice(
+        indexOfFirstItem,
+        indexOfLastItem,
+    );
+
+    const handleSearchSubmit = (keyword: string) => {
+        setActiveSearchKeyword(keyword);
+        setCurrentPage(1);
+    };
+
     return (
         <>
             <h3 className="mb-4">Product Management</h3>
 
-            {isAdmin && (
-                <button className="btn btn-success mb-3" onClick={openAddModal}>
-                    + Add Product
-                </button>
-            )}
+            <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+                {isAdmin && (
+                    <button
+                        className="btn btn-success mb-3"
+                        onClick={openAddModal}
+                    >
+                        + Add Product
+                    </button>
+                )}
+
+                <div style={{ minWidth: "350px" }}>
+                    <SearchBar
+                        onSearch={handleSearchSubmit}
+                        placeholder="Search products..."
+                    />
+                </div>
+            </div>
 
             <div className="table-responsive">
                 <table className="table table-bordered table-hover">
@@ -168,43 +204,65 @@ export default function ProductManagementPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map((p) => (
-                            <tr key={p.id}>
-                                <td>{p.id}</td>
-                                <td>{p.title}</td>
-                                <td>
-                                    {p.thumbnail ? (
-                                        <img
-                                            src={p.thumbnail}
-                                            alt={p.title}
-                                            width={50}
-                                        />
-                                    ) : null}
-                                </td>
-                                <td>{p.price}</td>
-                                <td>{p.description}</td>
-                                <td>{p.categoryId}</td>
-                                {isAdmin && (
+                        {currentProductsSlice.length > 0 ? (
+                            currentProductsSlice.map((p) => (
+                                <tr key={p.id}>
+                                    <td>{p.id}</td>
+                                    <td>{p.title}</td>
                                     <td>
-                                        <button
-                                            className="btn btn-sm btn-warning mr-2"
-                                            onClick={() => handleEdit(p)}
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            className="btn btn-sm btn-danger"
-                                            onClick={() => handleDelete(p.id)}
-                                        >
-                                            Delete
-                                        </button>
+                                        {p.thumbnail ? (
+                                            <img
+                                                src={p.thumbnail}
+                                                alt={p.title}
+                                                width={50}
+                                            />
+                                        ) : null}
                                     </td>
-                                )}
+                                    <td>{p.price}</td>
+                                    <td>{p.description}</td>
+                                    <td>{p.categoryId}</td>
+                                    {isAdmin && (
+                                        <td>
+                                            <button
+                                                className="btn btn-sm btn-warning mr-2"
+                                                onClick={() => handleEdit(p)}
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                className="btn btn-sm btn-danger"
+                                                onClick={() =>
+                                                    handleDelete(p.id)
+                                                }
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
+                                    )}
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td
+                                    colSpan={isAdmin ? 7 : 6}
+                                    className="text-center text-muted py-4"
+                                >
+                                    No products found matching "
+                                    {activeSearchKeyword}"
+                                </td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                 </table>
             </div>
+
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalItems={filteredProducts.length}
+                itemsPerPage={itemsPerPage}
+                onPageChange={(page) => setCurrentPage(page)}
+            />
 
             <ProductFormModal
                 show={showModal}
