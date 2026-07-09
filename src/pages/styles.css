@@ -1,0 +1,96 @@
+:root {
+    --primary-color: #40414d;
+    --secondary-color: #232345;
+    --tertiary-color: #dc143c;
+    --quanternary-color: #f4a470;
+    --quinary-color: #1f1f25;
+    --senary-color: #f8f9fa;
+}
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.sidebar {
+    background-color: var(--primary-color);
+    min-height: 100vh;
+    padding: 0;
+}
+.logo {
+    padding: 20px;
+    text-align: center;
+    background-color: var(--primary-color);
+    color: var(--quanternary-color);
+    font-size: 24px;
+    font-weight: bold;
+}
+.nav-menu {
+    padding: 20px 0;
+}
+.nav-menu .nav-link {
+    color: var(--quanternary-color);
+    padding: 15px 20px;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+}
+.nav-menu .nav-link:hover,
+.nav-menu .nav-link.active {
+    color: #fff;
+    background-color: var(--quinary-color);
+    border-left-color: var(--quanternary-color);
+}
+.nav-menu .nav-link i {
+    margin-right: 10px;
+    width: 20px;
+}
+.main-content {
+    background-color: var(--senary-color);
+    min-height: 100vh;
+}
+.top-bar {
+    background-color: #fff;
+    padding: 15px 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+.page-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+}
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+}
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--tertiary-color);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+.content-area {
+    padding: 0 0px 30px 0px;
+}
+.content-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.table thead th {
+    border-top: none;
+    background-color: var(--senary-color);
+}
+.model-overlay {
+    background: rgba(0, 0, 0, 0.5);
+}
+.modal-scroll {
+    max-height: 60vh;
+    overflow-y: auto;
+}
