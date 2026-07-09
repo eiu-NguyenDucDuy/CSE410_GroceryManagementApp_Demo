@@ -1,13 +1,17 @@
+import ReactDOM from "react-dom/client";
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { AuthProvider } from "./context/auth/AuthProvider";
-import Routes from "./Routes.tsx";
+import ThemeProvider from "./context/ThemeProvider";
+import ThemedApp from "./components/ThemedApp";
+import "antd/dist/reset.css";
 import "./index.css";
 
-createRoot(document.getElementById("root")!).render(
+
+ReactDOM.createRoot(
+    document.getElementById("root")!,
+).render(
     <StrictMode>
-        <AuthProvider>
-            <Routes />
-        </AuthProvider>
+        <ThemeProvider>
+            <ThemedApp />
+        </ThemeProvider>
     </StrictMode>,
 );

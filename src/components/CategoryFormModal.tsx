@@ -1,16 +1,10 @@
+import { useEffect } from "react";
+import { Modal, Form, Input, Button } from "antd";
 import type { CategoryData, CategoryFormData } from "../types/category";
-import type {
-    FieldErrors,
-    UseFormHandleSubmit,
-    UseFormRegister,
-} from "react-hook-form";
 
 type CategoryFormModalProps = {
     show: boolean;
     editingCategory: CategoryData | null;
-    register: UseFormRegister<CategoryFormData>;
-    handleSubmit: UseFormHandleSubmit<CategoryFormData>;
-    errors: FieldErrors<CategoryFormData>;
     onSubmit: (data: CategoryFormData) => Promise<void>;
     onClose: () => void;
     saving: boolean;
@@ -19,99 +13,70 @@ type CategoryFormModalProps = {
 export default function CategoryFormModal({
     show,
     editingCategory,
-    register,
-    handleSubmit,
-    errors,
     onSubmit,
     onClose,
     saving,
 }: CategoryFormModalProps) {
-    if (!show) return null;
+    const [form] = Form.useForm<CategoryFormData>();
+
+    useEffect(() => {
+        if (editingCategory) {
+            form.setFieldsValue({
+                categoryName: editingCategory.categoryName,
+                categoryDescription: editingCategory.description,
+            });
+        } else {
+            form.resetFields();
+        }
+    }, [editingCategory, form]);
+
+    const handleFinish = async (values: CategoryFormData) => {
+        await onSubmit(values);
+        form.resetFields();
+    };
 
     return (
-        <div
-            className="modal d-block"
-            style={{ background: "rgba(0,0,0,0.5)" }}
+        <Modal
+            title={editingCategory ? "Edit Category" : "Add New Category"}
+            open={show}
+            onCancel={onClose}
+            footer={null}
+            destroyOnClose
         >
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title">
-                            {editingCategory
-                                ? "Edit Category"
-                                : "Add New Category"}
-                        </h5>
-                        <button
-                            type="button"
-                            className="btn btn-close"
-                            onClick={onClose}
-                            disabled={saving}
-                        >
-                            &times;
-                        </button>
-                    </div>
+            <Form form={form} layout="vertical" onFinish={handleFinish}>
+                <Form.Item
+                    label="Category Name"
+                    name="categoryName"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Category name is required",
+                        },
+                    ]}
+                >
+                    <Input placeholder="Enter category name" />
+                </Form.Item>
 
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="modal-body">
-                            <div className="form-group">
-                                <label className="form-label">
-                                    Category Name
-                                </label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    {...register("categoryName", {
-                                        required: "Category name is required",
-                                    })}
-                                />
-                                {errors.categoryName && (
-                                    <small className="text-danger">
-                                        {errors.categoryName.message}
-                                    </small>
-                                )}
-                            </div>
+                <Form.Item label="Description" name="categoryDescription">
+                    <Input.TextArea rows={4} placeholder="Enter description" />
+                </Form.Item>
 
-                            <div className="form-group mt-3">
-                                <label className="form-label">
-                                    Description
-                                </label>
-                                <textarea
-                                    className="form-control"
-                                    {...register("categoryDescription")}
-                                />
-                                {errors.categoryDescription && (
-                                    <small className="text-danger">
-                                        {errors.categoryDescription.message}
-                                    </small>
-                                )}
-                            </div>
-                        </div>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        gap: 8,
+                    }}
+                >
+                    <Button onClick={onClose} disabled={saving}>
+                        Cancel
+                    </Button>
 
-                        <div className="modal-footer">
-                            <button
-                                type="submit"
-                                className="btn btn-success"
-                                disabled={saving}
-                            >
-                                {saving
-                                    ? "Saving..."
-                                    : editingCategory
-                                      ? "Update"
-                                      : "Save"}
-                            </button>
-
-                            <button
-                                type="button"
-                                className="btn btn-secondary"
-                                onClick={onClose}
-                                disabled={saving}
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </form>
+                    <Button type="primary" htmlType="submit" loading={saving}>
+                        {editingCategory ? "Update" : "Save"}
+                    </Button>
                 </div>
-            </div>
-        </div>
+            </Form>
+        </Modal>
     );
 }

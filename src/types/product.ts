@@ -12,7 +12,7 @@ export type CreateProductData = Omit<ProductData, "id">;
 export type ProductFormData = {
     productTitle: string;
     productThumbnail: FileList | string;
-    productPrice: string;
+    productPrice: number;
     productDescription: string;
     productCategoryId: number;
 };

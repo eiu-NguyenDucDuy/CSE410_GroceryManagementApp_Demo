@@ -6,7 +6,7 @@ export default function RequireAuth({ children }: { children: ReactNode }) {
     const { state } = useAuth();
 
     if (!state.user) {
-        return <Navigate to="/login" replace />;
+        return <Navigate to="/" replace />;
     }
 
     return <>{children}</>;

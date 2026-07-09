@@ -1,24 +1,32 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AdminLoginPage from "./GUI/Pages/admin/LoginPage";
-import AdminLayout from "./GUI/Layouts/AdminLayout";
-import RequireAdmin from "./GUI/Components/RequireAuth";
-import DashboardPage from "./GUI/Pages/admin/DashboardPage";
-import CategoryManagementPage from "./GUI/Pages/admin/CategoryManagementPage";
-import ProductManagementPage from "./GUI/Pages/admin/ProductManagementPage";
-import ErrorPage from "./GUI/Pages/admin/ErrorPage";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import MainLayout from "./layouts/MainLayout";
+import RequireAdmin from "./components/RequireAuth";
+import DashboardPage from "./pages/DashboardPage";
+import CategoryManagementPage from "./pages/CategoryManagementPage";
+import ProductManagementPage from "./pages/ProductManagementPage";
+import ErrorPage from "./pages/ErrorPage";
 
 const routers = createBrowserRouter([
     {
+        path: "/",
+        element: <HomePage />,
+        errorElement: <ErrorPage />,
+    },
+    {
         path: "/login",
-        element: <AdminLoginPage />,
+        element: <LoginPage />,
+        errorElement: <ErrorPage />,
     },
     {
         path: "/dashboard",
         element: (
             <RequireAdmin>
-                <AdminLayout />
+                <MainLayout />
             </RequireAdmin>
         ),
+        errorElement: <ErrorPage />,
         children: [
             {
                 index: true,
@@ -33,10 +41,6 @@ const routers = createBrowserRouter([
                 element: <ProductManagementPage />,
             },
         ],
-    },
-    {
-        path: "*",
-        element: <ErrorPage />,
     },
 ]);
 

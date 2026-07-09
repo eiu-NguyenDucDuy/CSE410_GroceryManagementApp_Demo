@@ -1,65 +1,110 @@
+import { Layout, Button, Avatar, Typography, Space, Switch } from "antd";
+import {
+    UserOutlined,
+    LogoutOutlined,
+    MoonOutlined,
+    SunOutlined,
+} from "@ant-design/icons";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
+import useTheme from "../context/useTheme";
 import LeftSidebar from "../components/LeftSidebar";
-import Breadcrumb from "../components/Breadcrumb";
-import "../pages/styles.css";
+import AppBreadcrumb from "../components/Breadcrumb";
 
-export default function AdminLayout() {
+const { Header, Content, Sider } = Layout;
+const { Text } = Typography;
+
+export default function MainLayout() {
     const navigate = useNavigate();
+
     const { state, dispatch } = useAuth();
 
+    const { darkMode, toggleTheme } = useTheme();
+
     function handleLogout() {
-        dispatch({ type: "LOGOUT" });
+        dispatch({
+            type: "LOGOUT",
+        });
+
         navigate("/login");
     }
 
     return (
-        <>
-            <title>Grocery Management</title>
+        <Layout
+            style={{
+                minHeight: "100vh",
+            }}
+        >
+            {/* Sidebar */}
+            <Sider width={250} theme={darkMode ? "dark" : "light"}>
+                <LeftSidebar />
+            </Sider>
 
-            <div className="container-fluid">
-                <div className="row">
-                    <LeftSidebar />
+            <Layout>
+                {/* Top Header */}
+                <Header
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
 
-                    <div className="col-md-10 main-content">
-                        <div className="top-bar">
-                            <div className="row align-items-center">
-                                <div className="col">
-                                    <Breadcrumb />
-                                </div>
+                        background: darkMode ? "#141414" : "#ffffff",
 
-                                <div className="col-auto">
-                                    <div className="user-avatar">
-                                        <i className="fas fa-user"></i>
-                                    </div>
-                                </div>
+                        borderBottom: darkMode
+                            ? "1px solid #303030"
+                            : "1px solid #eee",
 
-                                <div className="col-auto">
-                                    <span className="mr-3">
-                                        Welcome{" "}
-                                        <strong>{state.user?.username}</strong>
-                                    </span>
-                                </div>
+                        padding: "0 24px",
+                    }}
+                >
+                    {/* Breadcrumb */}
+                    <AppBreadcrumb />
 
-                                <div className="col-auto">
-                                    <button
-                                        onClick={handleLogout}
-                                        className="btn btn-danger"
-                                    >
-                                        Logout
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    {/* Right section */}
+                    <Space size="middle">
+                        <Switch
+                            checked={darkMode}
+                            onChange={toggleTheme}
+                            checkedChildren={<MoonOutlined />}
+                            unCheckedChildren={<SunOutlined />}
+                        />
 
-                        <div className="content-area">
-                            <div className="content-card">
-                                <Outlet />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </>
+                        <Avatar icon={<UserOutlined />} />
+
+                        <Text
+                            style={{
+                                color: darkMode ? "#fff" : "#000",
+                            }}
+                        >
+                            Welcome <b>{state.user?.username}</b>
+                        </Text>
+
+                        <Button
+                            danger
+                            icon={<LogoutOutlined />}
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </Button>
+                    </Space>
+                </Header>
+
+                {/* Page Content */}
+                <Content
+                    style={{
+                        margin: 24,
+                        padding: 24,
+
+                        background: darkMode ? "#1f1f1f" : "#ffffff",
+
+                        borderRadius: 8,
+
+                        minHeight: 280,
+                    }}
+                >
+                    <Outlet />
+                </Content>
+            </Layout>
+        </Layout>
     );
 }

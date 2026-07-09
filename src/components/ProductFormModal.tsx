@@ -1,18 +1,46 @@
 import type { ProductData, ProductFormData } from "../types/product";
+
 import type {
     FieldErrors,
     UseFormHandleSubmit,
     UseFormRegister,
+    Control,
 } from "react-hook-form";
+
+import { Controller } from "react-hook-form";
+
+import {
+    Modal,
+    Input,
+    InputNumber,
+    Button,
+    Upload,
+    Typography,
+    Space,
+} from "antd";
+
+import { UploadOutlined } from "@ant-design/icons";
+
+const { TextArea } = Input;
+
+const { Text } = Typography;
 
 type ProductFormModalProps = {
     show: boolean;
     editingProduct: ProductData | null;
+
     register: UseFormRegister<ProductFormData>;
+
+    control: Control<ProductFormData>;
+
     handleSubmit: UseFormHandleSubmit<ProductFormData>;
+
     errors: FieldErrors<ProductFormData>;
+
     onSubmit: (data: ProductFormData) => Promise<void>;
+
     onClose: () => void;
+
     saving: boolean;
 };
 
@@ -20,177 +48,209 @@ export default function ProductFormModal({
     show,
     editingProduct,
     register,
+    control,
     handleSubmit,
     errors,
     onSubmit,
     onClose,
     saving,
 }: ProductFormModalProps) {
-    if (!show) return null;
-
     return (
-        <div className="modal d-block modal-overlay">
-            <div className="modal-dialog modal-xl">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title">
-                            {editingProduct
-                                ? "Edit Product"
-                                : "Add New Product"}
-                        </h5>
-                        <button
-                            type="button"
-                            className="btn btn-close"
-                            onClick={onClose}
-                            disabled={saving}
-                        >
-                            &times;
-                        </button>
+        <Modal
+            open={show}
+            title={editingProduct ? "Edit Product" : "Add New Product"}
+            onCancel={onClose}
+            footer={null}
+            width={700}
+            maskClosable={!saving}
+            closable={!saving}
+        >
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Space
+                    direction="vertical"
+                    size="large"
+                    style={{
+                        width: "100%",
+                    }}
+                >
+                    {/* Title */}
+
+                    <div>
+                        <label>
+                            Title <Text type="danger">*</Text>
+                        </label>
+
+                        <Input
+                            placeholder="Product title"
+                            {...register("productTitle", {
+                                required: "Product title is required",
+                            })}
+                        />
+
+                        {errors.productTitle && (
+                            <Text type="danger">
+                                {errors.productTitle.message}
+                            </Text>
+                        )}
                     </div>
 
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="modal-body modal-scroll">
-                            <div className="form-group">
-                                <label className="form-label">
-                                    Title
-                                    <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    {...register("productTitle", {
-                                        required: "Product title is required",
-                                    })}
+                    {/* Thumbnail */}
+
+                    <div>
+                        <label>Thumbnail Image</label>
+
+                        <Upload
+                            beforeUpload={() => false}
+                            accept="image/*"
+                            maxCount={1}
+                        >
+                            <Button icon={<UploadOutlined />}>
+                                Choose Image
+                            </Button>
+                        </Upload>
+
+                        <input
+                            type="file"
+                            accept="image/*"
+                            style={{
+                                display: "none",
+                            }}
+                            {...register("productThumbnail", {
+                                validate: {
+                                    imageType: (files) => {
+                                        if (
+                                            !files ||
+                                            !(files instanceof FileList)
+                                        ) {
+                                            return true;
+                                        }
+
+                                        if (files.length === 0) {
+                                            return true;
+                                        }
+
+                                        return (
+                                            files[0].type.startsWith(
+                                                "image/",
+                                            ) || "Only image files are allowed"
+                                        );
+                                    },
+                                },
+                            })}
+                        />
+
+                        {errors.productThumbnail && (
+                            <Text type="danger">
+                                {errors.productThumbnail.message}
+                            </Text>
+                        )}
+                    </div>
+
+                    {/* Price */}
+
+                    <div>
+                        <label>
+                            Price <Text type="danger">*</Text>
+                        </label>
+
+                        <Controller
+                            name="productPrice"
+                            control={control}
+                            rules={{
+                                required: "Price is required",
+                                min: {
+                                    value: 0,
+                                    message: "Price cannot be negative",
+                                },
+                            }}
+                            render={({ field }) => (
+                                <InputNumber
+                                    {...field}
+                                    style={{
+                                        width: "100%",
+                                    }}
+                                    min={0}
+                                    placeholder="Price"
                                 />
-                                {errors.productTitle && (
-                                    <small className="text-danger">
-                                        {errors.productTitle.message}
-                                    </small>
-                                )}
-                            </div>
-
-                            <div className="form-group mt-3">
-                                <label className="form-label">
-                                    Thumbnail Image
-                                </label>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    className={`form-control ${errors.productThumbnail ? "is-invalid" : ""}`}
-                                    {...register("productThumbnail", {
-                                        validate: {
-                                            imageType: (files) => {
-                                                if (
-                                                    !files ||
-                                                    !(files instanceof FileList)
-                                                ) {
-                                                    return true;
-                                                }
-
-                                                if (files.length === 0) {
-                                                    return true;
-                                                }
-
-                                                return (
-                                                    files[0].type.startsWith(
-                                                        "image/",
-                                                    ) ||
-                                                    "Only image files are allowed"
-                                                );
-                                            },
-                                        },
-                                    })}
-                                />
-                            </div>
-                            {errors.productThumbnail && (
-                                <div className="invalid-feedback">
-                                    {errors.productThumbnail.message}
-                                </div>
                             )}
+                        />
 
-                            <div className="form-group mt-3">
-                                <label className="form-label">
-                                    Price
-                                    <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    {...register("productPrice", {
-                                        required: "Price is required",
-                                        min: {
-                                            value: 0,
-                                            message: "Price cannot be negative",
-                                        },
-                                    })}
+                        {errors.productPrice && (
+                            <Text type="danger">
+                                {errors.productPrice.message}
+                            </Text>
+                        )}
+                    </div>
+
+                    {/* Description */}
+
+                    <div>
+                        <label>Description</label>
+
+                        <TextArea
+                            rows={4}
+                            placeholder="Product description"
+                            {...register("productDescription")}
+                        />
+                    </div>
+
+                    {/* Category */}
+
+                    <div>
+                        <label>
+                            Category ID <Text type="danger">*</Text>
+                        </label>
+
+                        <Controller
+                            name="productCategoryId"
+                            control={control}
+                            rules={{
+                                required: "Category ID is required",
+                                min: {
+                                    value: 0,
+                                    message: "Category ID cannot be negative",
+                                },
+                            }}
+                            render={({ field }) => (
+                                <InputNumber
+                                    {...field}
+                                    style={{
+                                        width: "100%",
+                                    }}
+                                    min={0}
+                                    placeholder="Category ID"
                                 />
-                                {errors.productPrice && (
-                                    <small className="text-danger">
-                                        {errors.productPrice.message}
-                                    </small>
-                                )}
-                            </div>
+                            )}
+                        />
+                        {errors.productCategoryId && (
+                            <Text type="danger">
+                                {errors.productCategoryId.message}
+                            </Text>
+                        )}
+                    </div>
 
-                            <div className="form-group mt-3">
-                                <label className="form-label">
-                                    Description
-                                </label>
-                                <textarea
-                                    className="form-control"
-                                    rows={3}
-                                    {...register("productDescription")}
-                                />
-                            </div>
+                    {/* Footer buttons */}
 
-                            <div className="form-group mt-3">
-                                <label className="form-label">
-                                    Category ID
-                                    <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    {...register("productCategoryId", {
-                                        required: "Category ID is required",
-                                        min: {
-                                            value: 0,
-                                            message:
-                                                "Category ID cannot be negative",
-                                        },
-                                    })}
-                                />
-                                {errors.productCategoryId && (
-                                    <small className="text-danger">
-                                        {errors.productCategoryId.message}
-                                    </small>
-                                )}
-                            </div>
-                        </div>
+                    <Space
+                        style={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                        }}
+                    >
+                        <Button onClick={onClose} disabled={saving}>
+                            Cancel
+                        </Button>
 
-                        <div className="modal-footer">
-                            <button
-                                type="submit"
-                                className="btn btn-success"
-                                disabled={saving}
-                            >
-                                {saving
-                                    ? "Saving..."
-                                    : editingProduct
-                                      ? "Update"
-                                      : "Save"}
-                            </button>
-                            <button
-                                type="button"
-                                className="btn btn-secondary"
-                                onClick={onClose}
-                                disabled={saving}
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            loading={saving}
+                        >
+                            {editingProduct ? "Update" : "Save"}
+                        </Button>
+                    </Space>
+                </Space>
+            </form>
+        </Modal>
     );
 }

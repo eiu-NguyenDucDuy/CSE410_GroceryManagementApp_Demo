@@ -1,15 +1,27 @@
 import { useEffect, useState } from "react";
+import {
+    Alert,
+    Card,
+    Col,
+    Image,
+    Row,
+    Spin,
+    Statistic,
+    Table,
+    Typography,
+} from "antd";
+import { AppstoreOutlined, ShoppingOutlined } from "@ant-design/icons";
+
 import { type CategoryData } from "../types/category";
 import { type ProductData } from "../types/product";
-import { DataTable, type Column } from "../components/DataTable";
 import { getAllCategories } from "../services/categoryService";
 import { getAllProducts } from "../services/productService";
-import "./styles.css";
+
+const { Title } = Typography;
 
 export default function DashboardPage() {
     const [categories, setCategories] = useState<CategoryData[]>([]);
     const [products, setProducts] = useState<ProductData[]>([]);
-
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
@@ -17,7 +29,6 @@ export default function DashboardPage() {
         async function loadDashboardData() {
             try {
                 setLoading(true);
-                setError("");
 
                 const [categoryData, productData] = await Promise.all([
                     getAllCategories(),
@@ -27,8 +38,6 @@ export default function DashboardPage() {
                 setCategories(categoryData);
                 setProducts(productData);
             } catch (err) {
-                console.error(err);
-
                 setError(
                     err instanceof Error
                         ? err.message
@@ -44,78 +53,110 @@ export default function DashboardPage() {
 
     if (loading) {
         return (
-            <div className="text-center p-5">
-                <h1 className="text-xl text-slate-900">Loading...</h1>
+            <div style={{ textAlign: "center", marginTop: 80 }}>
+                <Spin size="large" />
             </div>
         );
     }
 
     if (error) {
-        return (
-            <div className="text-center p-5 text-red-500">
-                <h1 className="text-xl">Error!</h1>
-                <p>{error}</p>
-            </div>
-        );
+        return <Alert type="error" message={error} showIcon />;
     }
 
-    const categoryColumns: Column<CategoryData>[] = [
+    const categoryColumns = [
         {
-            header: "ID",
-            field: "id",
+            title: "ID",
+            dataIndex: "id",
         },
         {
-            header: "Name",
-            field: "categoryName",
+            title: "Category",
+            dataIndex: "categoryName",
         },
         {
-            header: "Description",
-            field: "description",
+            title: "Description",
+            dataIndex: "description",
         },
     ];
 
-    const productColumns: Column<ProductData>[] = [
+    const productColumns = [
         {
-            header: "ID",
-            field: "id",
+            title: "ID",
+            dataIndex: "id",
         },
         {
-            header: "Title",
-            field: "title",
+            title: "Title",
+            dataIndex: "title",
         },
         {
-            header: "Thumbnail",
-            field: "thumbnail",
-            render: (value: string | null) => {
-                return value ? (
-                    <img src={value} width={50} alt="product" />
+            title: "Thumbnail",
+            dataIndex: "thumbnail",
+            render: (thumbnail: string | null) =>
+                thumbnail ? (
+                    <Image
+                        src={thumbnail}
+                        width={60}
+                        height={60}
+                        style={{ objectFit: "cover" }}
+                    />
                 ) : (
-                    <span className="no-image">No Image</span>
-                );
-            },
+                    "No Image"
+                ),
         },
         {
-            header: "Price",
-            field: "price",
+            title: "Price",
+            dataIndex: "price",
         },
         {
-            header: "Category ID",
-            field: "categoryId",
-            render: (value: number) => {
-                const category = categories.find((c) => c.id === value);
-
-                return category ? category.categoryName : "N/A";
-            },
+            title: "Category",
+            dataIndex: "categoryId",
+            render: (id: number) =>
+                categories.find((c) => c.id === id)?.categoryName ?? "N/A",
         },
     ];
 
     return (
-        <div className="dashboard">
-            <h2>Category List</h2>
-            <DataTable data={categories} columns={categoryColumns} />
+        <>
+            <Title level={2}>Dashboard</Title>
 
-            <h2>Product List</h2>
-            <DataTable data={products} columns={productColumns} />
-        </div>
+            <Row gutter={16} style={{ marginBottom: 24 }}>
+                <Col span={12}>
+                    <Card>
+                        <Statistic
+                            title="Total Categories"
+                            value={categories.length}
+                            prefix={<AppstoreOutlined />}
+                        />
+                    </Card>
+                </Col>
+
+                <Col span={12}>
+                    <Card>
+                        <Statistic
+                            title="Total Products"
+                            value={products.length}
+                            prefix={<ShoppingOutlined />}
+                        />
+                    </Card>
+                </Col>
+            </Row>
+
+            <Card title="Categories" style={{ marginBottom: 24 }}>
+                <Table
+                    rowKey="id"
+                    columns={categoryColumns}
+                    dataSource={categories}
+                    pagination={{ pageSize: 5 }}
+                />
+            </Card>
+
+            <Card title="Products">
+                <Table
+                    rowKey="id"
+                    columns={productColumns}
+                    dataSource={products}
+                    pagination={{ pageSize: 5 }}
+                />
+            </Card>
+        </>
     );
 }

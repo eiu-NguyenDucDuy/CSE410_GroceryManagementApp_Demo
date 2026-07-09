@@ -1,41 +1,51 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+
 import {
     createProduct,
     deleteProduct,
     getAllProducts,
     updateProduct,
 } from "../services/productService";
+
 import { type ProductData, type ProductFormData } from "../types/product";
+
 import ProductFormModal from "../components/ProductFormModal";
-import "./styles.css";
+
 import { useAuth } from "../context/useAuth";
-import SearchBar from "../components/SearchBar";
-import Pagination from "../components/Pagination";
+
+import { Table, Button, Alert, Spin, Space, Image, Input } from "antd";
+
+import type { ColumnsType } from "antd/es/table";
+
+const { Search } = Input;
 
 export default function ProductManagementPage() {
     const [products, setProducts] = useState<ProductData[]>([]);
 
     const [showModal, setShowModal] = useState(false);
+
     const [editingProduct, setEditingProduct] = useState<ProductData | null>(
         null,
     );
 
     const [activeSearchKeyword, setActiveSearchKeyword] = useState("");
 
-    const [currentPage, setCurrentPage] = useState(1);
-
     const [loading, setLoading] = useState(false);
+
     const [saving, setSaving] = useState(false);
+
     const [error, setError] = useState("");
 
     const itemsPerPage = 10;
 
     const { state } = useAuth();
+
     const isAdmin = state.user?.role === "admin";
 
     const {
         register,
+        control,
         handleSubmit,
         reset,
         formState: { errors },
@@ -83,9 +93,7 @@ export default function ProductManagementPage() {
 
                 thumbnailString = await new Promise<string>((resolve) => {
                     const reader = new FileReader();
-
                     reader.onloadend = () => resolve(reader.result as string);
-
                     reader.readAsDataURL(file);
                 });
             } else if (typeof data.productThumbnail === "string") {
@@ -101,12 +109,13 @@ export default function ProductManagementPage() {
                 thumbnail: thumbnailString || null,
                 price: Number(data.productPrice),
                 description: data.productDescription,
-                categoryId: Number(data.productCategoryId),
+                categoryId: data.productCategoryId,
             };
 
             if (editingProduct) {
                 const updatedProduct = await updateProduct({
                     id: editingProduct.id,
+
                     ...product,
                 });
 
@@ -137,7 +146,7 @@ export default function ProductManagementPage() {
         reset({
             productTitle: product.title,
             productThumbnail: product.thumbnail ?? "",
-            productPrice: Number(product.price).toString(),
+            productPrice: product.price,
             productDescription: product.description,
             productCategoryId: product.categoryId,
         });
@@ -167,7 +176,7 @@ export default function ProductManagementPage() {
         reset({
             productTitle: "",
             productThumbnail: "",
-            productPrice: "",
+            productPrice: 0,
             productDescription: "",
             productCategoryId: 0,
         });
@@ -181,138 +190,148 @@ export default function ProductManagementPage() {
         reset();
     };
 
+    const handleSearchSubmit = (keyword: string) => {
+        setActiveSearchKeyword(keyword);
+    };
+
     const filteredProducts = products.filter((p) =>
         p.title.toLowerCase().includes(activeSearchKeyword.toLowerCase()),
     );
 
-    const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+    const columns: ColumnsType<ProductData> = [
+        {
+            title: "ID",
+            dataIndex: "id",
+            key: "id",
+        },
 
-    const indexOfLastItem = currentPage * itemsPerPage;
+        {
+            title: "Title",
+            dataIndex: "title",
+            key: "title",
+        },
 
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+        {
+            title: "Thumbnail",
+            dataIndex: "thumbnail",
+            key: "thumbnail",
 
-    const currentProductsSlice = filteredProducts.slice(
-        indexOfFirstItem,
-        indexOfLastItem,
-    );
+            render: (thumbnail) =>
+                thumbnail ? <Image width={50} src={thumbnail} /> : "No Image",
+        },
 
-    const handleSearchSubmit = (keyword: string) => {
-        setActiveSearchKeyword(keyword);
-        setCurrentPage(1);
-    };
+        {
+            title: "Price",
+            dataIndex: "price",
+            key: "price",
+        },
+
+        {
+            title: "Description",
+            dataIndex: "description",
+            key: "description",
+        },
+
+        {
+            title: "Category ID",
+            dataIndex: "categoryId",
+            key: "categoryId",
+        },
+
+        ...(isAdmin
+            ? [
+                  {
+                      title: "Actions",
+
+                      key: "actions",
+
+                      render: (_: unknown, record: ProductData) => (
+                          <Space>
+                              <Button
+                                  type="primary"
+                                  onClick={() => handleEdit(record)}
+                              >
+                                  Edit
+                              </Button>
+
+                              <Button
+                                  danger
+                                  onClick={() => handleDelete(record.id)}
+                              >
+                                  Delete
+                              </Button>
+                          </Space>
+                      ),
+                  },
+              ]
+            : []),
+    ];
 
     if (loading) {
-        return <p className="text-center p-5">Loading products...</p>;
+        return (
+            <div
+                style={{
+                    textAlign: "center",
+                    padding: 50,
+                }}
+            >
+                <Spin size="large" />
+            </div>
+        );
     }
 
     return (
         <>
-            <h3 className="mb-4">Product Management</h3>
+            <h2>Product Management</h2>
 
-            {error && <div className="alert alert-danger">{error}</div>}
+            {error && (
+                <Alert
+                    message={error}
+                    type="error"
+                    showIcon
+                    style={{
+                        marginBottom: 20,
+                    }}
+                />
+            )}
 
-            <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: 20,
+                }}
+            >
                 {isAdmin && (
-                    <button
-                        className="btn btn-success mb-3"
-                        onClick={openAddModal}
-                    >
+                    <Button type="primary" onClick={openAddModal}>
                         + Add Product
-                    </button>
+                    </Button>
                 )}
 
-                <div style={{ minWidth: "350px" }}>
-                    <SearchBar
-                        onSearch={handleSearchSubmit}
-                        placeholder="Search products..."
-                    />
-                </div>
+                <Search
+                    placeholder="Search products..."
+                    allowClear
+                    onSearch={handleSearchSubmit}
+                    style={{
+                        width: 300,
+                    }}
+                />
             </div>
 
-            <div className="table-responsive">
-                <table className="table table-bordered table-hover">
-                    <thead className="thead-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Thumbnail</th>
-                            <th>Price</th>
-                            <th>Description</th>
-                            <th>Category ID</th>
-
-                            {isAdmin && <th>Actions</th>}
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {currentProductsSlice.length > 0 ? (
-                            currentProductsSlice.map((p) => (
-                                <tr key={p.id}>
-                                    <td>{p.id}</td>
-                                    <td>{p.title}</td>
-
-                                    <td>
-                                        {p.thumbnail && (
-                                            <img
-                                                src={p.thumbnail}
-                                                alt={p.title}
-                                                width={50}
-                                            />
-                                        )}
-                                    </td>
-
-                                    <td>{p.price}</td>
-                                    <td>{p.description}</td>
-                                    <td>{p.categoryId}</td>
-
-                                    {isAdmin && (
-                                        <td>
-                                            <button
-                                                className="btn btn-sm btn-warning me-2"
-                                                onClick={() => handleEdit(p)}
-                                            >
-                                                Edit
-                                            </button>
-
-                                            <button
-                                                className="btn btn-sm btn-danger"
-                                                onClick={() =>
-                                                    handleDelete(p.id)
-                                                }
-                                            >
-                                                Delete
-                                            </button>
-                                        </td>
-                                    )}
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td
-                                    colSpan={isAdmin ? 7 : 6}
-                                    className="text-center text-muted py-4"
-                                >
-                                    No products found matching "
-                                    {activeSearchKeyword}"
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
-
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                totalItems={filteredProducts.length}
-                itemsPerPage={itemsPerPage}
-                onPageChange={(page) => setCurrentPage(page)}
+            <Table
+                rowKey="id"
+                columns={columns}
+                dataSource={filteredProducts}
+                pagination={{
+                    pageSize: itemsPerPage,
+                }}
             />
 
             <ProductFormModal
                 show={showModal}
                 editingProduct={editingProduct}
                 register={register}
+                control={control}
                 handleSubmit={handleSubmit}
                 errors={errors}
                 onSubmit={onSubmit}
