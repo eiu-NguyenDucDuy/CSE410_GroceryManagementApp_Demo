@@ -1,5 +1,5 @@
 import { useReducer, type ReactNode } from "react";
-import { AuthContext, type AuthAction, type AuthState } from "./AuthContext";
+import { AuthContext, type AuthAction, type AuthState } from "../context/AuthContext";
 
 const initialState: AuthState = {
     user: JSON.parse(localStorage.getItem("user") || "null"),

@@ -4,7 +4,7 @@ export interface ProductData {
     thumbnail: string | null;
     price: number;
     description: string;
-    categoryId: number;
+    categoryType: string;
 }
 
 export type CreateProductData = Omit<ProductData, "id">;
@@ -14,5 +14,5 @@ export type ProductFormData = {
     productThumbnail: FileList | string;
     productPrice: number;
     productDescription: string;
-    productCategoryId: number;
+    productCategoryType: string;
 };

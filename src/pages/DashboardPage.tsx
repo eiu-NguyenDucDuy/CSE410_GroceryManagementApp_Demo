@@ -16,6 +16,8 @@ import { type CategoryData } from "../types/category";
 import { type ProductData } from "../types/product";
 import { getAllCategories } from "../services/categoryService";
 import { getAllProducts } from "../services/productService";
+import { useTranslation } from "react-i18next";
+
 
 const { Title } = Typography;
 
@@ -24,6 +26,8 @@ export default function DashboardPage() {
     const [products, setProducts] = useState<ProductData[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const { t } = useTranslation();
+
 
     useEffect(() => {
         async function loadDashboardData() {
@@ -108,9 +112,13 @@ export default function DashboardPage() {
         },
         {
             title: "Category",
-            dataIndex: "categoryId",
-            render: (id: number) =>
-                categories.find((c) => c.id === id)?.categoryName ?? "N/A",
+            dataIndex: "categoryType",
+            render: (type: string) =>
+                categories.find(
+                    (c) =>
+                        c.categoryName.toLocaleLowerCase() ===
+                        type.toLocaleLowerCase(),
+                )?.categoryName ?? "N/A",
         },
     ];
 

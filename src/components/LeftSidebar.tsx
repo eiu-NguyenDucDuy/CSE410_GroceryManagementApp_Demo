@@ -1,31 +1,33 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { Menu, Typography, Tag } from "antd";
+import { Menu, Typography, Tag, theme } from "antd";
 import {
     DashboardOutlined,
     AppstoreOutlined,
     ShoppingOutlined,
     CrownOutlined,
     UserOutlined,
+    SettingOutlined,
+    ControlOutlined,
+    TeamOutlined,
 } from "@ant-design/icons";
-import { useAuth } from "../context/useAuth";
-import useTheme from "../context/useTheme";
+import { useAuth } from "../hooks/useAuth";
+import useTheme from "../hooks/useTheme";
+import { useTranslation } from "react-i18next";
 
 const { Title } = Typography;
 
 export default function LeftSidebar() {
     const { state } = useAuth();
-
     const { darkMode } = useTheme();
-
     const location = useLocation();
-
     const isAdmin = state.user?.role === "admin";
-
     const selectedKey = location.pathname.startsWith("/dashboard/categories")
         ? "/dashboard/categories"
         : location.pathname.startsWith("/dashboard/products")
           ? "/dashboard/products"
           : "/dashboard";
+    const { token } = theme.useToken();
+    const { t } = useTranslation();
 
     return (
         <>
@@ -35,17 +37,15 @@ export default function LeftSidebar() {
                     padding: 24,
                     textAlign: "center",
 
-                    borderBottom: darkMode
-                        ? "1px solid #303030"
-                        : "1px solid #f0f0f0",
+                    borderBottom: token.colorBorderSecondary,
 
-                    background: darkMode ? "#141414" : "#ffffff",
+                    background: token.colorBgContainer,
                 }}
             >
                 <Title
                     level={4}
                     style={{
-                        color: darkMode ? "#ffffff" : "#000000",
+                        color: token.colorTextHeading,
                     }}
                 >
                     {isAdmin ? (
@@ -76,44 +76,64 @@ export default function LeftSidebar() {
                 items={[
                     {
                         key: "/dashboard",
-
                         icon: <DashboardOutlined />,
-
-                        label: <NavLink to="/dashboard">Dashboard</NavLink>,
+                        label: (
+                            <NavLink to="/dashboard">
+                                {t("common.dashboard")}
+                            </NavLink>
+                        ),
                     },
-
                     {
                         key: "/management",
-
-                        icon: <AppstoreOutlined />,
-
-                        label: "Management",
-
+                        icon: <ControlOutlined />,
+                        label: t("common.management"),
                         children: [
                             {
                                 key: "/dashboard/categories",
-
                                 icon: <AppstoreOutlined />,
-
                                 label: (
                                     <NavLink to="/dashboard/categories">
-                                        Categories
+                                        {t("common.category")}
                                     </NavLink>
                                 ),
                             },
-
                             {
                                 key: "/dashboard/products",
-
                                 icon: <ShoppingOutlined />,
-
                                 label: (
                                     <NavLink to="/dashboard/products">
-                                        Products
+                                        {t("common.product")}
+                                    </NavLink>
+                                ),
+                            },
+                            {
+                                key: "/dashboard/users",
+                                icon: <TeamOutlined />,
+                                label: (
+                                    <NavLink to="/dashboard/users">
+                                        {t("common.users")}
                                     </NavLink>
                                 ),
                             },
                         ],
+                    },
+                    {
+                        key: "/profile",
+                        icon: <UserOutlined />,
+                        label: (
+                            <NavLink to="/profile">
+                                {t("common.profile")}
+                            </NavLink>
+                        ),
+                    },
+                    {
+                        key: "/settings",
+                        icon: <SettingOutlined />,
+                        label: (
+                            <NavLink to="/settings">
+                                {t("common.settings")}
+                            </NavLink>
+                        ),
                     },
                 ]}
             />

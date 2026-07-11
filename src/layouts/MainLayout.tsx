@@ -1,25 +1,34 @@
-import { Layout, Button, Avatar, Typography, Space, Switch } from "antd";
+import {
+    Layout,
+    Button,
+    Avatar,
+    Typography,
+    Space,
+    Switch,
+    Tooltip,
+    theme,
+} from "antd";
 import {
     UserOutlined,
     LogoutOutlined,
-    MoonOutlined,
-    SunOutlined,
+    MoonFilled,
+    SunFilled,
 } from "@ant-design/icons";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/useAuth";
-import useTheme from "../context/useTheme";
+import { useAuth } from "../hooks/useAuth";
+import useTheme from "../hooks/useTheme";
 import LeftSidebar from "../components/LeftSidebar";
 import AppBreadcrumb from "../components/Breadcrumb";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 
 const { Header, Content, Sider } = Layout;
 const { Text } = Typography;
 
 export default function MainLayout() {
     const navigate = useNavigate();
-
     const { state, dispatch } = useAuth();
-
     const { darkMode, toggleTheme } = useTheme();
+    const { token } = theme.useToken();
 
     function handleLogout() {
         dispatch({
@@ -48,7 +57,7 @@ export default function MainLayout() {
                         justifyContent: "space-between",
                         alignItems: "center",
 
-                        background: darkMode ? "#141414" : "#ffffff",
+                        background: token.colorBgContainer,
 
                         borderBottom: darkMode
                             ? "1px solid #303030"
@@ -65,27 +74,34 @@ export default function MainLayout() {
                         <Switch
                             checked={darkMode}
                             onChange={toggleTheme}
-                            checkedChildren={<MoonOutlined />}
-                            unCheckedChildren={<SunOutlined />}
+                            checkedChildren={
+                                <MoonFilled style={{ color: "#fff" }} />
+                            }
+                            unCheckedChildren={
+                                <SunFilled style={{ color: "#f4a470" }} />
+                            }
                         />
+
+                        <LanguageSwitcher darkMode={darkMode} />
 
                         <Avatar icon={<UserOutlined />} />
 
                         <Text
                             style={{
-                                color: darkMode ? "#fff" : "#000",
+                                color: token.colorText,
                             }}
                         >
                             Welcome <b>{state.user?.username}</b>
                         </Text>
 
-                        <Button
-                            danger
-                            icon={<LogoutOutlined />}
-                            onClick={handleLogout}
-                        >
-                            Logout
-                        </Button>
+                        <Tooltip title="Logout">
+                            <Button
+                                danger
+                                shape="circle"
+                                icon={<LogoutOutlined />}
+                                onClick={handleLogout}
+                            />
+                        </Tooltip>
                     </Space>
                 </Header>
 
@@ -95,7 +111,7 @@ export default function MainLayout() {
                         margin: 24,
                         padding: 24,
 
-                        background: darkMode ? "#1f1f1f" : "#ffffff",
+                        background: token.colorBgContainer,
 
                         borderRadius: 8,
 

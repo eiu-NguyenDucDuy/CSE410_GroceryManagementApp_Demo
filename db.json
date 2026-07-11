@@ -32,9 +32,9 @@
       "id": 1,
       "title": "Coca-Cola",
       "thumbnail": "/images/cocaCola-can.jpg",
-      "price": "11.000",
+      "price": 11,
       "description": "",
-      "categoryId": 1
+      "categoryType": "Carbonated drinks"
     },
     {
       "id": 2,
@@ -42,7 +42,7 @@
       "thumbnail": "/images/rice-paper-salad.jpg",
       "price": "15.000",
       "description": "",
-      "categoryId": 2
+      "categoryType": "Snacks"
     }
   ]
 }

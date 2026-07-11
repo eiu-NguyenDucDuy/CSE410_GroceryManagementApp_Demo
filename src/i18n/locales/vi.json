@@ -1,0 +1,43 @@
+{
+    "common": {
+        "home": "Trang chủ",
+        "dashboard": "Bảng điển khiển",
+        "management": "Quản lý",
+        "category": "Danh mục",
+        "product": "Sản phẩm",
+        "users": "Người dùng",
+        "profile": "Trang cá nhân",
+        "settings": "Cài đặt",
+        "login": "Đăng nhập",
+        "logout": "Đăng xuất",
+        "save": "Lưu",
+        "cancel": "Hủy",
+        "search": "Tìm kiếm...",
+        "add": "Thêm",
+        "edit": "Sửa",
+        "delete": "Xóa",
+        "name": "Tên",
+        "actions": "Thao tác",
+        "welcome": "Xin chào"
+    },
+
+    "product": {
+        "productManagement": "Quản lý sản phẩm",
+        "productName": "Tên sản phẩm",
+        "products": "sản phẩm",
+        "of": "trên",
+        "price": "Giá",
+        "category": "Danh mục",
+        "description": "Mổ tả",
+        "thumbnail": "Hình ảnh",
+        "addProduct": "Thêm sản phẩm"
+    },
+
+    "category": {
+        "categoryManagement": "Quản lý danh mục",
+        "categoryName": "Tên danh mục",
+        "category": "Danh mục",
+        "description": "Mổ tả",
+        "addCategory": "Thêm danh mục"
+    }
+}

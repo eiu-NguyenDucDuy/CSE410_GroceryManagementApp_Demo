@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { theme, type ThemeConfig } from "antd";
-import ThemeContext from "./ThemeContext";
+import ThemeContext from "../context/ThemeContext";
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
     const [darkMode, setDarkMode] = useState(

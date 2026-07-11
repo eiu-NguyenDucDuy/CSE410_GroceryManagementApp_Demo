@@ -1,10 +1,20 @@
-import { useEffect } from "react";
-import { Modal, Form, Input, Button } from "antd";
 import type { CategoryData, CategoryFormData } from "../types/category";
+import type {
+    FieldErrors,
+    UseFormHandleSubmit,
+    UseFormRegister,
+} from "react-hook-form";
+import { Modal, Input, Button, Typography, Space } from "antd";
+
+const { TextArea } = Input;
+const { Text } = Typography;
 
 type CategoryFormModalProps = {
     show: boolean;
     editingCategory: CategoryData | null;
+    register: UseFormRegister<CategoryFormData>;
+    handleSubmit: UseFormHandleSubmit<CategoryFormData>;
+    errors: FieldErrors<CategoryFormData>;
     onSubmit: (data: CategoryFormData) => Promise<void>;
     onClose: () => void;
     saving: boolean;
@@ -13,70 +23,83 @@ type CategoryFormModalProps = {
 export default function CategoryFormModal({
     show,
     editingCategory,
+    register,
+    handleSubmit,
+    errors,
     onSubmit,
     onClose,
     saving,
 }: CategoryFormModalProps) {
-    const [form] = Form.useForm<CategoryFormData>();
-
-    useEffect(() => {
-        if (editingCategory) {
-            form.setFieldsValue({
-                categoryName: editingCategory.categoryName,
-                categoryDescription: editingCategory.description,
-            });
-        } else {
-            form.resetFields();
-        }
-    }, [editingCategory, form]);
-
-    const handleFinish = async (values: CategoryFormData) => {
-        await onSubmit(values);
-        form.resetFields();
-    };
-
     return (
         <Modal
-            title={editingCategory ? "Edit Category" : "Add New Category"}
             open={show}
+            title={editingCategory ? "Edit Category" : "Add New Category"}
             onCancel={onClose}
             footer={null}
-            destroyOnClose
+            width={700}
+            maskClosable={!saving}
+            closable={!saving}
         >
-            <Form form={form} layout="vertical" onFinish={handleFinish}>
-                <Form.Item
-                    label="Category Name"
-                    name="categoryName"
-                    rules={[
-                        {
-                            required: true,
-                            message: "Category name is required",
-                        },
-                    ]}
-                >
-                    <Input placeholder="Enter category name" />
-                </Form.Item>
-
-                <Form.Item label="Description" name="categoryDescription">
-                    <Input.TextArea rows={4} placeholder="Enter description" />
-                </Form.Item>
-
-                <div
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Space
+                    direction="vertical"
+                    size="large"
                     style={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        gap: 8,
+                        width: "100%",
                     }}
                 >
-                    <Button onClick={onClose} disabled={saving}>
-                        Cancel
-                    </Button>
+                    {/* Title */}
+                    <div>
+                        <label>
+                            Title <Text type="danger">*</Text>
+                        </label>
 
-                    <Button type="primary" htmlType="submit" loading={saving}>
-                        {editingCategory ? "Update" : "Save"}
-                    </Button>
-                </div>
-            </Form>
+                        <Input
+                            placeholder="Category name"
+                            {...register("categoryName", {
+                                required: "Category name is required",
+                            })}
+                        />
+
+                        {errors.categoryName && (
+                            <Text type="danger">
+                                {errors.categoryName.message}
+                            </Text>
+                        )}
+                    </div>
+
+                    {/* Description */}
+                    <div>
+                        <label>Description</label>
+
+                        <TextArea
+                            rows={4}
+                            placeholder="Category description"
+                            {...register("categoryDescription")}
+                        />
+                    </div>
+
+                    {/* Footer buttons */}
+                    <Space
+                        style={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                        }}
+                    >
+                        <Button onClick={onClose} disabled={saving}>
+                            Cancel
+                        </Button>
+
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            loading={saving}
+                        >
+                            {editingCategory ? "Update" : "Save"}
+                        </Button>
+                    </Space>
+                </Space>
+            </form>
         </Modal>
     );
 }

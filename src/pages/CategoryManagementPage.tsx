@@ -1,70 +1,40 @@
 import { useEffect, useState } from "react";
-import {
-    Table,
-    Button,
-    Input,
-    Space,
-    Alert,
-    Typography,
-    Popconfirm,
-} from "antd";
-
-import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-
+import { useForm } from "react-hook-form";
 import {
     createCategory,
     deleteCategory,
     getAllCategories,
     updateCategory,
 } from "../services/categoryService";
-
 import type { CategoryData, CategoryFormData } from "../types/category";
-
-import { useAuth } from "../context/useAuth";
 import CategoryFormModal from "../components/CategoryFormModal";
-
-const { Title } = Typography;
+import { useAuth } from "../hooks/useAuth";
+import { Table, Button, Alert, Spin, Space, Input, Tooltip } from "antd";
+import type { ColumnsType, TableProps } from "antd/es/table";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 const { Search } = Input;
 
 export default function CategoryManagementPage() {
     const [categories, setCategories] = useState<CategoryData[]>([]);
-
     const [showModal, setShowModal] = useState(false);
-
     const [editingCategory, setEditingCategory] = useState<CategoryData | null>(
         null,
     );
-
-    const [searchKeyword, setSearchKeyword] = useState("");
-
+    const [activeSearchKeyword, setActiveSearchKeyword] = useState("");
     const [loading, setLoading] = useState(false);
     const [saving, setSaving] = useState(false);
-
     const [error, setError] = useState("");
-
+    const itemsPerPage = 10;
     const { state } = useAuth();
-
     const isAdmin = state.user?.role === "admin";
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm<CategoryFormData>();
 
-    async function loadCategories() {
-        try {
-            setLoading(true);
-            setError("");
-
-            const data = await getAllCategories();
-
-            setCategories(data);
-        } catch (err) {
-            setError(
-                err instanceof Error
-                    ? err.message
-                    : "Unable to load categories.",
-            );
-        } finally {
-            setLoading(false);
-        }
-    }
-
+    // Load categories
     useEffect(() => {
         async function loadCategories() {
             try {
@@ -90,6 +60,7 @@ export default function CategoryManagementPage() {
         loadCategories();
     }, []);
 
+    // Create / Update
     const onSubmit = async (data: CategoryFormData) => {
         setSaving(true);
         setError("");
@@ -101,18 +72,26 @@ export default function CategoryManagementPage() {
             };
 
             if (editingCategory) {
-                await updateCategory({
+                const updatedCategory = await updateCategory({
                     id: editingCategory.id,
                     ...category,
                 });
-            } else {
-                await createCategory(category);
-            }
 
-            await loadCategories();
+                setCategories((prev) =>
+                    prev.map((c) =>
+                        c.id === updatedCategory.id ? updatedCategory : c,
+                    ),
+                );
+            } else {
+                const savedCategory = await createCategory(category);
+
+                setCategories((prev) => [...prev, savedCategory]);
+            }
 
             closeModal();
         } catch (err) {
+            console.error(err);
+
             setError(err instanceof Error ? err.message : "Save failed.");
         } finally {
             setSaving(false);
@@ -121,78 +100,122 @@ export default function CategoryManagementPage() {
 
     const handleEdit = (category: CategoryData) => {
         setEditingCategory(category);
+
+        reset({
+            categoryName: category.categoryName,
+            categoryDescription: category.description,
+        });
+
         setShowModal(true);
     };
 
-    async function handleDelete(id: number) {
+    const handleDelete = async (id: number) => {
+        const confirmDelete = window.confirm("Confirm delete this category?");
+
+        if (!confirmDelete) return;
+
         try {
             await deleteCategory(id);
 
-            await loadCategories();
+            setCategories((prev) => prev.filter((c) => c.id !== id));
         } catch (err) {
+            console.error(err);
+
             setError(err instanceof Error ? err.message : "Delete failed.");
         }
-    }
+    };
 
     const openAddModal = () => {
         setEditingCategory(null);
+
+        reset({
+            categoryName: "",
+            categoryDescription: "",
+        });
+
         setShowModal(true);
     };
 
     const closeModal = () => {
         setShowModal(false);
         setEditingCategory(null);
+        reset();
     };
 
-    const filteredCategories = categories.filter((category) =>
-        category.categoryName
+    const handleSearchSubmit = (keyword: string) => {
+        setActiveSearchKeyword(keyword);
+    };
+
+    const filteredCategories = categories.filter((c) =>
+        c.categoryName
             .toLowerCase()
-            .includes(searchKeyword.toLowerCase()),
+            .includes(activeSearchKeyword.toLowerCase()),
     );
 
-    const columns = [
+    const onTableChange: TableProps<CategoryData>["onChange"] = (
+        pagination,
+        filters,
+        sorter,
+        extra,
+    ) => {
+        console.log("Category params:", {
+            pagination,
+            filters,
+            sorter,
+            extra,
+        });
+    };
+
+    const columns: ColumnsType<CategoryData> = [
         {
             title: "ID",
             dataIndex: "id",
             key: "id",
+            width: 80,
+            sorter: (a, b) => a.id - b.id,
+            defaultSortOrder: "ascend",
         },
-
         {
             title: "Category Name",
             dataIndex: "categoryName",
             key: "categoryName",
+            sorter: (a, b) => a.categoryName.localeCompare(b.categoryName),
         },
-
         {
             title: "Description",
             dataIndex: "description",
             key: "description",
+            ellipsis: true,
+            render: (text: string) => <span title={text}>{text}</span>,
         },
-
         ...(isAdmin
             ? [
                   {
                       title: "Actions",
                       key: "actions",
-
+                      width: 180,
+                      fixed: "right" as const,
                       render: (_: unknown, record: CategoryData) => (
                           <Space>
-                              <Button
-                                  type="primary"
-                                  icon={<EditOutlined />}
-                                  onClick={() => handleEdit(record)}
-                              >
-                                  Edit
-                              </Button>
+                              <Tooltip title="Edit">
+                                  <Button
+                                      type="text"
+                                      color="primary"
+                                      variant="outlined"
+                                      icon={<EditOutlined />}
+                                      onClick={() => handleEdit(record)}
+                                  />
+                              </Tooltip>
 
-                              <Popconfirm
-                                  title="Delete this category?"
-                                  onConfirm={() => handleDelete(record.id)}
-                              >
-                                  <Button danger icon={<DeleteOutlined />}>
-                                      Delete
-                                  </Button>
-                              </Popconfirm>
+                              <Tooltip title="Delete">
+                                  <Button
+                                      type="text"
+                                      color="danger"
+                                      variant="outlined"
+                                      icon={<DeleteOutlined />}
+                                      onClick={() => handleDelete(record.id)}
+                                  />
+                              </Tooltip>
                           </Space>
                       ),
                   },
@@ -200,9 +223,22 @@ export default function CategoryManagementPage() {
             : []),
     ];
 
+    if (loading) {
+        return (
+            <div
+                style={{
+                    textAlign: "center",
+                    padding: 50,
+                }}
+            >
+                <Spin size="large" />
+            </div>
+        );
+    }
+
     return (
         <>
-            <Title level={2}>Category Management</Title>
+            <h2>Category Management</h2>
 
             {error && (
                 <Alert
@@ -215,47 +251,54 @@ export default function CategoryManagementPage() {
                 />
             )}
 
-            <Space
+            <div
                 style={{
-                    width: "100%",
-                    marginBottom: 20,
                     display: "flex",
                     justifyContent: "space-between",
+                    marginBottom: 20,
                 }}
             >
                 {isAdmin && (
-                    <Button
-                        type="primary"
-                        icon={<PlusOutlined />}
-                        onClick={openAddModal}
-                    >
-                        Add Category
+                    <Button type="primary" onClick={openAddModal}>
+                        + Add Product
                     </Button>
                 )}
 
                 <Search
-                    placeholder="Search categories..."
+                    placeholder="Search by category name..."
                     allowClear
-                    onSearch={setSearchKeyword}
+                    enterButton
+                    onSearch={handleSearchSubmit}
                     style={{
                         width: 350,
                     }}
                 />
-            </Space>
+            </div>
 
-            <Table
+            <Table<CategoryData>
                 rowKey="id"
-                loading={loading}
                 columns={columns}
                 dataSource={filteredCategories}
+                onChange={onTableChange}
+                bordered
+                size="middle"
+                scroll={{ x: 1100 }}
                 pagination={{
-                    pageSize: 10,
+                    pageSize: itemsPerPage,
+                    showSizeChanger: true,
+                    pageSizeOptions: ["5", "10", "20", "50"],
+                    showQuickJumper: true,
+                    showTotal: (total, range) =>
+                        `${range[0]}-${range[1]} of ${total} products`,
                 }}
             />
 
             <CategoryFormModal
                 show={showModal}
                 editingCategory={editingCategory}
+                register={register}
+                handleSubmit={handleSubmit}
+                errors={errors}
                 onSubmit={onSubmit}
                 onClose={closeModal}
                 saving={saving}

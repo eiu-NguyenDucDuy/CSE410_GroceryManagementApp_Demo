@@ -1,14 +1,11 @@
 import type { ProductData, ProductFormData } from "../types/product";
-
 import type {
     FieldErrors,
     UseFormHandleSubmit,
     UseFormRegister,
     Control,
 } from "react-hook-form";
-
 import { Controller } from "react-hook-form";
-
 import {
     Modal,
     Input,
@@ -17,31 +14,25 @@ import {
     Upload,
     Typography,
     Space,
+    Select,
 } from "antd";
-
 import { UploadOutlined } from "@ant-design/icons";
+import type { DefaultOptionType } from "antd/es/select";
 
 const { TextArea } = Input;
-
 const { Text } = Typography;
 
 type ProductFormModalProps = {
     show: boolean;
     editingProduct: ProductData | null;
-
     register: UseFormRegister<ProductFormData>;
-
     control: Control<ProductFormData>;
-
     handleSubmit: UseFormHandleSubmit<ProductFormData>;
-
     errors: FieldErrors<ProductFormData>;
-
     onSubmit: (data: ProductFormData) => Promise<void>;
-
     onClose: () => void;
-
     saving: boolean;
+    categoryOptions: DefaultOptionType[];
 };
 
 export default function ProductFormModal({
@@ -54,6 +45,7 @@ export default function ProductFormModal({
     onSubmit,
     onClose,
     saving,
+    categoryOptions,
 }: ProductFormModalProps) {
     return (
         <Modal
@@ -74,7 +66,6 @@ export default function ProductFormModal({
                     }}
                 >
                     {/* Title */}
-
                     <div>
                         <label>
                             Title <Text type="danger">*</Text>
@@ -95,48 +86,49 @@ export default function ProductFormModal({
                     </div>
 
                     {/* Thumbnail */}
-
                     <div>
                         <label>Thumbnail Image</label>
 
-                        <Upload
-                            beforeUpload={() => false}
-                            accept="image/*"
-                            maxCount={1}
-                        >
-                            <Button icon={<UploadOutlined />}>
-                                Choose Image
-                            </Button>
-                        </Upload>
-
-                        <input
-                            type="file"
-                            accept="image/*"
-                            style={{
-                                display: "none",
-                            }}
-                            {...register("productThumbnail", {
-                                validate: {
-                                    imageType: (files) => {
-                                        if (
-                                            !files ||
-                                            !(files instanceof FileList)
-                                        ) {
-                                            return true;
+                        <Controller
+                            name="productThumbnail"
+                            control={control}
+                            render={({ field }) => (
+                                <Upload
+                                    beforeUpload={() => false}
+                                    accept="image/*"
+                                    maxCount={1}
+                                    fileList={
+                                        field.value instanceof FileList &&
+                                        field.value.length > 0
+                                            ? [
+                                                  {
+                                                      uid: "-1",
+                                                      name: field.value[0].name,
+                                                      status: "done",
+                                                  },
+                                              ]
+                                            : []
+                                    }
+                                    onChange={({ fileList }) => {
+                                        if (fileList.length === 0) {
+                                            field.onChange(undefined);
+                                            return;
                                         }
 
-                                        if (files.length === 0) {
-                                            return true;
-                                        }
+                                        const file = fileList[0].originFileObj;
 
-                                        return (
-                                            files[0].type.startsWith(
-                                                "image/",
-                                            ) || "Only image files are allowed"
-                                        );
-                                    },
-                                },
-                            })}
+                                        if (file) {
+                                            const dt = new DataTransfer();
+                                            dt.items.add(file);
+                                            field.onChange(dt.files);
+                                        }
+                                    }}
+                                >
+                                    <Button icon={<UploadOutlined />}>
+                                        Choose Image
+                                    </Button>
+                                </Upload>
+                            )}
                         />
 
                         {errors.productThumbnail && (
@@ -147,33 +139,55 @@ export default function ProductFormModal({
                     </div>
 
                     {/* Price */}
-
                     <div>
                         <label>
                             Price <Text type="danger">*</Text>
                         </label>
 
-                        <Controller
-                            name="productPrice"
-                            control={control}
-                            rules={{
-                                required: "Price is required",
-                                min: {
-                                    value: 0,
-                                    message: "Price cannot be negative",
-                                },
-                            }}
-                            render={({ field }) => (
-                                <InputNumber
-                                    {...field}
-                                    style={{
-                                        width: "100%",
-                                    }}
-                                    min={0}
-                                    placeholder="Price"
-                                />
-                            )}
-                        />
+                        <Space.Compact style={{ width: "100%" }}>
+                            <Controller
+                                name="productPrice"
+                                control={control}
+                                rules={{
+                                    required: "Price is required",
+                                    min: {
+                                        value: 0,
+                                        message: "Price cannot be negative",
+                                    },
+                                }}
+                                render={({ field }) => (
+                                    <InputNumber
+                                        value={field.value}
+                                        onChange={(value) =>
+                                            field.onChange(value ?? 0)
+                                        }
+                                        min={0}
+                                        style={{ width: "100%" }}
+                                        formatter={(value) =>
+                                            value
+                                                ? Number(value).toLocaleString()
+                                                : ""
+                                        }
+                                        parser={(value) =>
+                                            Number(
+                                                value?.replace(/,/g, "") || 0,
+                                            )
+                                        }
+                                    />
+                                )}
+                            />
+
+                            <Select
+                                defaultValue="USD"
+                                style={{ width: 100 }}
+                                options={[
+                                    { label: "USD", value: "USD" },
+                                    { label: "VND", value: "VND" },
+                                    { label: "RMB", value: "RMB" },
+                                    { label: "JPY", value: "JPY" },
+                                ]}
+                            />
+                        </Space.Compact>
 
                         {errors.productPrice && (
                             <Text type="danger">
@@ -183,7 +197,6 @@ export default function ProductFormModal({
                     </div>
 
                     {/* Description */}
-
                     <div>
                         <label>Description</label>
 
@@ -195,54 +208,59 @@ export default function ProductFormModal({
                     </div>
 
                     {/* Category */}
-
                     <div>
                         <label>
-                            Category ID <Text type="danger">*</Text>
+                            Category<Text type="danger">*</Text>
                         </label>
 
                         <Controller
-                            name="productCategoryId"
+                            name="productCategoryType"
                             control={control}
                             rules={{
-                                required: "Category ID is required",
-                                min: {
-                                    value: 0,
-                                    message: "Category ID cannot be negative",
-                                },
+                                required: "Category is required",
                             }}
                             render={({ field }) => (
-                                <InputNumber
+                                <Select
                                     {...field}
+                                    showSearch
+                                    optionFilterProp="label"
+                                    placeholder="Select a category"
+                                    options={categoryOptions}
                                     style={{
                                         width: "100%",
                                     }}
-                                    min={0}
-                                    placeholder="Category ID"
                                 />
                             )}
                         />
-                        {errors.productCategoryId && (
+
+                        {errors.productCategoryType && (
                             <Text type="danger">
-                                {errors.productCategoryId.message}
+                                {errors.productCategoryType.message}
                             </Text>
                         )}
                     </div>
 
                     {/* Footer buttons */}
-
                     <Space
                         style={{
                             display: "flex",
                             justifyContent: "flex-end",
                         }}
                     >
-                        <Button onClick={onClose} disabled={saving}>
+                        <Button
+                            type="primary"
+                            color="red"
+                            variant="solid"
+                            onClick={onClose}
+                            disabled={saving}
+                        >
                             Cancel
                         </Button>
 
                         <Button
                             type="primary"
+                            color="green"
+                            variant="solid"
                             htmlType="submit"
                             loading={saving}
                         >

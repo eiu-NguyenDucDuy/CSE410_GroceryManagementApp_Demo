@@ -1,48 +1,34 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
 import {
     createProduct,
     deleteProduct,
     getAllProducts,
     updateProduct,
 } from "../services/productService";
-
 import { type ProductData, type ProductFormData } from "../types/product";
-
 import ProductFormModal from "../components/ProductFormModal";
-
-import { useAuth } from "../context/useAuth";
-
-import { Table, Button, Alert, Spin, Space, Image, Input } from "antd";
-
-import type { ColumnsType } from "antd/es/table";
+import { useAuth } from "../hooks/useAuth";
+import { Table, Button, Alert, Spin, Space, Image, Input, Tooltip } from "antd";
+import type { ColumnsType, TableProps } from "antd/es/table";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 const { Search } = Input;
 
 export default function ProductManagementPage() {
     const [products, setProducts] = useState<ProductData[]>([]);
-
     const [showModal, setShowModal] = useState(false);
-
     const [editingProduct, setEditingProduct] = useState<ProductData | null>(
         null,
     );
-
     const [activeSearchKeyword, setActiveSearchKeyword] = useState("");
-
     const [loading, setLoading] = useState(false);
-
     const [saving, setSaving] = useState(false);
-
     const [error, setError] = useState("");
-
     const itemsPerPage = 10;
-
     const { state } = useAuth();
-
     const isAdmin = state.user?.role === "admin";
-
     const {
         register,
         control,
@@ -50,6 +36,13 @@ export default function ProductManagementPage() {
         reset,
         formState: { errors },
     } = useForm<ProductFormData>();
+    const categoryOptions = [
+        ...new Set(products.map((p) => p.categoryType)),
+    ].map((type) => ({
+        value: type,
+        label: type,
+    }));
+    const { t } = useTranslation();
 
     // Load products
     useEffect(() => {
@@ -109,13 +102,12 @@ export default function ProductManagementPage() {
                 thumbnail: thumbnailString || null,
                 price: Number(data.productPrice),
                 description: data.productDescription,
-                categoryId: data.productCategoryId,
+                categoryType: data.productCategoryType,
             };
 
             if (editingProduct) {
                 const updatedProduct = await updateProduct({
                     id: editingProduct.id,
-
                     ...product,
                 });
 
@@ -148,7 +140,7 @@ export default function ProductManagementPage() {
             productThumbnail: product.thumbnail ?? "",
             productPrice: product.price,
             productDescription: product.description,
-            productCategoryId: product.categoryId,
+            productCategoryType: product.categoryType,
         });
 
         setShowModal(true);
@@ -178,7 +170,7 @@ export default function ProductManagementPage() {
             productThumbnail: "",
             productPrice: 0,
             productDescription: "",
-            productCategoryId: 0,
+            productCategoryType: "",
         });
 
         setShowModal(true);
@@ -198,68 +190,118 @@ export default function ProductManagementPage() {
         p.title.toLowerCase().includes(activeSearchKeyword.toLowerCase()),
     );
 
+    const onTableChange: TableProps<ProductData>["onChange"] = (
+        pagination,
+        filters,
+        sorter,
+        extra,
+    ) => {
+        console.log("Table params:", {
+            pagination,
+            filters,
+            sorter,
+            extra,
+        });
+    };
+
+    const categoryFilters = [
+        ...new Set(products.map((p) => p.categoryType)),
+    ].map((type) => ({
+        text: type,
+        value: type,
+    }));
+
     const columns: ColumnsType<ProductData> = [
         {
             title: "ID",
             dataIndex: "id",
             key: "id",
+            width: 80,
+            sorter: (a, b) => a.id - b.id,
+            defaultSortOrder: "ascend",
         },
-
         {
-            title: "Title",
+            title: t("product.productName"),
             dataIndex: "title",
             key: "title",
+            sorter: (a, b) => a.title.localeCompare(b.title),
         },
-
         {
-            title: "Thumbnail",
+            title: t("product.thumbnail"),
             dataIndex: "thumbnail",
             key: "thumbnail",
-
-            render: (thumbnail) =>
-                thumbnail ? <Image width={50} src={thumbnail} /> : "No Image",
+            width: 100,
+            render: (thumbnail: string | null) =>
+                thumbnail ? (
+                    <Image
+                        src={thumbnail}
+                        width={60}
+                        height={60}
+                        style={{
+                            objectFit: "cover",
+                            borderRadius: 6,
+                        }}
+                    />
+                ) : (
+                    "No Image"
+                ),
         },
-
         {
-            title: "Price",
+            title: t("product.price"),
             dataIndex: "price",
             key: "price",
+            width: 120,
+            sorter: (a, b) => a.price - b.price,
+            render: (price: number) =>
+                `$${price.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                })}`,
         },
-
         {
-            title: "Description",
+            title: t("product.description"),
             dataIndex: "description",
             key: "description",
+            ellipsis: true,
+            render: (text: string) => <span title={text}>{text}</span>,
         },
-
         {
-            title: "Category ID",
-            dataIndex: "categoryId",
-            key: "categoryId",
+            title: t("product.category"),
+            dataIndex: "categoryType",
+            key: "categoryType",
+            width: 120,
+            filters: categoryFilters,
+            onFilter: (value, record) => record.categoryType === value,
+            sorter: (a, b) => a.categoryType.localeCompare(b.categoryType),
         },
-
         ...(isAdmin
             ? [
                   {
-                      title: "Actions",
-
+                      title: t("common.actions"),
                       key: "actions",
-
+                      width: 180,
+                      fixed: "right" as const,
                       render: (_: unknown, record: ProductData) => (
                           <Space>
-                              <Button
-                                  type="primary"
-                                  onClick={() => handleEdit(record)}
-                              >
-                                  Edit
-                              </Button>
+                              <Tooltip title={t("common.edit")}>
+                                  <Button
+                                      type="text"
+                                      color="primary"
+                                      variant="outlined"
+                                      icon={<EditOutlined />}
+                                      onClick={() => handleEdit(record)}
+                                  />
+                              </Tooltip>
 
-                              <Button
-                                  danger
-                                  onClick={() => handleDelete(record.id)}
-                              >
-                                  Delete
-                              </Button>
+                              <Tooltip title={t("common.delete")}>
+                                  <Button
+                                      type="text"
+                                      color="danger"
+                                      variant="outlined"
+                                      icon={<DeleteOutlined />}
+                                      onClick={() => handleDelete(record.id)}
+                                  />
+                              </Tooltip>
                           </Space>
                       ),
                   },
@@ -282,7 +324,7 @@ export default function ProductManagementPage() {
 
     return (
         <>
-            <h2>Product Management</h2>
+            <h2>{t("product.productManagement")}</h2>
 
             {error && (
                 <Alert
@@ -303,27 +345,43 @@ export default function ProductManagementPage() {
                 }}
             >
                 {isAdmin && (
-                    <Button type="primary" onClick={openAddModal}>
-                        + Add Product
+                    <Button
+                        type="text"
+                        color="cyan"
+                        variant="outlined"
+                        icon={<PlusOutlined />}
+                        onClick={openAddModal}
+                    >
+                        {t("product.addProduct")}
                     </Button>
                 )}
 
                 <Search
-                    placeholder="Search products..."
+                    placeholder={t("common.search")}
                     allowClear
+                    enterButton
                     onSearch={handleSearchSubmit}
                     style={{
-                        width: 300,
+                        width: 350,
                     }}
                 />
             </div>
 
-            <Table
+            <Table<ProductData>
                 rowKey="id"
                 columns={columns}
                 dataSource={filteredProducts}
+                onChange={onTableChange}
+                bordered
+                size="middle"
+                scroll={{ x: 1100 }}
                 pagination={{
                     pageSize: itemsPerPage,
+                    showSizeChanger: true,
+                    pageSizeOptions: ["5", "10", "20", "50"],
+                    showQuickJumper: true,
+                    showTotal: (total, range) =>
+                        `${range[0]}-${range[1]} ${t("product.of")} ${total} ${t("product.products")}`,
                 }}
             />
 
@@ -337,6 +395,7 @@ export default function ProductManagementPage() {
                 onSubmit={onSubmit}
                 onClose={closeModal}
                 saving={saving}
+                categoryOptions={categoryOptions}
             />
         </>
     );

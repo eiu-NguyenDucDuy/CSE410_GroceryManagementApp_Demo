@@ -1,0 +1,43 @@
+{
+    "common": {
+        "home": "Home",
+        "dashboard": "Dashboard",
+        "management": "Management",
+        "category": "Category",
+        "product": "Product",
+        "users": "Users",
+        "profile": "Profile",
+        "settings": "Settings",
+        "login": "Login",
+        "logout": "Logout",
+        "save": "Save",
+        "cancel": "Cancel",
+        "search": "Search...",
+        "add": "Add",
+        "edit": "Edit",
+        "delete": "Delete",
+        "name": "Name",
+        "actions": "Actions",
+        "welcome": "Welcome"
+    },
+
+    "product": {
+        "productManagement": "Product Management",
+        "productName": "Product Name",
+        "products": "products",
+        "of": "of",
+        "price": "Price",
+        "category": "Category",
+        "description": "Description",
+        "thumbnail": "Thumbnail",
+        "addProduct": "Add Product"
+    },
+
+    "category": {
+        "categoryManagement": "Category Management",
+        "categoryName": "Category Name",
+        "category": "Category",
+        "description": "Description",
+        "addCategory": "Add Category"
+    }
+}
