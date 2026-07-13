@@ -11,7 +11,9 @@ import CategoryFormModal from "../components/CategoryFormModal";
 import { useAuth } from "../hooks/useAuth";
 import { Table, Button, Alert, Spin, Space, Input, Tooltip } from "antd";
 import type { ColumnsType, TableProps } from "antd/es/table";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
+
 const { Search } = Input;
 
 export default function CategoryManagementPage() {
@@ -28,11 +30,12 @@ export default function CategoryManagementPage() {
     const { state } = useAuth();
     const isAdmin = state.user?.role === "admin";
     const {
-        register,
+        control,
         handleSubmit,
         reset,
         formState: { errors },
     } = useForm<CategoryFormData>();
+    const { t } = useTranslation();
 
     // Load categories
     useEffect(() => {
@@ -110,7 +113,9 @@ export default function CategoryManagementPage() {
     };
 
     const handleDelete = async (id: number) => {
-        const confirmDelete = window.confirm("Confirm delete this category?");
+        const confirmDelete = window.confirm(
+            `${t("validation.confirmDeleteCategory")}`,
+        );
 
         if (!confirmDelete) return;
 
@@ -176,13 +181,13 @@ export default function CategoryManagementPage() {
             defaultSortOrder: "ascend",
         },
         {
-            title: "Category Name",
+            title: t("category.name"),
             dataIndex: "categoryName",
             key: "categoryName",
             sorter: (a, b) => a.categoryName.localeCompare(b.categoryName),
         },
         {
-            title: "Description",
+            title: t("category.description"),
             dataIndex: "description",
             key: "description",
             ellipsis: true,
@@ -191,13 +196,13 @@ export default function CategoryManagementPage() {
         ...(isAdmin
             ? [
                   {
-                      title: "Actions",
+                      title: t("common.actions"),
                       key: "actions",
                       width: 180,
                       fixed: "right" as const,
                       render: (_: unknown, record: CategoryData) => (
                           <Space>
-                              <Tooltip title="Edit">
+                              <Tooltip title={t("common.edit")}>
                                   <Button
                                       type="text"
                                       color="primary"
@@ -207,7 +212,7 @@ export default function CategoryManagementPage() {
                                   />
                               </Tooltip>
 
-                              <Tooltip title="Delete">
+                              <Tooltip title={t("common.delete")}>
                                   <Button
                                       type="text"
                                       color="danger"
@@ -238,7 +243,7 @@ export default function CategoryManagementPage() {
 
     return (
         <>
-            <h2>Category Management</h2>
+            <h2>{t("category.categoryManagement")}</h2>
 
             {error && (
                 <Alert
@@ -259,13 +264,19 @@ export default function CategoryManagementPage() {
                 }}
             >
                 {isAdmin && (
-                    <Button type="primary" onClick={openAddModal}>
-                        + Add Product
+                    <Button
+                        type="text"
+                        color="cyan"
+                        variant="outlined"
+                        icon={<PlusOutlined />}
+                        onClick={openAddModal}
+                    >
+                        {t("category.addCategory")}
                     </Button>
                 )}
 
                 <Search
-                    placeholder="Search by category name..."
+                    placeholder={t("common.search")}
                     allowClear
                     enterButton
                     onSearch={handleSearchSubmit}
@@ -288,15 +299,13 @@ export default function CategoryManagementPage() {
                     showSizeChanger: true,
                     pageSizeOptions: ["5", "10", "20", "50"],
                     showQuickJumper: true,
-                    showTotal: (total, range) =>
-                        `${range[0]}-${range[1]} of ${total} products`,
                 }}
             />
 
             <CategoryFormModal
                 show={showModal}
                 editingCategory={editingCategory}
-                register={register}
+                control={control}
                 handleSubmit={handleSubmit}
                 errors={errors}
                 onSubmit={onSubmit}

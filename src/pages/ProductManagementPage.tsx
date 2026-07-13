@@ -13,11 +13,14 @@ import { Table, Button, Alert, Spin, Space, Image, Input, Tooltip } from "antd";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
+import type { CategoryData } from "../types/category";
+import { getAllCategories } from "../services/categoryService";
 
 const { Search } = Input;
 
 export default function ProductManagementPage() {
     const [products, setProducts] = useState<ProductData[]>([]);
+    const [categories, setCategories] = useState<CategoryData[]>([]);
     const [showModal, setShowModal] = useState(false);
     const [editingProduct, setEditingProduct] = useState<ProductData | null>(
         null,
@@ -30,44 +33,43 @@ export default function ProductManagementPage() {
     const { state } = useAuth();
     const isAdmin = state.user?.role === "admin";
     const {
-        register,
         control,
         handleSubmit,
         reset,
         formState: { errors },
     } = useForm<ProductFormData>();
-    const categoryOptions = [
-        ...new Set(products.map((p) => p.categoryType)),
-    ].map((type) => ({
-        value: type,
-        label: type,
+    const categoryOptions = categories.map((category) => ({
+        value: category.id,
+        label: category.categoryName,
     }));
     const { t } = useTranslation();
 
-    // Load products
+    // Load products & categories
     useEffect(() => {
-        async function loadProducts() {
+        async function loadData() {
             try {
                 setLoading(true);
                 setError("");
 
-                const data = await getAllProducts();
+                const [productData, categoryData] = await Promise.all([
+                    getAllProducts(),
+                    getAllCategories(),
+                ]);
 
-                setProducts(data);
+                setProducts(productData);
+                setCategories(categoryData);
             } catch (err) {
                 console.error(err);
 
                 setError(
-                    err instanceof Error
-                        ? err.message
-                        : "Unable to load products.",
+                    err instanceof Error ? err.message : "Unable to load data.",
                 );
             } finally {
                 setLoading(false);
             }
         }
 
-        loadProducts();
+        loadData();
     }, []);
 
     // Create / Update
@@ -102,7 +104,7 @@ export default function ProductManagementPage() {
                 thumbnail: thumbnailString || null,
                 price: Number(data.productPrice),
                 description: data.productDescription,
-                categoryType: data.productCategoryType,
+                categoryId: data.productCategoryId,
             };
 
             if (editingProduct) {
@@ -140,14 +142,16 @@ export default function ProductManagementPage() {
             productThumbnail: product.thumbnail ?? "",
             productPrice: product.price,
             productDescription: product.description,
-            productCategoryType: product.categoryType,
+            productCategoryId: product.categoryId,
         });
 
         setShowModal(true);
     };
 
     const handleDelete = async (id: number) => {
-        const confirmDelete = window.confirm("Confirm delete this product?");
+        const confirmDelete = window.confirm(
+            `${t("validation.confirmDeleteProduct")}`,
+        );
 
         if (!confirmDelete) return;
 
@@ -170,7 +174,7 @@ export default function ProductManagementPage() {
             productThumbnail: "",
             productPrice: 0,
             productDescription: "",
-            productCategoryType: "",
+            productCategoryId: undefined,
         });
 
         setShowModal(true);
@@ -204,11 +208,9 @@ export default function ProductManagementPage() {
         });
     };
 
-    const categoryFilters = [
-        ...new Set(products.map((p) => p.categoryType)),
-    ].map((type) => ({
-        text: type,
-        value: type,
+    const categoryFilters = categories.map((category) => ({
+        text: category.categoryName,
+        value: category.categoryName,
     }));
 
     const columns: ColumnsType<ProductData> = [
@@ -221,7 +223,7 @@ export default function ProductManagementPage() {
             defaultSortOrder: "ascend",
         },
         {
-            title: t("product.productName"),
+            title: t("product.title"),
             dataIndex: "title",
             key: "title",
             sorter: (a, b) => a.title.localeCompare(b.title),
@@ -242,9 +244,7 @@ export default function ProductManagementPage() {
                             borderRadius: 6,
                         }}
                     />
-                ) : (
-                    "No Image"
-                ),
+                ) : null,
         },
         {
             title: t("product.price"),
@@ -253,7 +253,7 @@ export default function ProductManagementPage() {
             width: 120,
             sorter: (a, b) => a.price - b.price,
             render: (price: number) =>
-                `$${price.toLocaleString(undefined, {
+                `${price.toLocaleString(undefined, {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                 })}`,
@@ -267,12 +267,12 @@ export default function ProductManagementPage() {
         },
         {
             title: t("product.category"),
-            dataIndex: "categoryType",
-            key: "categoryType",
+            dataIndex: "categoryId",
+            key: "categoryId",
             width: 120,
             filters: categoryFilters,
-            onFilter: (value, record) => record.categoryType === value,
-            sorter: (a, b) => a.categoryType.localeCompare(b.categoryType),
+            onFilter: (value, record) => record.categoryId === value,
+            sorter: (a, b) => a.categoryId - b.categoryId,
         },
         ...(isAdmin
             ? [
@@ -380,15 +380,12 @@ export default function ProductManagementPage() {
                     showSizeChanger: true,
                     pageSizeOptions: ["5", "10", "20", "50"],
                     showQuickJumper: true,
-                    showTotal: (total, range) =>
-                        `${range[0]}-${range[1]} ${t("product.of")} ${total} ${t("product.products")}`,
                 }}
             />
 
             <ProductFormModal
                 show={showModal}
                 editingProduct={editingProduct}
-                register={register}
                 control={control}
                 handleSubmit={handleSubmit}
                 errors={errors}

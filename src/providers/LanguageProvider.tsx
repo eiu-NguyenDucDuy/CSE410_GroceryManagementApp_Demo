@@ -1,27 +1,22 @@
-import { useState } from "react";
-import enUS from "antd/locale/en_US";
-import viVN from "antd/locale/vi_VN";
-import { LanguageContext, type Language } from "../context/LanguageContext";
-
-const locales = {
-    en: enUS,
-    vi: viVN,
-};
+import { useTranslation } from "react-i18next";
+import { LanguageContext } from "../context/LanguageContext";
+import { languages, DEFAULT_LANGUAGE, type Language } from "../config/languages";
 
 export default function LanguageProvider({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const [language, setLanguage] = useState<Language>(() => {
-        const saved = localStorage.getItem("language");
+    const { i18n } = useTranslation();
 
-        return saved === "vi" ? "vi" : "en";
-    });
+    const current = i18n.resolvedLanguage ?? DEFAULT_LANGUAGE;
+
+    const language: Language =
+        current in languages ? (current as Language) : DEFAULT_LANGUAGE;
 
     const changeLanguage = (lang: Language) => {
         localStorage.setItem("language", lang);
-        setLanguage(lang);
+        i18n.changeLanguage(lang);
     };
 
     return (
@@ -29,7 +24,7 @@ export default function LanguageProvider({
             value={{
                 language,
                 setLanguage: changeLanguage,
-                locale: locales[language],
+                locale: languages[language].antd,
             }}
         >
             {children}

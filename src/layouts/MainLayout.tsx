@@ -20,6 +20,7 @@ import useTheme from "../hooks/useTheme";
 import LeftSidebar from "../components/LeftSidebar";
 import AppBreadcrumb from "../components/Breadcrumb";
 import LanguageSwitcher from "../components/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 const { Header, Content, Sider } = Layout;
 const { Text } = Typography;
@@ -29,6 +30,7 @@ export default function MainLayout() {
     const { state, dispatch } = useAuth();
     const { darkMode, toggleTheme } = useTheme();
     const { token } = theme.useToken();
+    const { t } = useTranslation();
 
     function handleLogout() {
         dispatch({
@@ -56,13 +58,10 @@ export default function MainLayout() {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-
                         background: token.colorBgContainer,
-
                         borderBottom: darkMode
                             ? "1px solid #303030"
                             : "1px solid #eee",
-
                         padding: "0 24px",
                     }}
                 >
@@ -91,10 +90,10 @@ export default function MainLayout() {
                                 color: token.colorText,
                             }}
                         >
-                            Welcome <b>{state.user?.username}</b>
+                            {t("common.welcome")} <b>{state.user?.username}</b>
                         </Text>
 
-                        <Tooltip title="Logout">
+                        <Tooltip title={t("auth.logout")}>
                             <Button
                                 danger
                                 shape="circle"
@@ -110,11 +109,8 @@ export default function MainLayout() {
                     style={{
                         margin: 24,
                         padding: 24,
-
                         background: token.colorBgContainer,
-
                         borderRadius: 8,
-
                         minHeight: 280,
                     }}
                 >

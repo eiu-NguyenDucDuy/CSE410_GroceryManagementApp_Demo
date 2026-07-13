@@ -1,12 +1,10 @@
 import { createContext } from "react";
-import type enUS from "antd/locale/en_US";
-
-export type Language = "en" | "vi";
+import { languages, type Language } from "../config/languages";
 
 export type LanguageContextType = {
     language: Language;
     setLanguage: (lang: Language) => void;
-    locale: typeof enUS;
+    locale: (typeof languages)[Language]["antd"];
 };
 
 export const LanguageContext = createContext<LanguageContextType | null>(null);

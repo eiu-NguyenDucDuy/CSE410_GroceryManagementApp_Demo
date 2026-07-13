@@ -1,43 +1,101 @@
 {
     "common": {
         "home": "Home",
-        "dashboard": "Dashboard",
-        "management": "Management",
-        "category": "Category",
-        "product": "Product",
-        "users": "Users",
-        "profile": "Profile",
-        "settings": "Settings",
-        "login": "Login",
-        "logout": "Logout",
         "save": "Save",
         "cancel": "Cancel",
         "search": "Search...",
+        "actions": "Action",
         "add": "Add",
         "edit": "Edit",
+        "update": "Update",
         "delete": "Delete",
-        "name": "Name",
-        "actions": "Actions",
-        "welcome": "Welcome"
+        "welcome": "Welcome",
+        "yes": "Yes",
+        "no": "No",
+        "Admin": "Admin",
+        "User": "User",
+        "upload": "Upload"
     },
-
+    "home": {
+        "title": "Grocery Management System",
+        "description": "Manage your grocery products, categories, and inventory easily with a simple and modern dashboard.",
+        "access": "Access Dashboard",
+        "categoryManagementDescription": "Create and organise grocery categories easily.",
+        "productManagementDescription": "Add, update and manage grocery products.",
+        "dashboardTitle": "Dashboard Analytics",
+        "dashboardDescription": "View important information in one place."
+    },
+    "login": {
+        "title": "Account",
+        "email": "Email",
+        "emailPlaceholder": "Input email",
+        "password": "Password",
+        "passwordPlaceholder": "Input password",
+        "loggingIn": "Logging in..."
+    },
+    "nav": {
+        "dashboard": "Dashboard",
+        "management": "Management",
+        "product": "Product",
+        "category": "Category",
+        "users": "Users",
+        "profile": "Profile",
+        "settings": "Settings"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "totalCategories": "Total Categories",
+        "totalProducts": "Total Products"
+    },
     "product": {
         "productManagement": "Product Management",
-        "productName": "Product Name",
-        "products": "products",
-        "of": "of",
-        "price": "Price",
-        "category": "Category",
-        "description": "Description",
+        "title": "Title",
+        "titlePlaceholder": "Enter product title",
         "thumbnail": "Thumbnail",
-        "addProduct": "Add Product"
+        "price": "Price",
+        "description": "Description",
+        "descriptionPlaceholder": "Enter product description",
+        "category": "Category",
+        "categoryPlaceholder": "Select category",
+        "addProduct": "Add Product",
+        "editProduct": "Edit Product"
     },
-
     "category": {
         "categoryManagement": "Category Management",
-        "categoryName": "Category Name",
-        "category": "Category",
+        "name": "Name",
+        "namePlaceholder": "Enter category name",
         "description": "Description",
-        "addCategory": "Add Category"
-    }
+        "descriptionPlaceholder": "Enter category description",
+        "addCategory": "Add Category",
+        "editCategory": "Edit Category"
+    },
+    "user": {},
+    "profile": {},
+    "settings": {},
+    "auth": {
+        "login": "Login",
+        "logout": "Logout"
+    },
+    "errors": {
+        "400": "Bad request",
+        "400Message": "There was a problem processing your request.",
+        "404": "Page not found",
+        "404Message": "The page you are looking for does not exist.",
+        "500": "Internal server error",
+        "500Message": "Something went wrong on the server.",
+        "back": "Back Home"
+    },
+    "validation": {
+        "confirmDeleteCategory": "Confirm delete this category?",
+        "confirmDeleteProduct": "Confirm delete this product?",
+        "categoryNameRequired": "Please enter category name",
+        "productTitleRequired": "Please enter product title",
+        "productCategoryRequired": "Please select category",
+        "emailRequired": "Please enter email",
+        "emailInvalid": "Invalid email",
+        "passwordRequired": "Please enter password",
+        "userNotFound": "Email or password is incorrect.",
+        "connectFailed": "Unable to connect to the server."
+    },
+    "dialog": {}
 }

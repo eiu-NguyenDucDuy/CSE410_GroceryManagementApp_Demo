@@ -1,24 +1,28 @@
 import { Breadcrumb } from "antd";
-import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useMatches } from "react-router-dom";
+
+type BreadcrumbHandle = {
+    breadcrumb?: string;
+};
 
 export default function AppBreadcrumb() {
-    const location = useLocation();
+    const matches = useMatches();
+    const { t } = useTranslation();
 
-    const items = location.pathname
-        .split("/")
-        .filter(Boolean)
-        .map((item) => ({
-            title: item.charAt(0).toUpperCase() + item.slice(1),
-        }));
+    const items = matches
+        .map((match) => {
+            const handle = match.handle as BreadcrumbHandle;
 
-    return (
-        <Breadcrumb
-            items={[
-                {
-                    title: "Home",
-                },
-                ...items,
-            ]}
-        />
-    );
+            if (!handle?.breadcrumb) {
+                return null;
+            }
+
+            return {
+                title: t(handle.breadcrumb),
+            };
+        })
+        .filter((item): item is { title: string } => Boolean(item));
+
+    return <Breadcrumb items={items} />;
 }

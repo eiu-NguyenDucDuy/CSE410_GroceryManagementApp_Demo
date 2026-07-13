@@ -1,43 +1,101 @@
 {
     "common": {
         "home": "Trang chủ",
-        "dashboard": "Bảng điển khiển",
-        "management": "Quản lý",
-        "category": "Danh mục",
-        "product": "Sản phẩm",
-        "users": "Người dùng",
-        "profile": "Trang cá nhân",
-        "settings": "Cài đặt",
-        "login": "Đăng nhập",
-        "logout": "Đăng xuất",
         "save": "Lưu",
         "cancel": "Hủy",
         "search": "Tìm kiếm...",
+        "actions": "Thao tác",
         "add": "Thêm",
         "edit": "Sửa",
+        "update": "Cập nhật",
         "delete": "Xóa",
-        "name": "Tên",
-        "actions": "Thao tác",
-        "welcome": "Xin chào"
+        "welcome": "Xin chào",
+        "yes": "Có",
+        "no": "Không",
+        "Admin": "Quản lý",
+        "User": "Người dùng",
+        "upload": "Tải lên"
     },
-
+    "home": {
+        "title": "Hệ Thống Quản Lý Cửa Hàng Tạp Hóa",
+        "description": "Quản lý sản phẩm, danh mục và hàng tồn kho cửa hàng tạp hóa của bạn một cách dễ dàng với bảng điều khiển đơn giản và hiện đại.",
+        "access": "Truy cập bảng điều khiển",
+        "categoryManagementDescription": "Tạo và sắp xếp các danh mục thực phẩm một cách dễ dàng.",
+        "productManagementDescription": "Thêm, cập nhật và quản lý các sản phẩm tạp hóa.",
+        "dashboardTitle": "Bảng điều khiển Phân tích",
+        "dashboardDescription": "Xem tất cả thông tin quan trọng ở cùng một nơi."
+    },
+    "login": {
+        "title": "Tài khoản",
+        "email": "Email",
+        "emailPlaceholder": "Nhập email",
+        "password": "Mật khẩu",
+        "passwordPlaceholder": "Nhập mật khẩu",
+        "loggingIn": "Đang đăng nhập..."
+    },
+    "nav": {
+        "dashboard": "Bảng điển khiển",
+        "management": "Quản lý",
+        "product": "Sản phẩm",
+        "category": "Danh mục",
+        "users": "Người dùng",
+        "profile": "Hồ sơ cá nhân",
+        "settings": "Cài đặt"
+    },
+    "dashboard": {
+        "title": "Bảng điều khiển",
+        "totalCategories": "Tổng số danh mục",
+        "totalProducts": "Tổng số sản phẩm"
+    },
     "product": {
-        "productManagement": "Quản lý sản phẩm",
-        "productName": "Tên sản phẩm",
-        "products": "sản phẩm",
-        "of": "trên",
-        "price": "Giá",
-        "category": "Danh mục",
-        "description": "Mổ tả",
+        "productManagement": "Quản lý Sản phẩm",
+        "title": "Tên sản phẩm",
+        "titlePlaceholder": "Nhập tên sản phẩm",
         "thumbnail": "Hình ảnh",
-        "addProduct": "Thêm sản phẩm"
-    },
-
-    "category": {
-        "categoryManagement": "Quản lý danh mục",
-        "categoryName": "Tên danh mục",
+        "price": "Giá",
+        "description": "Mô tả",
+        "descriptionPlaceholder": "Nhập mô tả sản phẩm",
         "category": "Danh mục",
-        "description": "Mổ tả",
-        "addCategory": "Thêm danh mục"
-    }
+        "categoryPlaceholder": "Chọn danh mục",
+        "addProduct": "Thêm sản phẩm",
+        "editProduct": "Sửa sản phẩm"
+    },
+    "category": {
+        "categoryManagement": "Quản lý Danh mục",
+        "name": "Tên danh mục",
+        "namePlaceholder": "Nhập tên danh mục",
+        "description": "Mô tả",
+        "descriptionPlaceholder": "Nhập mô tả danh mục",
+        "addCategory": "Thêm danh mục",
+        "editCategory": "Sửa danh mục"
+    },
+    "user": {},
+    "profile": {},
+    "settings": {},
+    "auth": {
+        "login": "Đăng nhập",
+        "logout": "Đăng xuất"
+    },
+    "errors": {
+        "400": "Yêu cầu không hợp lệ",
+        "400Message": "Đã xảy ra lỗi khi xử lý yêu cầu của bạn.",
+        "404": "Không tìm thấy trang",
+        "404Message": "Trang bạn đang tìm kiếm không tồn tại.",
+        "500": "Lỗi máy chủ nội bộ",
+        "500Message": "Đã xảy ra lỗi trên máy chủ.",
+        "back": "Trở về trang chủ"
+    },
+    "validation": {
+        "confirmDeleteCategory": "Xác nhận xóa danh mục này?",
+        "confirmDeleteProduct": "Xác nhận xóa sản phẩm này?",
+        "categoryNameRequired": "Vui lòng nhập tên danh mục",
+        "productTitleRequired": "Vui lòng nhập tên sản phẩm",
+        "productCategoryRequired": "Vui lòng chọn danh mục",
+        "emailRequired": "Vui lòng nhập email",
+        "emailInvalid": "Email không hợp lệ",
+        "passwordRequired": "Vui lòng nhập mật khẩu",
+        "userNotFound": "Email hoặc mật khẩu không hợp lệ.",
+        "connectFailed": "Không thể kết nối với máy chủ."
+    },
+    "dialog": {}
 }

@@ -13,11 +13,17 @@ const routers = createBrowserRouter([
         path: "/",
         element: <HomePage />,
         errorElement: <ErrorPage />,
+        handle: {
+            breadcrumb: "common.home",
+        },
     },
     {
         path: "/login",
         element: <LoginPage />,
         errorElement: <ErrorPage />,
+        handle: {
+            breadcrumb: "auth.login",
+        },
     },
     {
         path: "/dashboard",
@@ -27,6 +33,9 @@ const routers = createBrowserRouter([
             </RequireAdmin>
         ),
         errorElement: <ErrorPage />,
+        handle: {
+            breadcrumb: "nav.dashboard",
+        },
         children: [
             {
                 index: true,
@@ -35,10 +44,16 @@ const routers = createBrowserRouter([
             {
                 path: "categories",
                 element: <CategoryManagementPage />,
+                handle: {
+                    breadcrumb: "nav.category",
+                },
             },
             {
                 path: "products",
                 element: <ProductManagementPage />,
+                handle: {
+                    breadcrumb: "nav.product",
+                },
             },
         ],
     },

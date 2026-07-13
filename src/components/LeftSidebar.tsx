@@ -36,9 +36,7 @@ export default function LeftSidebar() {
                 style={{
                     padding: 24,
                     textAlign: "center",
-
                     borderBottom: token.colorBorderSecondary,
-
                     background: token.colorBgContainer,
                 }}
             >
@@ -50,17 +48,17 @@ export default function LeftSidebar() {
                 >
                     {isAdmin ? (
                         <>
-                            <CrownOutlined /> Admin
+                            <CrownOutlined /> {t("common.Admin")}
                         </>
                     ) : (
                         <>
-                            <UserOutlined /> User
+                            <UserOutlined /> {t("common.User")}
                         </>
                     )}
                 </Title>
 
                 <Tag color={isAdmin ? "gold" : "blue"}>
-                    {isAdmin ? "ADMIN" : "USER"}
+                    {isAdmin ? t("common.Admin") : t("common.User")}
                 </Tag>
             </div>
 
@@ -79,21 +77,21 @@ export default function LeftSidebar() {
                         icon: <DashboardOutlined />,
                         label: (
                             <NavLink to="/dashboard">
-                                {t("common.dashboard")}
+                                {t("nav.dashboard")}
                             </NavLink>
                         ),
                     },
                     {
                         key: "/management",
                         icon: <ControlOutlined />,
-                        label: t("common.management"),
+                        label: t("nav.management"),
                         children: [
                             {
                                 key: "/dashboard/categories",
                                 icon: <AppstoreOutlined />,
                                 label: (
                                     <NavLink to="/dashboard/categories">
-                                        {t("common.category")}
+                                        {t("nav.category")}
                                     </NavLink>
                                 ),
                             },
@@ -102,7 +100,7 @@ export default function LeftSidebar() {
                                 icon: <ShoppingOutlined />,
                                 label: (
                                     <NavLink to="/dashboard/products">
-                                        {t("common.product")}
+                                        {t("nav.product")}
                                     </NavLink>
                                 ),
                             },
@@ -111,7 +109,7 @@ export default function LeftSidebar() {
                                 icon: <TeamOutlined />,
                                 label: (
                                     <NavLink to="/dashboard/users">
-                                        {t("common.users")}
+                                        {t("nav.users")}
                                     </NavLink>
                                 ),
                             },
@@ -121,9 +119,7 @@ export default function LeftSidebar() {
                         key: "/profile",
                         icon: <UserOutlined />,
                         label: (
-                            <NavLink to="/profile">
-                                {t("common.profile")}
-                            </NavLink>
+                            <NavLink to="/profile">{t("nav.profile")}</NavLink>
                         ),
                     },
                     {
@@ -131,7 +127,7 @@ export default function LeftSidebar() {
                         icon: <SettingOutlined />,
                         label: (
                             <NavLink to="/settings">
-                                {t("common.settings")}
+                                {t("nav.settings")}
                             </NavLink>
                         ),
                     },

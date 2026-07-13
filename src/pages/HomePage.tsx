@@ -6,11 +6,13 @@ import {
     AppstoreOutlined,
     BarChartOutlined,
 } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 const { Title, Paragraph, Text } = Typography;
 
 export default function HomePage() {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     return (
         <div
@@ -38,16 +40,16 @@ export default function HomePage() {
                         }}
                     />
 
-                    <Title>Grocery Management System</Title>
-
+                    <Title style={{ color: "#40414d" }}>
+                        {t("home.title")}
+                    </Title>
                     <Paragraph
                         style={{
                             fontSize: 18,
                             color: "#666",
                         }}
                     >
-                        Manage your grocery products, categories, and inventory
-                        easily with a simple and modern dashboard.
+                        {t("home.description")}
                     </Paragraph>
 
                     <Space size="middle">
@@ -57,11 +59,11 @@ export default function HomePage() {
                             icon={<LoginOutlined />}
                             onClick={() => navigate("/login")}
                         >
-                            Login
+                            {t("auth.login")}
                         </Button>
 
                         <Button size="large" onClick={() => navigate("/login")}>
-                            Access Dashboard
+                            {t("home.access")}
                         </Button>
                     </Space>
                 </Col>
@@ -90,11 +92,8 @@ export default function HomePage() {
                             }}
                         />
 
-                        <Title level={4}>Category Management</Title>
-
-                        <Text>
-                            Create and organize grocery categories easily.
-                        </Text>
+                        <Title level={4}>{t("category.categoryManagement")}</Title>
+                        <Text>{t("home.categoryManagementDescription")}</Text>
                     </Card>
                 </Col>
 
@@ -112,9 +111,8 @@ export default function HomePage() {
                             }}
                         />
 
-                        <Title level={4}>Product Management</Title>
-
-                        <Text>Add, update and manage grocery products.</Text>
+                        <Title level={4}>{t("product.productManagement")}</Title>
+                        <Text>{t("home.productManagementDescription")}</Text>
                     </Card>
                 </Col>
 
@@ -132,9 +130,8 @@ export default function HomePage() {
                             }}
                         />
 
-                        <Title level={4}>Dashboard Analytics</Title>
-
-                        <Text>View important information in one place.</Text>
+                        <Title level={4}>{t("home.dashboardTitle")}</Title>
+                        <Text>{t("home.dashboardDescription")}</Text>
                     </Card>
                 </Col>
             </Row>

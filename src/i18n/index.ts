@@ -2,6 +2,7 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import en from "./locales/en.json";
 import vi from "./locales/vi.json";
+import { DEFAULT_LANGUAGE } from "../config/languages";
 
 i18n.use(initReactI18next).init({
     resources: {
@@ -13,9 +14,9 @@ i18n.use(initReactI18next).init({
         },
     },
 
-    lng: localStorage.getItem("language") || "en",
+    lng: localStorage.getItem("language") ?? DEFAULT_LANGUAGE,
 
-    fallbackLng: "en",
+    fallbackLng: DEFAULT_LANGUAGE,
 
     interpolation: {
         escapeValue: false,

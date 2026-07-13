@@ -2,7 +2,6 @@ import type { ProductData, ProductFormData } from "../types/product";
 import type {
     FieldErrors,
     UseFormHandleSubmit,
-    UseFormRegister,
     Control,
 } from "react-hook-form";
 import { Controller } from "react-hook-form";
@@ -18,6 +17,7 @@ import {
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import type { DefaultOptionType } from "antd/es/select";
+import { useTranslation } from "react-i18next";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -25,7 +25,6 @@ const { Text } = Typography;
 type ProductFormModalProps = {
     show: boolean;
     editingProduct: ProductData | null;
-    register: UseFormRegister<ProductFormData>;
     control: Control<ProductFormData>;
     handleSubmit: UseFormHandleSubmit<ProductFormData>;
     errors: FieldErrors<ProductFormData>;
@@ -38,7 +37,6 @@ type ProductFormModalProps = {
 export default function ProductFormModal({
     show,
     editingProduct,
-    register,
     control,
     handleSubmit,
     errors,
@@ -47,10 +45,16 @@ export default function ProductFormModal({
     saving,
     categoryOptions,
 }: ProductFormModalProps) {
+    const { t } = useTranslation();
+
     return (
         <Modal
             open={show}
-            title={editingProduct ? "Edit Product" : "Add New Product"}
+            title={
+                editingProduct
+                    ? t("product.editProduct")
+                    : t("product.addProduct")
+            }
             onCancel={onClose}
             footer={null}
             width={700}
@@ -68,14 +72,21 @@ export default function ProductFormModal({
                     {/* Title */}
                     <div>
                         <label>
-                            Title <Text type="danger">*</Text>
+                            {t("product.title")} <Text type="danger">*</Text>
                         </label>
 
-                        <Input
-                            placeholder="Product title"
-                            {...register("productTitle", {
-                                required: "Product title is required",
-                            })}
+                        <Controller
+                            name="productTitle"
+                            control={control}
+                            rules={{
+                                required: t("validation.productTitleRequired"),
+                            }}
+                            render={({ field }) => (
+                                <Input
+                                    {...field}
+                                    placeholder={t("product.titlePlaceholder")}
+                                />
+                            )}
                         />
 
                         {errors.productTitle && (
@@ -87,7 +98,7 @@ export default function ProductFormModal({
 
                     {/* Thumbnail */}
                     <div>
-                        <label>Thumbnail Image</label>
+                        <label>{t("product.thumbnail")}</label>
 
                         <Controller
                             name="productThumbnail"
@@ -125,7 +136,7 @@ export default function ProductFormModal({
                                     }}
                                 >
                                     <Button icon={<UploadOutlined />}>
-                                        Choose Image
+                                        {t("common.upload")}
                                     </Button>
                                 </Upload>
                             )}
@@ -140,19 +151,18 @@ export default function ProductFormModal({
 
                     {/* Price */}
                     <div>
-                        <label>
-                            Price <Text type="danger">*</Text>
-                        </label>
+                        <label>{t("product.price")}</label>
 
                         <Space.Compact style={{ width: "100%" }}>
                             <Controller
                                 name="productPrice"
                                 control={control}
                                 rules={{
-                                    required: "Price is required",
                                     min: {
                                         value: 0,
-                                        message: "Price cannot be negative",
+                                        message: t(
+                                            "validation.productPriceMin",
+                                        ),
                                     },
                                 }}
                                 render={({ field }) => (
@@ -198,33 +208,45 @@ export default function ProductFormModal({
 
                     {/* Description */}
                     <div>
-                        <label>Description</label>
+                        <label>{t("product.description")}</label>
 
-                        <TextArea
-                            rows={4}
-                            placeholder="Product description"
-                            {...register("productDescription")}
+                        <Controller
+                            name="productDescription"
+                            control={control}
+                            render={({ field }) => (
+                                <TextArea
+                                    {...field}
+                                    rows={4}
+                                    placeholder={t(
+                                        "product.descriptionPlaceholder",
+                                    )}
+                                />
+                            )}
                         />
                     </div>
 
                     {/* Category */}
                     <div>
                         <label>
-                            Category<Text type="danger">*</Text>
+                            {t("product.category")} <Text type="danger">*</Text>
                         </label>
 
                         <Controller
-                            name="productCategoryType"
+                            name="productCategoryId"
                             control={control}
                             rules={{
-                                required: "Category is required",
+                                required: t(
+                                    "validation.productCategoryRequired",
+                                ),
                             }}
                             render={({ field }) => (
                                 <Select
                                     {...field}
                                     showSearch
                                     optionFilterProp="label"
-                                    placeholder="Select a category"
+                                    placeholder={t(
+                                        "product.categoryPlaceholder",
+                                    )}
                                     options={categoryOptions}
                                     style={{
                                         width: "100%",
@@ -233,9 +255,9 @@ export default function ProductFormModal({
                             )}
                         />
 
-                        {errors.productCategoryType && (
+                        {errors.productCategoryId && (
                             <Text type="danger">
-                                {errors.productCategoryType.message}
+                                {errors.productCategoryId.message}
                             </Text>
                         )}
                     </div>
@@ -249,22 +271,24 @@ export default function ProductFormModal({
                     >
                         <Button
                             type="primary"
-                            color="red"
-                            variant="solid"
-                            onClick={onClose}
-                            disabled={saving}
-                        >
-                            Cancel
-                        </Button>
-
-                        <Button
-                            type="primary"
                             color="green"
                             variant="solid"
                             htmlType="submit"
                             loading={saving}
                         >
-                            {editingProduct ? "Update" : "Save"}
+                            {editingProduct
+                                ? t("common.update")
+                                : t("common.save")}
+                        </Button>
+
+                        <Button
+                            type="primary"
+                            color="red"
+                            variant="solid"
+                            onClick={onClose}
+                            disabled={saving}
+                        >
+                            {t("common.cancel")}
                         </Button>
                     </Space>
                 </Space>

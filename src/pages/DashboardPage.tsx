@@ -18,7 +18,6 @@ import { getAllCategories } from "../services/categoryService";
 import { getAllProducts } from "../services/productService";
 import { useTranslation } from "react-i18next";
 
-
 const { Title } = Typography;
 
 export default function DashboardPage() {
@@ -27,7 +26,6 @@ export default function DashboardPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const { t } = useTranslation();
-
 
     useEffect(() => {
         async function loadDashboardData() {
@@ -73,11 +71,11 @@ export default function DashboardPage() {
             dataIndex: "id",
         },
         {
-            title: "Category",
+            title: t("category.name"),
             dataIndex: "categoryName",
         },
         {
-            title: "Description",
+            title: t("category.description"),
             dataIndex: "description",
         },
     ];
@@ -88,11 +86,11 @@ export default function DashboardPage() {
             dataIndex: "id",
         },
         {
-            title: "Title",
+            title: t("product.title"),
             dataIndex: "title",
         },
         {
-            title: "Thumbnail",
+            title: t("product.thumbnail"),
             dataIndex: "thumbnail",
             render: (thumbnail: string | null) =>
                 thumbnail ? (
@@ -102,35 +100,29 @@ export default function DashboardPage() {
                         height={60}
                         style={{ objectFit: "cover" }}
                     />
-                ) : (
-                    "No Image"
-                ),
+                ) : null,
         },
         {
-            title: "Price",
+            title: t("product.price"),
             dataIndex: "price",
         },
         {
-            title: "Category",
-            dataIndex: "categoryType",
-            render: (type: string) =>
-                categories.find(
-                    (c) =>
-                        c.categoryName.toLocaleLowerCase() ===
-                        type.toLocaleLowerCase(),
-                )?.categoryName ?? "N/A",
+            title: t("product.category"),
+            dataIndex: "categoryId",
+            render: (id: number) =>
+                categories.find((c) => c.id === id)?.id ?? "N/A",
         },
     ];
 
     return (
         <>
-            <Title level={2}>Dashboard</Title>
+            <Title level={2}>{t("dashboard.title")}</Title>
 
             <Row gutter={16} style={{ marginBottom: 24 }}>
                 <Col span={12}>
                     <Card>
                         <Statistic
-                            title="Total Categories"
+                            title={t("dashboard.totalCategories")}
                             value={categories.length}
                             prefix={<AppstoreOutlined />}
                         />
@@ -140,7 +132,7 @@ export default function DashboardPage() {
                 <Col span={12}>
                     <Card>
                         <Statistic
-                            title="Total Products"
+                            title={t("dashboard.totalProducts")}
                             value={products.length}
                             prefix={<ShoppingOutlined />}
                         />
@@ -148,7 +140,7 @@ export default function DashboardPage() {
                 </Col>
             </Row>
 
-            <Card title="Categories" style={{ marginBottom: 24 }}>
+            <Card title={t("nav.category")} style={{ marginBottom: 24 }}>
                 <Table
                     rowKey="id"
                     columns={categoryColumns}
@@ -157,7 +149,7 @@ export default function DashboardPage() {
                 />
             </Card>
 
-            <Card title="Products">
+            <Card title={t("nav.product")}>
                 <Table
                     rowKey="id"
                     columns={productColumns}

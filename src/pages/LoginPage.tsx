@@ -4,6 +4,7 @@ import { Form, Input, Button, Card, Alert, Typography } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { useAuth } from "../hooks/useAuth";
 import { login } from "../services/userService";
+import { useTranslation } from "react-i18next";
 
 const { Title } = Typography;
 
@@ -14,13 +15,10 @@ type LoginFormData = {
 
 export default function LoginPage() {
     const navigate = useNavigate();
-
     const { dispatch } = useAuth();
-
     const [loading, setLoading] = useState(false);
-
     const [error, setError] = useState("");
-
+    const { t } = useTranslation();
     const handleLogin = async (values: LoginFormData) => {
         setLoading(true);
         setError("");
@@ -29,8 +27,7 @@ export default function LoginPage() {
             const user = await login(values.email.trim(), values.password);
 
             if (!user) {
-                setError("Invalid email or password.");
-
+                setError(t("validation.userNotFound"));
                 return;
             }
 
@@ -42,11 +39,10 @@ export default function LoginPage() {
             navigate("/dashboard");
         } catch (err) {
             console.error(err);
-
             setError(
                 err instanceof Error
                     ? err.message
-                    : "Unable to connect to the server.",
+                    : t("validation.connectedFailed"),
             );
         } finally {
             setLoading(false);
@@ -76,7 +72,7 @@ export default function LoginPage() {
                         marginBottom: 30,
                     }}
                 >
-                    Account Login
+                    {t("login.title")}
                 </Title>
 
                 {error && (
@@ -92,39 +88,39 @@ export default function LoginPage() {
 
                 <Form layout="vertical" onFinish={handleLogin}>
                     <Form.Item
-                        label="Email"
+                        label={t("login.email")}
                         name="email"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input your email",
+                                message: t("validation.emailRequired"),
                             },
                             {
                                 type: "email",
-                                message: "Invalid email format",
+                                message: t("validation.emailInvalid"),
                             },
                         ]}
                     >
                         <Input
                             prefix={<MailOutlined />}
-                            placeholder="Email"
+                            placeholder={t("login.emailPlaceholder")}
                             disabled={loading}
                         />
                     </Form.Item>
 
                     <Form.Item
-                        label="Password"
+                        label={t("login.password")}
                         name="password"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input your password",
+                                message: t("validation.passwordRequired"),
                             },
                         ]}
                     >
                         <Input.Password
                             prefix={<LockOutlined />}
-                            placeholder="Password"
+                            placeholder={t("login.passwordPlaceholder")}
                             disabled={loading}
                         />
                     </Form.Item>
@@ -136,7 +132,7 @@ export default function LoginPage() {
                             loading={loading}
                             block
                         >
-                            {loading ? "Logging in..." : "Login"}
+                            {loading ? t("login.loggingIn") : t("auth.login")}
                         </Button>
                     </Form.Item>
                 </Form>

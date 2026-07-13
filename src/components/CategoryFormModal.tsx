@@ -2,9 +2,11 @@ import type { CategoryData, CategoryFormData } from "../types/category";
 import type {
     FieldErrors,
     UseFormHandleSubmit,
-    UseFormRegister,
+    Control,
 } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { Modal, Input, Button, Typography, Space } from "antd";
+import { useTranslation } from "react-i18next";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -12,7 +14,7 @@ const { Text } = Typography;
 type CategoryFormModalProps = {
     show: boolean;
     editingCategory: CategoryData | null;
-    register: UseFormRegister<CategoryFormData>;
+    control: Control<CategoryFormData>;
     handleSubmit: UseFormHandleSubmit<CategoryFormData>;
     errors: FieldErrors<CategoryFormData>;
     onSubmit: (data: CategoryFormData) => Promise<void>;
@@ -23,17 +25,23 @@ type CategoryFormModalProps = {
 export default function CategoryFormModal({
     show,
     editingCategory,
-    register,
+    control,
     handleSubmit,
     errors,
     onSubmit,
     onClose,
     saving,
 }: CategoryFormModalProps) {
+    const { t } = useTranslation();
+
     return (
         <Modal
             open={show}
-            title={editingCategory ? "Edit Category" : "Add New Category"}
+            title={
+                editingCategory
+                    ? t("category.editCategory")
+                    : t("category.addCategory")
+            }
             onCancel={onClose}
             footer={null}
             width={700}
@@ -51,14 +59,21 @@ export default function CategoryFormModal({
                     {/* Title */}
                     <div>
                         <label>
-                            Title <Text type="danger">*</Text>
+                            {t("category.name")} <Text type="danger">*</Text>
                         </label>
 
-                        <Input
-                            placeholder="Category name"
-                            {...register("categoryName", {
-                                required: "Category name is required",
-                            })}
+                        <Controller
+                            name="categoryName"
+                            control={control}
+                            rules={{
+                                required: t("validation.categoryNameRequired"),
+                            }}
+                            render={({ field }) => (
+                                <Input
+                                    {...field}
+                                    placeholder={t("category.namePlaceholder")}
+                                />
+                            )}
                         />
 
                         {errors.categoryName && (
@@ -70,12 +85,20 @@ export default function CategoryFormModal({
 
                     {/* Description */}
                     <div>
-                        <label>Description</label>
+                        <label>{t("category.description")}</label>
 
-                        <TextArea
-                            rows={4}
-                            placeholder="Category description"
-                            {...register("categoryDescription")}
+                        <Controller
+                            name="categoryDescription"
+                            control={control}
+                            render={({ field }) => (
+                                <TextArea
+                                    {...field}
+                                    rows={4}
+                                    placeholder={t(
+                                        "category.descriptionPlaceholder",
+                                    )}
+                                />
+                            )}
                         />
                     </div>
 
@@ -86,16 +109,26 @@ export default function CategoryFormModal({
                             justifyContent: "flex-end",
                         }}
                     >
-                        <Button onClick={onClose} disabled={saving}>
-                            Cancel
+                        <Button
+                            type="primary"
+                            color="green"
+                            variant="solid"
+                            htmlType="submit"
+                            loading={saving}
+                        >
+                            {editingCategory
+                                ? t("common.update")
+                                : t("common.save")}
                         </Button>
 
                         <Button
                             type="primary"
-                            htmlType="submit"
-                            loading={saving}
+                            color="red"
+                            variant="solid"
+                            onClick={onClose}
+                            disabled={saving}
                         >
-                            {editingCategory ? "Update" : "Save"}
+                            {t("common.cancel")}
                         </Button>
                     </Space>
                 </Space>

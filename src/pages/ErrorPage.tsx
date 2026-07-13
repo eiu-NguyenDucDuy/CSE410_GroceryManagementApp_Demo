@@ -5,29 +5,26 @@ import {
 } from "react-router-dom";
 import { Result, Button } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 export default function ErrorPage() {
     const error = useRouteError();
-
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     let status = "500";
-
-    let title = "Something went wrong";
-
-    let message = "An unexpected error has occurred.";
+    let title = t("errors.500");
+    let message = t("errors.500Message");
 
     if (isRouteErrorResponse(error)) {
         status = String(error.status);
 
         if (error.status === 404) {
-            title = "Page Not Found";
-
-            message = "Sorry, the page you are looking for does not exist.";
+            title = t("errors.404");
+            message = t("errors.404Message");
         } else {
-            title = error.statusText || "Request Error";
-
-            message = "There was a problem processing your request.";
+            title = error.statusText || t("errors.400");
+            message = t("errors.400Message");
         }
     }
 
@@ -47,7 +44,6 @@ export default function ErrorPage() {
                 subTitle={
                     <>
                         <h3>{title}</h3>
-
                         <p>{message}</p>
                     </>
                 }
@@ -57,7 +53,7 @@ export default function ErrorPage() {
                         icon={<HomeOutlined />}
                         onClick={() => navigate("/")}
                     >
-                        Back Home
+                        {t("errors.back")}
                     </Button>
                 }
             />
