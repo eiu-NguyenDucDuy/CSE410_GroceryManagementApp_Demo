@@ -6,6 +6,7 @@ export type User = {
     email: string;
     password: string;
     role: "admin" | "user";
+    avatar?: string;
 };
 
 export type AuthState = {

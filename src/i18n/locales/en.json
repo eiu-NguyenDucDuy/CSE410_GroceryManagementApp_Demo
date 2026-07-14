@@ -69,8 +69,36 @@
         "addCategory": "Add Category",
         "editCategory": "Edit Category"
     },
-    "user": {},
-    "profile": {},
+    "user": {
+        "userManagement": "User Management",
+        "username": "Username",
+        "usernamePlaceholder": "Enter username",
+        "email": "Email",
+        "emailPlaceholder": "Enter email",
+        "password": "Password",
+        "passwordPlaceholder": "Enter password",
+        "role": "Role",
+        "rolePlaceholder": "Select role",
+        "addUser": "Add User",
+        "editUser": "Edit User",
+        "totalUsers": "Total Users",
+        "adminUsers": "Admins",
+        "standardUsers": "Standard Users"
+    },
+    "profile": {
+        "title": "Profile",
+        "username": "Username",
+        "usernamePlaceholder": "Enter username",
+        "email": "Email",
+        "emailPlaceholder": "Enter email",
+        "avatar": "Avatar",
+        "newPassword": "New Password",
+        "newPasswordPlaceholder": "Enter new password",
+        "confirmPassword": "Confirm Password",
+        "confirmPasswordPlaceholder": "Confirm new password",
+        "save": "Save Changes",
+        "updatedSuccessfully": "Profile updated successfully"
+    },
     "settings": {},
     "auth": {
         "login": "Login",
@@ -93,9 +121,14 @@
         "productCategoryRequired": "Please select category",
         "emailRequired": "Please enter email",
         "emailInvalid": "Invalid email",
+        "emailExists": "This email is already in use.",
         "passwordRequired": "Please enter password",
         "userNotFound": "Email or password is incorrect.",
-        "connectFailed": "Unable to connect to the server."
+        "connectFailed": "Unable to connect to the server.",
+        "confirmDeleteUser": "Confirm delete this user?",
+        "cannotDeleteSelf": "You cannot delete your own account.",
+        "usernameRequired": "Please enter username",
+        "roleRequired": "Please select a role"
     },
     "dialog": {}
 }

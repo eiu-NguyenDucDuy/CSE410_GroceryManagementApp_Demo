@@ -1,18 +1,19 @@
 import {
+    Dropdown,
     Layout,
-    Button,
     Avatar,
     Typography,
     Space,
     Switch,
-    Tooltip,
     theme,
+    type MenuProps,
 } from "antd";
 import {
     UserOutlined,
     LogoutOutlined,
     MoonFilled,
     SunFilled,
+    ProfileOutlined,
 } from "@ant-design/icons";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
@@ -39,6 +40,31 @@ export default function MainLayout() {
 
         navigate("/login");
     }
+
+    const menuItems: MenuProps["items"] = [
+        {
+            key: "profile",
+            icon: <ProfileOutlined style={{ color: "#0000bb" }} />,
+            label: t("nav.profile"),
+        },
+        {
+            type: "divider",
+        },
+        {
+            key: "logout",
+            icon: <LogoutOutlined style={{ color: "#dc143c" }} />,
+            label: t("auth.logout"),
+        },
+    ];
+
+    const handleMenuClick = ({ key }: { key: string }) => {
+        if (key === "profile") {
+            navigate("/dashboard/profile");
+        }
+        if (key === "logout") {
+            handleLogout();
+        }
+    };
 
     return (
         <Layout
@@ -83,7 +109,20 @@ export default function MainLayout() {
 
                         <LanguageSwitcher darkMode={darkMode} />
 
-                        <Avatar icon={<UserOutlined />} />
+                        <Dropdown
+                            menu={{
+                                items: menuItems,
+                                onClick: handleMenuClick,
+                            }}
+                            placement="bottomRight"
+                            trigger={["click"]}
+                        >
+                            <Avatar
+                                src={state.user?.avatar}
+                                icon={<UserOutlined />}
+                                style={{ cursor: "pointer" }}
+                            />
+                        </Dropdown>
 
                         <Text
                             style={{
@@ -92,15 +131,6 @@ export default function MainLayout() {
                         >
                             {t("common.welcome")} <b>{state.user?.username}</b>
                         </Text>
-
-                        <Tooltip title={t("auth.logout")}>
-                            <Button
-                                danger
-                                shape="circle"
-                                icon={<LogoutOutlined />}
-                                onClick={handleLogout}
-                            />
-                        </Tooltip>
                     </Space>
                 </Header>
 

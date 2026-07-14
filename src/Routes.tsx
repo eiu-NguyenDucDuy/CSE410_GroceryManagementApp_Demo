@@ -6,6 +6,8 @@ import RequireAdmin from "./components/RequireAuth";
 import DashboardPage from "./pages/DashboardPage";
 import CategoryManagementPage from "./pages/CategoryManagementPage";
 import ProductManagementPage from "./pages/ProductManagementPage";
+import UserManagementPage from "./pages/UserManagementPage";
+import ProfilePage from "./pages/ProfilePage";
 import ErrorPage from "./pages/ErrorPage";
 
 const routers = createBrowserRouter([
@@ -53,6 +55,20 @@ const routers = createBrowserRouter([
                 element: <ProductManagementPage />,
                 handle: {
                     breadcrumb: "nav.product",
+                },
+            },
+            {
+                path: "users",
+                element: <UserManagementPage />,
+                handle: {
+                    breadcrumb: "nav.users",
+                },
+            },
+            {
+                path: "profile",
+                element: <ProfilePage />,
+                handle: {
+                    breadcrumb: "nav.profile",
                 },
             },
         ],

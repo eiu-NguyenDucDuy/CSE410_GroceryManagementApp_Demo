@@ -69,8 +69,36 @@
         "addCategory": "Thêm danh mục",
         "editCategory": "Sửa danh mục"
     },
-    "user": {},
-    "profile": {},
+    "user": {
+        "userManagement": "Quản lý Người dùng",
+        "username": "Tên người dùng",
+        "usernamePlaceholder": "Nhập tên người dùng",
+        "email": "Email",
+        "emailPlaceholder": "Nhập email",
+        "password": "Mật khẩu",
+        "passwordPlaceholder": "Nhập mật khẩu",
+        "role": "Vai trò",
+        "rolePlaceholder": "Chọn vai trò",
+        "addUser": "Thêm người dùng",
+        "editUser": "Sửa người dùng",
+        "totalUsers": "Tổng số người dùng",
+        "adminUsers": "Quản trị viên",
+        "standardUsers": "Người dùng thường"
+    },
+    "profile": {
+        "title": "Hồ sơ",
+        "username": "Tên người dùng",
+        "usernamePlaceholder": "Nhập tên người dùng",
+        "email": "Email",
+        "emailPlaceholder": "Nhập email",
+        "avatar": "Ảnh đại diện",
+        "newPassword": "Mật khẩu mới",
+        "newPasswordPlaceholder": "Nhập mật khẩu mới",
+        "confirmPassword": "Xác nhận mật khẩu",
+        "confirmPasswordPlaceholder": "Xác nhận mật khẩu mới",
+        "save": "Lưu thay đổi",
+        "updatedSuccessfully": "Cập nhật hồ sơ thành công"
+    },
     "settings": {},
     "auth": {
         "login": "Đăng nhập",
@@ -93,9 +121,14 @@
         "productCategoryRequired": "Vui lòng chọn danh mục",
         "emailRequired": "Vui lòng nhập email",
         "emailInvalid": "Email không hợp lệ",
+        "emailExists": "Email này đã được sử dụng.",
         "passwordRequired": "Vui lòng nhập mật khẩu",
         "userNotFound": "Email hoặc mật khẩu không hợp lệ.",
-        "connectFailed": "Không thể kết nối với máy chủ."
+        "connectFailed": "Không thể kết nối với máy chủ.",
+        "confirmDeleteUser": "Xác nhận xóa người dùng này?",
+        "cannotDeleteSelf": "Bạn không thể xóa tài khoản của chính mình.",
+        "usernameRequired": "Vui lòng nhập tên người dùng",
+        "roleRequired": "Vui lòng chọn vai trò"
     },
     "dialog": {}
 }

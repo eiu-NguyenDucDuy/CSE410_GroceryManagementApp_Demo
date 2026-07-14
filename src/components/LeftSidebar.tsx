@@ -9,6 +9,7 @@ import {
     SettingOutlined,
     ControlOutlined,
     TeamOutlined,
+    ProfileOutlined,
 } from "@ant-design/icons";
 import { useAuth } from "../hooks/useAuth";
 import useTheme from "../hooks/useTheme";
@@ -25,7 +26,11 @@ export default function LeftSidebar() {
         ? "/dashboard/categories"
         : location.pathname.startsWith("/dashboard/products")
           ? "/dashboard/products"
-          : "/dashboard";
+          : location.pathname.startsWith("/dashboard/users")
+            ? "/dashboard/users"
+            : location.pathname.startsWith("/dashboard/profile")
+              ? "/dashboard/profile"
+              : "/dashboard";
     const { token } = theme.useToken();
     const { t } = useTranslation();
 
@@ -74,7 +79,9 @@ export default function LeftSidebar() {
                 items={[
                     {
                         key: "/dashboard",
-                        icon: <DashboardOutlined />,
+                        icon: (
+                            <DashboardOutlined style={{ color: "#dc143c" }} />
+                        ),
                         label: (
                             <NavLink to="/dashboard">
                                 {t("nav.dashboard")}
@@ -83,12 +90,16 @@ export default function LeftSidebar() {
                     },
                     {
                         key: "/management",
-                        icon: <ControlOutlined />,
+                        icon: <ControlOutlined style={{ color: "#ff6600" }} />,
                         label: t("nav.management"),
                         children: [
                             {
                                 key: "/dashboard/categories",
-                                icon: <AppstoreOutlined />,
+                                icon: (
+                                    <AppstoreOutlined
+                                        style={{ color: "#ffff00" }}
+                                    />
+                                ),
                                 label: (
                                     <NavLink to="/dashboard/categories">
                                         {t("nav.category")}
@@ -97,7 +108,11 @@ export default function LeftSidebar() {
                             },
                             {
                                 key: "/dashboard/products",
-                                icon: <ShoppingOutlined />,
+                                icon: (
+                                    <ShoppingOutlined
+                                        style={{ color: "#77aa00" }}
+                                    />
+                                ),
                                 label: (
                                     <NavLink to="/dashboard/products">
                                         {t("nav.product")}
@@ -106,7 +121,9 @@ export default function LeftSidebar() {
                             },
                             {
                                 key: "/dashboard/users",
-                                icon: <TeamOutlined />,
+                                icon: (
+                                    <TeamOutlined style={{ color: "#69f" }} />
+                                ),
                                 label: (
                                     <NavLink to="/dashboard/users">
                                         {t("nav.users")}
@@ -116,10 +133,12 @@ export default function LeftSidebar() {
                         ],
                     },
                     {
-                        key: "/profile",
-                        icon: <UserOutlined />,
+                        key: "/dashboard/profile",
+                        icon: <ProfileOutlined style={{ color: "#0000bb" }} />,
                         label: (
-                            <NavLink to="/profile">{t("nav.profile")}</NavLink>
+                            <NavLink to="/dashboard/profile">
+                                {t("nav.profile")}
+                            </NavLink>
                         ),
                     },
                     {

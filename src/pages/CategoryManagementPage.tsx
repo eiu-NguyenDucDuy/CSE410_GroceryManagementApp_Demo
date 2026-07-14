@@ -296,9 +296,8 @@ export default function CategoryManagementPage() {
                 scroll={{ x: 1100 }}
                 pagination={{
                     pageSize: itemsPerPage,
-                    showSizeChanger: true,
-                    pageSizeOptions: ["5", "10", "20", "50"],
                     showQuickJumper: true,
+                    showSizeChanger: false,
                 }}
             />
 
