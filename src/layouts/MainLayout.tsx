@@ -22,6 +22,7 @@ import LeftSidebar from "../components/LeftSidebar";
 import AppBreadcrumb from "../components/Breadcrumb";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
+import { colors } from "../config/colors";
 
 const { Header, Content, Sider } = Layout;
 const { Text } = Typography;
@@ -44,7 +45,7 @@ export default function MainLayout() {
     const menuItems: MenuProps["items"] = [
         {
             key: "profile",
-            icon: <ProfileOutlined style={{ color: "#0000bb" }} />,
+            icon: <ProfileOutlined style={{ color: colors.profile }} />,
             label: t("nav.profile"),
         },
         {
@@ -52,7 +53,7 @@ export default function MainLayout() {
         },
         {
             key: "logout",
-            icon: <LogoutOutlined style={{ color: "#dc143c" }} />,
+            icon: <LogoutOutlined style={{ color: colors.secondary }} />,
             label: t("auth.logout"),
         },
     ];
@@ -85,10 +86,8 @@ export default function MainLayout() {
                         justifyContent: "space-between",
                         alignItems: "center",
                         background: token.colorBgContainer,
-                        borderBottom: darkMode
-                            ? "1px solid #303030"
-                            : "1px solid #eee",
                         padding: "0 24px",
+                        borderLeft: `4px solid ${token.colorText}`,
                     }}
                 >
                     {/* Breadcrumb */}
@@ -100,10 +99,12 @@ export default function MainLayout() {
                             checked={darkMode}
                             onChange={toggleTheme}
                             checkedChildren={
-                                <MoonFilled style={{ color: "#fff" }} />
+                                <MoonFilled
+                                    style={{ color: token.colorText }}
+                                />
                             }
                             unCheckedChildren={
-                                <SunFilled style={{ color: "#f4a470" }} />
+                                <SunFilled style={{ color: token.colorText }} />
                             }
                         />
 
@@ -129,7 +130,7 @@ export default function MainLayout() {
                                 color: token.colorText,
                             }}
                         >
-                            {t("common.welcome")} <b>{state.user?.username}</b>
+                            <b>{state.user?.username}</b>
                         </Text>
                     </Space>
                 </Header>

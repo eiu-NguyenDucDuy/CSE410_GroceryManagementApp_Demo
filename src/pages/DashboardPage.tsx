@@ -17,6 +17,7 @@ import { type ProductData } from "../types/product";
 import { getAllCategories } from "../services/categoryService";
 import { getAllProducts } from "../services/productService";
 import { useTranslation } from "react-i18next";
+import { colors } from "../config/colors";
 
 const { Title } = Typography;
 
@@ -116,31 +117,45 @@ export default function DashboardPage() {
 
     return (
         <>
-            <Title level={2}>{t("dashboard.title")}</Title>
+            <Title level={2} style={{ color: colors.dashboard }}>
+                {t("dashboard.title")}
+            </Title>
 
             <Row gutter={16} style={{ marginBottom: 24 }}>
                 <Col span={12}>
-                    <Card>
+                    <Card style={{ borderColor: colors.dashboard }}>
                         <Statistic
                             title={t("dashboard.totalCategories")}
                             value={categories.length}
-                            prefix={<AppstoreOutlined />}
+                            prefix={
+                                <AppstoreOutlined
+                                    style={{ color: colors.category }}
+                                />
+                            }
                         />
                     </Card>
                 </Col>
 
                 <Col span={12}>
-                    <Card>
+                    <Card style={{ borderColor: colors.dashboard }}>
                         <Statistic
                             title={t("dashboard.totalProducts")}
                             value={products.length}
-                            prefix={<ShoppingOutlined />}
+                            prefix={
+                                <ShoppingOutlined
+                                    style={{ color: colors.product }}
+                                />
+                            }
                         />
                     </Card>
                 </Col>
             </Row>
 
-            <Card title={t("nav.category")} style={{ marginBottom: 24 }}>
+            <Card
+                title={t("nav.category")}
+                style={{ marginBottom: 24, borderColor: colors.category }}
+                styles={{ header: { color: colors.category } }}
+            >
                 <Table
                     rowKey="id"
                     columns={categoryColumns}
@@ -149,7 +164,11 @@ export default function DashboardPage() {
                 />
             </Card>
 
-            <Card title={t("nav.product")}>
+            <Card
+                title={t("nav.product")}
+                style={{ borderColor: colors.product }}
+                styles={{ header: { color: colors.product } }}
+            >
                 <Table
                     rowKey="id"
                     columns={productColumns}
