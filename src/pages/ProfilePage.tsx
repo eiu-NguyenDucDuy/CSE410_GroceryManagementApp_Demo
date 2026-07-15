@@ -17,6 +17,7 @@ import {
 } from "antd";
 import { UploadOutlined, UserOutlined } from "@ant-design/icons";
 import type { UploadFile, UploadProps } from "antd/es/upload";
+import { colors } from "../config/colors";
 
 const { Text } = Typography;
 
@@ -135,7 +136,10 @@ export default function ProfilePage() {
     };
 
     return (
-        <Card title={t("profile.title")}>
+        <Card
+            title={t("profile.title")}
+            styles={{ header: { color: colors.profile } }}
+        >
             {error ? (
                 <Alert
                     message={error}

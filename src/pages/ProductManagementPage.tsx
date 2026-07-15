@@ -15,6 +15,7 @@ import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import type { CategoryData } from "../types/category";
 import { getAllCategories } from "../services/categoryService";
+import { colors } from "../config/colors";
 
 const { Search } = Input;
 
@@ -324,7 +325,9 @@ export default function ProductManagementPage() {
 
     return (
         <>
-            <h2>{t("product.productManagement")}</h2>
+            <h2 style={{ color: colors.product }}>
+                {t("product.productManagement")}
+            </h2>
 
             {error && (
                 <Alert
