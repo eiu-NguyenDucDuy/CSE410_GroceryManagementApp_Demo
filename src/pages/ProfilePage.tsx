@@ -11,10 +11,14 @@ import {
     Form,
     Input,
     Row,
+    Space,
+    Typography,
     Upload,
 } from "antd";
 import { UploadOutlined, UserOutlined } from "@ant-design/icons";
 import type { UploadFile, UploadProps } from "antd/es/upload";
+
+const { Text } = Typography;
 
 export default function ProfilePage() {
     const { t } = useTranslation();
@@ -259,6 +263,10 @@ export default function ProfilePage() {
                         {t("profile.save")}
                     </Button>
                 </Form.Item>
+
+                <Space size="small">
+                    <Text type="secondary">{t("profile.updateWarning")}</Text>
+                </Space>
             </Form>
         </Card>
     );
