@@ -87,6 +87,7 @@
     },
     "profile": {
         "title": "Profile",
+        "updateWarning": "Remember to re-login after updating your profile.",
         "username": "Username",
         "usernamePlaceholder": "Enter username",
         "email": "Email",
@@ -99,7 +100,26 @@
         "save": "Save Changes",
         "updatedSuccessfully": "Profile updated successfully"
     },
-    "settings": {},
+    "settings": {
+        "title": "Settings",
+        "description": "Customize your experience and manage your preferences.",
+        "preferences": "Preferences",
+        "theme": "Theme",
+        "themeDescription": "Switch between light and dark mode.",
+        "darkMode": "Dark mode",
+        "lightMode": "Light mode",
+        "language": "Language",
+        "notifications": "Notifications",
+        "notificationsDescription": "Receive updates about system activity.",
+        "autoSave": "Auto save",
+        "autoSaveDescription": "Automatically save changes in the dashboard.",
+        "accountSummary": "Account summary",
+        "username": "Username",
+        "email": "Email",
+        "security": "Security",
+        "secureAccount": "Your account is protected with secure access.",
+        "saved": "Settings saved successfully."
+    },
     "auth": {
         "login": "Login",
         "logout": "Logout"

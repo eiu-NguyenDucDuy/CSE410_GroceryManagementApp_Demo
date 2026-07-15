@@ -87,6 +87,7 @@
     },
     "profile": {
         "title": "Hồ sơ",
+        "updateWarning": "Nhớ đăng nhập lại sau khi cập nhật hồ sơ.",
         "username": "Tên người dùng",
         "usernamePlaceholder": "Nhập tên người dùng",
         "email": "Email",
@@ -99,7 +100,26 @@
         "save": "Lưu thay đổi",
         "updatedSuccessfully": "Cập nhật hồ sơ thành công"
     },
-    "settings": {},
+    "settings": {
+        "title": "Cài đặt",
+        "description": "Tùy chỉnh trải nghiệm và quản lý các tùy chọn của bạn.",
+        "preferences": "Tùy chọn",
+        "theme": "Giao diện",
+        "themeDescription": "Chuyển đổi giữa chế độ sáng và tối.",
+        "darkMode": "Chế độ tối",
+        "lightMode": "Chế độ sáng",
+        "language": "Ngôn ngữ",
+        "notifications": "Thông báo",
+        "notificationsDescription": "Nhận cập nhật về hoạt động của hệ thống.",
+        "autoSave": "Tự động lưu",
+        "autoSaveDescription": "Tự động lưu các thay đổi trong bảng điều khiển.",
+        "accountSummary": "Tóm tắt tài khoản",
+        "username": "Tên người dùng",
+        "email": "Email",
+        "security": "Bảo mật",
+        "secureAccount": "Tài khoản của bạn được bảo vệ bằng truy cập an toàn.",
+        "saved": "Đã lưu cài đặt thành công."
+    },
     "auth": {
         "login": "Đăng nhập",
         "logout": "Đăng xuất"

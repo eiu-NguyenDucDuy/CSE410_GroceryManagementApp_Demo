@@ -30,7 +30,9 @@ export default function LeftSidebar() {
             ? "/dashboard/users"
             : location.pathname.startsWith("/dashboard/profile")
               ? "/dashboard/profile"
-              : "/dashboard";
+              : location.pathname.startsWith("/dashboard/settings")
+                ? "/dashboard/settings"
+                : "/dashboard";
     const { token } = theme.useToken();
     const { t } = useTranslation();
 
@@ -142,10 +144,10 @@ export default function LeftSidebar() {
                         ),
                     },
                     {
-                        key: "/settings",
+                        key: "/dashboard/settings",
                         icon: <SettingOutlined />,
                         label: (
-                            <NavLink to="/settings">
+                            <NavLink to="/dashboard/settings">
                                 {t("nav.settings")}
                             </NavLink>
                         ),
