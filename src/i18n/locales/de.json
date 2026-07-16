@@ -40,7 +40,8 @@
         "category": "Kategorie",
         "users": "Benutzer",
         "profile": "Profil",
-        "settings": "Einstellungen"
+        "settings": "Einstellungen",
+        "history": "Verlauf"
     },
     "dashboard": {
         "title": "Dashboard",
@@ -99,6 +100,25 @@
         "confirmPasswordPlaceholder": "Neues Passwort bestätigen",
         "save": "Änderungen speichern",
         "updatedSuccessfully": "Profil erfolgreich aktualisiert"
+    },
+    "history": {
+        "title": "Verlauf",
+        "description": "Aktuelle System- und Benutzeraktivitätsprotokolle einsehen.",
+        "system": "System",
+        "date": "Datum",
+        "time": "Uhrzeit",
+        "user": "Benutzer",
+        "contentType": "Inhaltstyp",
+        "object": "Objekt",
+        "changeAction": "Aktion ändern",
+        "searchAll": "Alle Felder",
+        "selectAll": "Alle auswählen",
+        "clearSelection": "Auswahl aufheben",
+        "mark": "Markierung",
+        "unmark": "Markierung entfernen",
+        "read": "Gelesen",
+        "unread": "Ungelesen",
+        "viewAll": "Alle anzeigen"
     },
     "settings": {
         "title": "Einstellungen",

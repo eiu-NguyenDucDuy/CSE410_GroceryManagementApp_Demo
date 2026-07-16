@@ -21,6 +21,7 @@ import useTheme from "../hooks/useTheme";
 import LeftSidebar from "../components/LeftSidebar";
 import AppBreadcrumb from "../components/Breadcrumb";
 import LanguageSwitcher from "../components/LanguageSwitcher";
+import NotificationBell from "../components/NotificationBell";
 import { useTranslation } from "react-i18next";
 import { colors } from "../config/colors";
 
@@ -109,6 +110,8 @@ export default function MainLayout() {
                         />
 
                         <LanguageSwitcher darkMode={darkMode} />
+
+                        <NotificationBell />
 
                         <Dropdown
                             menu={{

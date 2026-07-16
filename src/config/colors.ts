@@ -12,5 +12,5 @@ export const colors = {
     product: "#77aa00",
     users: "#69f",
     profile: "#0000bb",
-    unknown: "#740074",
+    history: "#aa00aa",
 };

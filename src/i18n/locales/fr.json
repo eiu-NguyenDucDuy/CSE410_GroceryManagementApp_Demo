@@ -40,7 +40,8 @@
         "category": "Catégorie",
         "users": "Utilisateurs",
         "profile": "Profil",
-        "settings": "Paramètres"
+        "settings": "Paramètres",
+        "history": "Historique"
     },
     "dashboard": {
         "title": "Tableau de bord",
@@ -99,6 +100,25 @@
         "confirmPasswordPlaceholder": "Confirmer le nouveau mot de passe",
         "save": "Enregistrer les modifications",
         "updatedSuccessfully": "Profil mis à jour avec succès"
+    },
+    "history": {
+        "title": "Historique",
+        "description": "Consulter les journaux d'activité système et utilisateur récents.",
+        "system": "Système",
+        "date": "Date",
+        "time": "Heure",
+        "user": "Utilisateur",
+        "contentType": "Type de contenu",
+        "object": "Objet",
+        "changeAction": "Action de modification",
+        "searchAll": "Tous les champs",
+        "selectAll": "Tout sélectionner",
+        "clearSelection": "Effacer la sélection",
+        "mark": "Marquer",
+        "unmark": "Démarquer",
+        "read": "Lu",
+        "unread": "Non lu",
+        "viewAll": "Tout afficher"
     },
     "settings": {
         "title": "Paramètres",

@@ -40,7 +40,8 @@
         "category": "Category",
         "users": "Users",
         "profile": "Profile",
-        "settings": "Settings"
+        "settings": "Settings",
+        "history": "History"
     },
     "dashboard": {
         "title": "Dashboard",
@@ -99,6 +100,25 @@
         "confirmPasswordPlaceholder": "Confirm new password",
         "save": "Save Changes",
         "updatedSuccessfully": "Profile updated successfully"
+    },
+    "history": {
+        "title": "History",
+        "description": "Review recent system and user activity logs.",
+        "system": "System",
+        "date": "Date",
+        "time": "Time",
+        "user": "User",
+        "contentType": "Content Type",
+        "object": "Object",
+        "changeAction": "Change Action",
+        "searchAll": "All fields",
+        "selectAll": "Select all",
+        "clearSelection": "Clear selection",
+        "mark": "Mark",
+        "unmark": "Unmark",
+        "read": "Read",
+        "unread": "Unread",
+        "viewAll": "View all"
     },
     "settings": {
         "title": "Settings",

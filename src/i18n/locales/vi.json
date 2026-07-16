@@ -40,7 +40,8 @@
         "category": "Danh mục",
         "users": "Người dùng",
         "profile": "Hồ sơ cá nhân",
-        "settings": "Cài đặt"
+        "settings": "Cài đặt",
+        "history": "Lịch sử"
     },
     "dashboard": {
         "title": "Bảng điều khiển",
@@ -99,6 +100,25 @@
         "confirmPasswordPlaceholder": "Xác nhận mật khẩu mới",
         "save": "Lưu thay đổi",
         "updatedSuccessfully": "Cập nhật hồ sơ thành công"
+    },
+    "history": {
+        "title": "Lịch sử",
+        "description": "Xem lại nhật ký hoạt động gần đây của hệ thống và người dùng.",
+        "system": "Hệ thống",
+        "date": "Ngày",
+        "time": "Giờ",
+        "user": "Người dùng",
+        "contentType": "Loại Nội dung",
+        "object": "Đối tượng",
+        "changeAction": "Hành động đã thực hiện",
+        "searchAll": "Tất cả các trường",
+        "selectAll": "Chọn tất cả",
+        "clearSelection": "Xóa chọn",
+        "mark": "Đánh dấu",
+        "unmark": "Bỏ đánh dấu",
+        "read": "Đã đọc",
+        "unread": "Chưa đọc",
+        "viewAll": "Xem tất cả"
     },
     "settings": {
         "title": "Cài đặt",

@@ -9,6 +9,7 @@ import ProductManagementPage from "./pages/ProductManagementPage";
 import UserManagementPage from "./pages/UserManagementPage";
 import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
+import HistoryPage from "./pages/HistoryPage";
 import ErrorPage from "./pages/ErrorPage";
 
 const routers = createBrowserRouter([
@@ -70,6 +71,13 @@ const routers = createBrowserRouter([
                 element: <ProfilePage />,
                 handle: {
                     breadcrumb: "nav.profile",
+                },
+            },
+            {
+                path: "history",
+                element: <HistoryPage />,
+                handle: {
+                    breadcrumb: "nav.history",
                 },
             },
             {
