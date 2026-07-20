@@ -99,7 +99,11 @@
         "confirmPassword": "パスワード確認",
         "confirmPasswordPlaceholder": "新しいパスワードを確認",
         "save": "変更を保存",
-        "updatedSuccessfully": "プロフィールを更新しました"
+        "updatedSuccessfully": "プロフィールを更新しました",
+        "passwordsDoNotMatch": "パスワードが一致しません。",
+        "missingFields": "ユーザー名とメールアドレスは必須です。",
+        "bothPasswordsRequired": "新しいパスワードと確認用パスワードの両方を入力してください。",
+        "noChanges": "変更はありません。"
     },
     "history": {
         "title": "履歴",

@@ -99,7 +99,11 @@
         "confirmPassword": "Confirm Password",
         "confirmPasswordPlaceholder": "Confirm new password",
         "save": "Save Changes",
-        "updatedSuccessfully": "Profile updated successfully"
+        "updatedSuccessfully": "Profile updated successfully",
+        "passwordsDoNotMatch": "Passwords do not match.",
+        "missingFields": "Username and email are required.",
+        "bothPasswordsRequired": "Please enter both new password and confirm password.",
+        "noChanges": "No changes made."
     },
     "history": {
         "title": "History",

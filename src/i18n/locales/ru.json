@@ -99,7 +99,11 @@
         "confirmPassword": "Подтвердите пароль",
         "confirmPasswordPlaceholder": "Подтвердите новый пароль",
         "save": "Сохранить изменения",
-        "updatedSuccessfully": "Профиль успешно обновлен"
+        "updatedSuccessfully": "Профиль успешно обновлен",
+        "passwordsDoNotMatch": "Пароли не совпадают.",
+        "missingFields": "Имя пользователя и адрес электронной почты обязательны.",
+        "bothPasswordsRequired": "Пожалуйста, введите новый пароль и подтвердите пароль.",
+        "noChanges": "Изменения не внесены."
     },
     "history": {
         "title": "История",

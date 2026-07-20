@@ -5,7 +5,7 @@ export const colors = {
     error: "#ff4d4f",
     warning: "#faad14",
     info: "#1890ff",
-    
+
     dashboard: "#dc143c",
     management: "#ff6600",
     category: "#dddd00",

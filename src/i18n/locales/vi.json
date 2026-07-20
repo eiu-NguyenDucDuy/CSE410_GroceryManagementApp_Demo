@@ -99,7 +99,11 @@
         "confirmPassword": "Xác nhận mật khẩu",
         "confirmPasswordPlaceholder": "Xác nhận mật khẩu mới",
         "save": "Lưu thay đổi",
-        "updatedSuccessfully": "Cập nhật hồ sơ thành công"
+        "updatedSuccessfully": "Cập nhật hồ sơ thành công",
+        "passwordsDoNotMatch": "Mật khẩu không khớp.",
+        "missingFields": "Bắt buộc phải có tên người dùng và email.",
+        "bothPasswordsRequired": "Vui lòng nhập cả mật khẩu mới và mật khẩu xác nhận.",
+        "noChanges": "Không có thay đổi nào được thực hiện."
     },
     "history": {
         "title": "Lịch sử",

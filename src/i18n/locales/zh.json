@@ -99,7 +99,11 @@
         "confirmPassword": "确认密码",
         "confirmPasswordPlaceholder": "确认新密码",
         "save": "保存更改",
-        "updatedSuccessfully": "个人资料更新成功"
+        "updatedSuccessfully": "个人资料更新成功",
+        "passwordsDoNotMatch": "密码不匹配。",
+        "missingFields": "用户名和邮箱地址为必填项。",
+        "bothPasswordsRequired": "请同时输入新密码和确认密码。",
+        "noChanges": "未进行任何更改。"
     },
     "history": {
         "title": "历史记录",

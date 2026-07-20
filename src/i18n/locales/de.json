@@ -99,7 +99,11 @@
         "confirmPassword": "Passwort bestätigen",
         "confirmPasswordPlaceholder": "Neues Passwort bestätigen",
         "save": "Änderungen speichern",
-        "updatedSuccessfully": "Profil erfolgreich aktualisiert"
+        "updatedSuccessfully": "Profil erfolgreich aktualisiert",
+        "passwordsDoNotMatch": "Die Passwörter stimmen nicht überein.",
+        "missingFields": "Benutzername und E-Mail-Adresse sind erforderlich.",
+        "bothPasswordsRequired": "Bitte geben Sie sowohl das neue Passwort als auch das bestätigte Passwort ein.",
+        "noChanges": "Es wurden keine Änderungen vorgenommen."
     },
     "history": {
         "title": "Verlauf",

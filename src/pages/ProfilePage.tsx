@@ -90,7 +90,23 @@ export default function ProfilePage() {
             values.newPassword &&
             values.newPassword !== values.confirmPassword
         ) {
-            setError("Passwords do not match.");
+            setError(t("profile.passwordsDoNotMatch"));
+            setSaving(false);
+            return;
+        }
+
+        // Check if any required fields are empty
+        if (!values.username || !values.email) {
+            setError(t("profile.missingFields"));
+            setSaving(false);
+            return;
+        }
+
+        if (
+            (values.newPassword && !values.confirmPassword) ||
+            (!values.newPassword && values.confirmPassword)
+        ) {
+            setError(t("profile.bothPasswordsRequired"));
             setSaving(false);
             return;
         }
@@ -100,19 +116,29 @@ export default function ProfilePage() {
                 ...state.user,
                 username: values.username,
                 email: values.email,
-                password: values.newPassword
-                    ? values.newPassword
-                    : state.user.password,
+                password:
+                    values.newPassword && values.confirmPassword
+                        ? values.newPassword
+                        : state.user.password,
                 avatar: avatar ?? state.user.avatar,
             });
 
-            dispatch({ type: "LOGIN", payload: updatedUser });
-            form.setFieldsValue({
-                username: updatedUser.username,
-                email: updatedUser.email,
-            });
-            setAvatar(updatedUser.avatar);
-            setSuccess(t("profile.updatedSuccessfully"));
+            // Check if any fields have changed
+            if (
+                values.username !== state.user.username ||
+                values.email !== state.user.email ||
+                (values.newPassword && values.confirmPassword)
+            ) {
+                dispatch({ type: "LOGIN", payload: updatedUser });
+                form.setFieldsValue({
+                    username: updatedUser.username,
+                    email: updatedUser.email,
+                });
+                setAvatar(updatedUser.avatar);
+                setSuccess(t("profile.updatedSuccessfully"));
+            } else {
+                setSuccess(t("profile.noChanges"));
+            }
         } catch (err) {
             console.error(err);
             setError(

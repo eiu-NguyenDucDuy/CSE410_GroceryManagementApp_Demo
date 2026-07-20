@@ -99,7 +99,11 @@
         "confirmPassword": "Confirmer le mot de passe",
         "confirmPasswordPlaceholder": "Confirmer le nouveau mot de passe",
         "save": "Enregistrer les modifications",
-        "updatedSuccessfully": "Profil mis à jour avec succès"
+        "updatedSuccessfully": "Profil mis à jour avec succès",
+        "passwordsDoNotMatch": "Les mots de passe ne correspondent pas.",
+        "missingFields": "Le nom d'utilisateur et l'adresse e-mail sont obligatoires.",
+        "bothPasswordsRequired": "Veuillez saisir le nouveau mot de passe et le confirmer.",
+        "noChanges": "Aucune modification apportée."
     },
     "history": {
         "title": "Historique",
