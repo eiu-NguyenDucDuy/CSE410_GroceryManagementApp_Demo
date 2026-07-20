@@ -10,10 +10,12 @@ import {
     ControlOutlined,
     TeamOutlined,
     ProfileOutlined,
+    HistoryOutlined,
 } from "@ant-design/icons";
 import { useAuth } from "../hooks/useAuth";
 import useTheme from "../hooks/useTheme";
 import { useTranslation } from "react-i18next";
+import { colors } from "../config/colors";
 
 const { Title } = Typography;
 
@@ -30,7 +32,11 @@ export default function LeftSidebar() {
             ? "/dashboard/users"
             : location.pathname.startsWith("/dashboard/profile")
               ? "/dashboard/profile"
-              : "/dashboard";
+              : location.pathname.startsWith("/dashboard/history")
+                ? "/dashboard/history"
+                : location.pathname.startsWith("/dashboard/settings")
+                  ? "/dashboard/settings"
+                  : "/dashboard";
     const { token } = theme.useToken();
     const { t } = useTranslation();
 
@@ -80,24 +86,36 @@ export default function LeftSidebar() {
                     {
                         key: "/dashboard",
                         icon: (
-                            <DashboardOutlined style={{ color: "#dc143c" }} />
+                            <DashboardOutlined
+                                style={{ color: colors.dashboard }}
+                            />
                         ),
                         label: (
                             <NavLink to="/dashboard">
                                 {t("nav.dashboard")}
                             </NavLink>
                         ),
+                        style: {
+                            borderLeft: `3px solid ${colors.dashboard}`,
+                        },
                     },
                     {
                         key: "/management",
-                        icon: <ControlOutlined style={{ color: "#ff6600" }} />,
+                        icon: (
+                            <ControlOutlined
+                                style={{ color: colors.management }}
+                            />
+                        ),
                         label: t("nav.management"),
+                        style: {
+                            borderLeft: `2px solid ${colors.management}`,
+                        },
                         children: [
                             {
                                 key: "/dashboard/categories",
                                 icon: (
                                     <AppstoreOutlined
-                                        style={{ color: "#ffff00" }}
+                                        style={{ color: colors.category }}
                                     />
                                 ),
                                 label: (
@@ -105,12 +123,15 @@ export default function LeftSidebar() {
                                         {t("nav.category")}
                                     </NavLink>
                                 ),
+                                style: {
+                                    borderLeft: `2px solid ${colors.category}`,
+                                },
                             },
                             {
                                 key: "/dashboard/products",
                                 icon: (
                                     <ShoppingOutlined
-                                        style={{ color: "#77aa00" }}
+                                        style={{ color: colors.product }}
                                     />
                                 ),
                                 label: (
@@ -118,37 +139,71 @@ export default function LeftSidebar() {
                                         {t("nav.product")}
                                     </NavLink>
                                 ),
+                                style: {
+                                    borderLeft: `2px solid ${colors.product}`,
+                                },
                             },
                             {
                                 key: "/dashboard/users",
                                 icon: (
-                                    <TeamOutlined style={{ color: "#69f" }} />
+                                    <TeamOutlined
+                                        style={{ color: colors.users }}
+                                    />
                                 ),
                                 label: (
                                     <NavLink to="/dashboard/users">
                                         {t("nav.users")}
                                     </NavLink>
                                 ),
+                                style: {
+                                    borderLeft: `2px solid ${colors.users}`,
+                                },
                             },
                         ],
                     },
                     {
                         key: "/dashboard/profile",
-                        icon: <ProfileOutlined style={{ color: "#0000bb" }} />,
+                        icon: (
+                            <ProfileOutlined
+                                style={{ color: colors.profile }}
+                            />
+                        ),
                         label: (
                             <NavLink to="/dashboard/profile">
                                 {t("nav.profile")}
                             </NavLink>
                         ),
+                        style: {
+                            borderLeft: `2px solid ${colors.profile}`,
+                        },
                     },
                     {
-                        key: "/settings",
+                        key: "/dashboard/history",
+                        icon: (
+                            <HistoryOutlined
+                                style={{ color: colors.history }}
+                            />
+                        ),
+                        label: (
+                            <NavLink to="/dashboard/history">
+                                {t("nav.history")}
+                            </NavLink>
+                        ),
+                        style: {
+                            borderLeft: `2px solid ${colors.history}`,
+                        },
+                    },
+                    {
+                        key: "/dashboard/settings",
                         icon: <SettingOutlined />,
                         label: (
-                            <NavLink to="/settings">
+                            <NavLink to="/dashboard/settings">
                                 {t("nav.settings")}
                             </NavLink>
                         ),
+                        style: {
+                            borderLeft: `2px solid ${token.colorText}`,
+                        },
                     },
                 ]}
             />

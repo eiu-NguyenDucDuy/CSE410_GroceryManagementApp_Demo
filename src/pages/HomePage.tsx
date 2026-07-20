@@ -7,6 +7,7 @@ import {
     BarChartOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
+import { colors } from "../config/colors";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -36,11 +37,11 @@ export default function HomePage() {
                     <ShoppingCartOutlined
                         style={{
                             fontSize: 64,
-                            color: "#52c41a",
+                            color: colors.management,
                         }}
                     />
 
-                    <Title style={{ color: "#40414d" }}>
+                    <Title style={{ color: colors.management }}>
                         {t("home.title")}
                     </Title>
                     <Paragraph
@@ -56,13 +57,21 @@ export default function HomePage() {
                         <Button
                             type="primary"
                             size="large"
+                            variant="outlined"
+                            color="cyan"
                             icon={<LoginOutlined />}
                             onClick={() => navigate("/login")}
                         >
                             {t("auth.login")}
                         </Button>
 
-                        <Button size="large" onClick={() => navigate("/login")}>
+                        <Button
+                            type="primary"
+                            size="large"
+                            variant="outlined"
+                            color="pink"
+                            onClick={() => navigate("/login")}
+                        >
                             {t("home.access")}
                         </Button>
                     </Space>
@@ -88,11 +97,13 @@ export default function HomePage() {
                         <AppstoreOutlined
                             style={{
                                 fontSize: 40,
-                                color: "#1677ff",
+                                color: colors.category,
                             }}
                         />
 
-                        <Title level={4}>{t("category.categoryManagement")}</Title>
+                        <Title level={4}>
+                            {t("category.categoryManagement")}
+                        </Title>
                         <Text>{t("home.categoryManagementDescription")}</Text>
                     </Card>
                 </Col>
@@ -107,11 +118,13 @@ export default function HomePage() {
                         <ShoppingCartOutlined
                             style={{
                                 fontSize: 40,
-                                color: "#52c41a",
+                                color: colors.product,
                             }}
                         />
 
-                        <Title level={4}>{t("product.productManagement")}</Title>
+                        <Title level={4}>
+                            {t("product.productManagement")}
+                        </Title>
                         <Text>{t("home.productManagementDescription")}</Text>
                     </Card>
                 </Col>
@@ -126,7 +139,7 @@ export default function HomePage() {
                         <BarChartOutlined
                             style={{
                                 fontSize: 40,
-                                color: "#faad14",
+                                color: colors.dashboard,
                             }}
                         />
 

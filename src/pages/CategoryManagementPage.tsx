@@ -13,6 +13,7 @@ import { Table, Button, Alert, Spin, Space, Input, Tooltip } from "antd";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
+import { colors } from "../config/colors";
 
 const { Search } = Input;
 
@@ -243,7 +244,9 @@ export default function CategoryManagementPage() {
 
     return (
         <>
-            <h2>{t("category.categoryManagement")}</h2>
+            <h2 style={{ color: colors.category }}>
+                {t("category.categoryManagement")}
+            </h2>
 
             {error && (
                 <Alert

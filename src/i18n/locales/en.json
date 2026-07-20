@@ -40,7 +40,8 @@
         "category": "Category",
         "users": "Users",
         "profile": "Profile",
-        "settings": "Settings"
+        "settings": "Settings",
+        "history": "History"
     },
     "dashboard": {
         "title": "Dashboard",
@@ -87,6 +88,7 @@
     },
     "profile": {
         "title": "Profile",
+        "updateWarning": "Remember to re-login after updating your profile.",
         "username": "Username",
         "usernamePlaceholder": "Enter username",
         "email": "Email",
@@ -97,9 +99,51 @@
         "confirmPassword": "Confirm Password",
         "confirmPasswordPlaceholder": "Confirm new password",
         "save": "Save Changes",
-        "updatedSuccessfully": "Profile updated successfully"
+        "updatedSuccessfully": "Profile updated successfully",
+        "passwordsDoNotMatch": "Passwords do not match.",
+        "missingFields": "Username and email are required.",
+        "bothPasswordsRequired": "Please enter both new password and confirm password.",
+        "noChanges": "No changes made."
     },
-    "settings": {},
+    "history": {
+        "title": "History",
+        "description": "Review recent system and user activity logs.",
+        "system": "System",
+        "date": "Date",
+        "time": "Time",
+        "user": "User",
+        "contentType": "Content Type",
+        "object": "Object",
+        "changeAction": "Change Action",
+        "searchAll": "All fields",
+        "selectAll": "Select all",
+        "clearSelection": "Clear selection",
+        "mark": "Mark",
+        "unmark": "Unmark",
+        "read": "Read",
+        "unread": "Unread",
+        "viewAll": "View all"
+    },
+    "settings": {
+        "title": "Settings",
+        "description": "Customize your experience and manage your preferences.",
+        "preferences": "Preferences",
+        "theme": "Theme",
+        "themeDescription": "Switch between light and dark mode.",
+        "darkMode": "Dark mode",
+        "lightMode": "Light mode",
+        "language": "Language",
+        "notifications": "Notifications",
+        "notificationsDescription": "Receive updates about system activity.",
+        "autoSave": "Auto save",
+        "autoSaveDescription": "Automatically save changes in the dashboard.",
+        "accountSummary": "Account summary",
+        "username": "Username",
+        "email": "Email",
+        "security": "Security",
+        "secureAccount": "Your account is protected with secure access.",
+        "saved": "Settings saved successfully."
+    },
     "auth": {
         "login": "Login",
         "logout": "Logout"

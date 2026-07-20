@@ -1,6 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { LanguageContext } from "../context/LanguageContext";
-import { languages, DEFAULT_LANGUAGE, type Language } from "../config/languages";
+import {
+    languages,
+    DEFAULT_LANGUAGE,
+    type Language,
+} from "../config/languages";
 
 export default function LanguageProvider({
     children,

@@ -32,6 +32,7 @@ import {
     updateUser,
 } from "../services/userService";
 import type { User } from "../context/AuthContext";
+import { colors } from "../config/colors";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -262,7 +263,7 @@ export default function UserManagementPage() {
 
     return (
         <>
-            <h2>{t("user.userManagement")}</h2>
+            <h2 style={{ color: colors.users }}>{t("user.userManagement")}</h2>
 
             {error && (
                 <Alert
@@ -273,13 +274,15 @@ export default function UserManagementPage() {
                 />
             )}
 
-            <Card style={{ marginBottom: 20 }}>
+            <Card style={{ marginBottom: 20, borderColor: colors.users }}>
                 <Row gutter={16}>
                     <Col span={8}>
                         <Statistic
                             title={t("user.totalUsers")}
                             value={users.length}
-                            prefix={<UserOutlined />}
+                            prefix={
+                                <UserOutlined style={{ color: colors.users }} />
+                            }
                         />
                     </Col>
                     <Col span={8}>
@@ -289,6 +292,7 @@ export default function UserManagementPage() {
                                 users.filter((user) => user.role === "admin")
                                     .length
                             }
+                            valueStyle={{ color: "gold" }}
                         />
                     </Col>
                     <Col span={8}>
@@ -298,6 +302,7 @@ export default function UserManagementPage() {
                                 users.filter((user) => user.role === "user")
                                     .length
                             }
+                            valueStyle={{ color: "blue" }}
                         />
                     </Col>
                 </Row>

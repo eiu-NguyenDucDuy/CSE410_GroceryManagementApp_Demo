@@ -40,7 +40,8 @@
         "category": "Danh mục",
         "users": "Người dùng",
         "profile": "Hồ sơ cá nhân",
-        "settings": "Cài đặt"
+        "settings": "Cài đặt",
+        "history": "Lịch sử"
     },
     "dashboard": {
         "title": "Bảng điều khiển",
@@ -87,6 +88,7 @@
     },
     "profile": {
         "title": "Hồ sơ",
+        "updateWarning": "Nhớ đăng nhập lại sau khi cập nhật hồ sơ.",
         "username": "Tên người dùng",
         "usernamePlaceholder": "Nhập tên người dùng",
         "email": "Email",
@@ -97,9 +99,51 @@
         "confirmPassword": "Xác nhận mật khẩu",
         "confirmPasswordPlaceholder": "Xác nhận mật khẩu mới",
         "save": "Lưu thay đổi",
-        "updatedSuccessfully": "Cập nhật hồ sơ thành công"
+        "updatedSuccessfully": "Cập nhật hồ sơ thành công",
+        "passwordsDoNotMatch": "Mật khẩu không khớp.",
+        "missingFields": "Bắt buộc phải có tên người dùng và email.",
+        "bothPasswordsRequired": "Vui lòng nhập cả mật khẩu mới và mật khẩu xác nhận.",
+        "noChanges": "Không có thay đổi nào được thực hiện."
     },
-    "settings": {},
+    "history": {
+        "title": "Lịch sử",
+        "description": "Xem lại nhật ký hoạt động gần đây của hệ thống và người dùng.",
+        "system": "Hệ thống",
+        "date": "Ngày",
+        "time": "Giờ",
+        "user": "Người dùng",
+        "contentType": "Loại Nội dung",
+        "object": "Đối tượng",
+        "changeAction": "Hành động đã thực hiện",
+        "searchAll": "Tất cả các trường",
+        "selectAll": "Chọn tất cả",
+        "clearSelection": "Xóa chọn",
+        "mark": "Đánh dấu",
+        "unmark": "Bỏ đánh dấu",
+        "read": "Đã đọc",
+        "unread": "Chưa đọc",
+        "viewAll": "Xem tất cả"
+    },
+    "settings": {
+        "title": "Cài đặt",
+        "description": "Tùy chỉnh trải nghiệm và quản lý các tùy chọn của bạn.",
+        "preferences": "Tùy chọn",
+        "theme": "Giao diện",
+        "themeDescription": "Chuyển đổi giữa chế độ sáng và tối.",
+        "darkMode": "Chế độ tối",
+        "lightMode": "Chế độ sáng",
+        "language": "Ngôn ngữ",
+        "notifications": "Thông báo",
+        "notificationsDescription": "Nhận cập nhật về hoạt động của hệ thống.",
+        "autoSave": "Tự động lưu",
+        "autoSaveDescription": "Tự động lưu các thay đổi trong bảng điều khiển.",
+        "accountSummary": "Tóm tắt tài khoản",
+        "username": "Tên người dùng",
+        "email": "Email",
+        "security": "Bảo mật",
+        "secureAccount": "Tài khoản của bạn được bảo vệ bằng truy cập an toàn.",
+        "saved": "Đã lưu cài đặt thành công."
+    },
     "auth": {
         "login": "Đăng nhập",
         "logout": "Đăng xuất"

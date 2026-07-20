@@ -11,10 +11,15 @@ import {
     Form,
     Input,
     Row,
+    Space,
+    Typography,
     Upload,
 } from "antd";
 import { UploadOutlined, UserOutlined } from "@ant-design/icons";
 import type { UploadFile, UploadProps } from "antd/es/upload";
+import { colors } from "../config/colors";
+
+const { Text } = Typography;
 
 export default function ProfilePage() {
     const { t } = useTranslation();
@@ -85,7 +90,23 @@ export default function ProfilePage() {
             values.newPassword &&
             values.newPassword !== values.confirmPassword
         ) {
-            setError("Passwords do not match.");
+            setError(t("profile.passwordsDoNotMatch"));
+            setSaving(false);
+            return;
+        }
+
+        // Check if any required fields are empty
+        if (!values.username || !values.email) {
+            setError(t("profile.missingFields"));
+            setSaving(false);
+            return;
+        }
+
+        if (
+            (values.newPassword && !values.confirmPassword) ||
+            (!values.newPassword && values.confirmPassword)
+        ) {
+            setError(t("profile.bothPasswordsRequired"));
             setSaving(false);
             return;
         }
@@ -95,19 +116,29 @@ export default function ProfilePage() {
                 ...state.user,
                 username: values.username,
                 email: values.email,
-                password: values.newPassword
-                    ? values.newPassword
-                    : state.user.password,
+                password:
+                    values.newPassword && values.confirmPassword
+                        ? values.newPassword
+                        : state.user.password,
                 avatar: avatar ?? state.user.avatar,
             });
 
-            dispatch({ type: "LOGIN", payload: updatedUser });
-            form.setFieldsValue({
-                username: updatedUser.username,
-                email: updatedUser.email,
-            });
-            setAvatar(updatedUser.avatar);
-            setSuccess(t("profile.updatedSuccessfully"));
+            // Check if any fields have changed
+            if (
+                values.username !== state.user.username ||
+                values.email !== state.user.email ||
+                (values.newPassword && values.confirmPassword)
+            ) {
+                dispatch({ type: "LOGIN", payload: updatedUser });
+                form.setFieldsValue({
+                    username: updatedUser.username,
+                    email: updatedUser.email,
+                });
+                setAvatar(updatedUser.avatar);
+                setSuccess(t("profile.updatedSuccessfully"));
+            } else {
+                setSuccess(t("profile.noChanges"));
+            }
         } catch (err) {
             console.error(err);
             setError(
@@ -131,7 +162,10 @@ export default function ProfilePage() {
     };
 
     return (
-        <Card title={t("profile.title")}>
+        <Card
+            title={t("profile.title")}
+            styles={{ header: { color: colors.profile } }}
+        >
             {error ? (
                 <Alert
                     message={error}
@@ -259,6 +293,10 @@ export default function ProfilePage() {
                         {t("profile.save")}
                     </Button>
                 </Form.Item>
+
+                <Space size="small">
+                    <Text type="secondary">{t("profile.updateWarning")}</Text>
+                </Space>
             </Form>
         </Card>
     );

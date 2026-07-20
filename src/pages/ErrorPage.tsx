@@ -6,11 +6,16 @@ import {
 import { Result, Button } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
+import useTheme from "../hooks/useTheme";
 
 export default function ErrorPage() {
     const error = useRouteError();
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const { darkMode } = useTheme();
+
+    const backgroundColor = darkMode ? "#111827" : "#fefefe";
+    const textColor = darkMode ? "#f5f5f5" : "#1f1f1f";
 
     let status = "500";
     let title = t("errors.500");
@@ -35,23 +40,29 @@ export default function ErrorPage() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                background: "#f5f5f5",
+                background: backgroundColor,
+                color: textColor,
+                padding: "24px",
             }}
         >
             <Result
                 status={status === "404" ? "404" : "500"}
-                title={status}
+                title={<span style={{ color: textColor }}>{status}</span>}
                 subTitle={
-                    <>
-                        <h3>{title}</h3>
-                        <p>{message}</p>
-                    </>
+                    <div style={{ color: textColor }}>
+                        <h3 style={{ color: textColor, marginBottom: "8px" }}>
+                            {title}
+                        </h3>
+                        <p style={{ color: textColor, margin: 0 }}>{message}</p>
+                    </div>
                 }
                 extra={
                     <Button
                         type="primary"
+                        variant="outlined"
+                        color="purple"
                         icon={<HomeOutlined />}
-                        onClick={() => navigate("/")}
+                        onClick={() => navigate("/dashboard")}
                     >
                         {t("errors.back")}
                     </Button>
