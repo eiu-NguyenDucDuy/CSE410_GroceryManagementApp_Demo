@@ -40,7 +40,8 @@
         "category": "カテゴリ",
         "users": "ユーザー",
         "profile": "プロフィール",
-        "settings": "設定"
+        "settings": "設定",
+        "history": "履歴"
     },
     "dashboard": {
         "title": "ダッシュボード",
@@ -99,6 +100,25 @@
         "confirmPasswordPlaceholder": "新しいパスワードを確認",
         "save": "変更を保存",
         "updatedSuccessfully": "プロフィールを更新しました"
+    },
+    "history": {
+        "title": "履歴",
+        "description": "最近のシステムおよびユーザーアクティビティログを確認します。",
+        "system": "システム",
+        "date": "日付",
+        "time": "時刻",
+        "user": "ユーザー",
+        "contentType": "コンテンツタイプ",
+        "object": "オブジェクト",
+        "changeAction": "変更アクション",
+        "searchAll": "すべてのフィールド",
+        "selectAll": "すべて選択",
+        "clearSelection": "選択を解除",
+        "mark": "マーク",
+        "unmark": "マークを解除",
+        "read": "既読",
+        "unread": "未読",
+        "viewAll": "すべて表示"
     },
     "settings": {
         "title": "設定",

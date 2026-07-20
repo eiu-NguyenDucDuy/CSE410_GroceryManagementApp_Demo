@@ -10,6 +10,7 @@ import {
     ControlOutlined,
     TeamOutlined,
     ProfileOutlined,
+    HistoryOutlined,
 } from "@ant-design/icons";
 import { useAuth } from "../hooks/useAuth";
 import useTheme from "../hooks/useTheme";
@@ -31,9 +32,11 @@ export default function LeftSidebar() {
             ? "/dashboard/users"
             : location.pathname.startsWith("/dashboard/profile")
               ? "/dashboard/profile"
-              : location.pathname.startsWith("/dashboard/settings")
-                ? "/dashboard/settings"
-                : "/dashboard";
+              : location.pathname.startsWith("/dashboard/history")
+                ? "/dashboard/history"
+                : location.pathname.startsWith("/dashboard/settings")
+                  ? "/dashboard/settings"
+                  : "/dashboard";
     const { token } = theme.useToken();
     const { t } = useTranslation();
 
@@ -172,6 +175,22 @@ export default function LeftSidebar() {
                         ),
                         style: {
                             borderLeft: `2px solid ${colors.profile}`,
+                        },
+                    },
+                    {
+                        key: "/dashboard/history",
+                        icon: (
+                            <HistoryOutlined
+                                style={{ color: colors.history }}
+                            />
+                        ),
+                        label: (
+                            <NavLink to="/dashboard/history">
+                                {t("nav.history")}
+                            </NavLink>
+                        ),
+                        style: {
+                            borderLeft: `2px solid ${colors.history}`,
                         },
                     },
                     {

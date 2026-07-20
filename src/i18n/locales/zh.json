@@ -40,7 +40,8 @@
         "category": "分类",
         "users": "用户",
         "profile": "个人资料",
-        "settings": "设置"
+        "settings": "设置",
+        "history": "历史记录"
     },
     "dashboard": {
         "title": "仪表板",
@@ -99,6 +100,25 @@
         "confirmPasswordPlaceholder": "确认新密码",
         "save": "保存更改",
         "updatedSuccessfully": "个人资料更新成功"
+    },
+    "history": {
+        "title": "历史记录",
+        "description": "查看最近的系统和用户活动日志。",
+        "system": "系统",
+        "date": "日期",
+        "time": "时间",
+        "user": "用户",
+        "contentType": "内容类型",
+        "object": "对象",
+        "changeAction": "更改操作",
+        "searchAll": "所有字段",
+        "selectAll": "全选",
+        "clearSelection": "清除选择",
+        "mark": "标记",
+        "unmark": "取消标记",
+        "read": "已读",
+        "unread": "未读",
+        "viewAll": "查看全部"
     },
     "settings": {
         "title": "设置",

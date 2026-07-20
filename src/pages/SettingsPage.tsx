@@ -28,6 +28,10 @@ import { useAuth } from "../hooks/useAuth";
 import useTheme from "../hooks/useTheme";
 import useLanguage from "../hooks/useLanguage";
 import { languages, type Language } from "../config/languages";
+import {
+    areNotificationsEnabled,
+    setNotificationsEnabled,
+} from "../services/historyService";
 
 const { Title, Text } = Typography;
 
@@ -36,11 +40,14 @@ export default function SettingsPage() {
     const { state } = useAuth();
     const { darkMode, toggleTheme } = useTheme();
     const { language, setLanguage } = useLanguage();
-    const [notifications, setNotifications] = useState(true);
+    const [notifications, setNotifications] = useState(
+        areNotificationsEnabled(),
+    );
     const [autoSave, setAutoSave] = useState(true);
     const [saved, setSaved] = useState(false);
 
     const handleSave = () => {
+        setNotificationsEnabled(notifications);
         setSaved(true);
         window.setTimeout(() => setSaved(false), 2000);
     };
@@ -171,7 +178,14 @@ export default function SettingsPage() {
                                                 </div>
                                                 <Switch
                                                     checked={notifications}
-                                                    onChange={setNotifications}
+                                                    onChange={(checked) => {
+                                                        setNotifications(
+                                                            checked,
+                                                        );
+                                                        setNotificationsEnabled(
+                                                            checked,
+                                                        );
+                                                    }}
                                                     checkedChildren={
                                                         <BellOutlined />
                                                     }
