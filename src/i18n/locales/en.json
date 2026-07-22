@@ -111,6 +111,7 @@
         "contentType": "Content Type",
         "object": "Object",
         "changeAction": "Change Action",
+        "details":"Details",
         "searchAll": "All fields",
         "selectAll": "Select all",
         "clearSelection": "Clear selection",

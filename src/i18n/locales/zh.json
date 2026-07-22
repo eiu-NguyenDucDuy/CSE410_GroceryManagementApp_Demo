@@ -111,6 +111,7 @@
         "contentType": "内容类型",
         "object": "对象",
         "changeAction": "更改操作",
+        "details": "详情",
         "searchAll": "所有字段",
         "selectAll": "全选",
         "clearSelection": "清除选择",

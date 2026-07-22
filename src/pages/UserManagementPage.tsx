@@ -33,6 +33,8 @@ import {
 } from "../services/userService";
 import type { User } from "../context/AuthContext";
 import { colors } from "../config/colors";
+import { useHistoryLogger } from "../hooks/useHistoryLogger";
+import { HistoryAction, HistoryContentType } from "../types/history";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -55,6 +57,7 @@ export default function UserManagementPage() {
     const [form] = Form.useForm<UserFormValues>();
     const itemsPerPage = 10;
     const { state } = useAuth();
+    const { logHistory } = useHistoryLogger();
     const isAdmin = state.user?.role === "admin";
     const { t } = useTranslation();
 
@@ -116,6 +119,13 @@ export default function UserManagementPage() {
                     password: editingUser.password,
                     role: values.role,
                 });
+
+                await logHistory({
+                    contentType: HistoryContentType.User,
+                    objectName: updatedUser.username,
+                    changeAction: HistoryAction.Update,
+                });
+
                 setUsers((prev) =>
                     prev.map((user) =>
                         user.id === updatedUser.id ? updatedUser : user,
@@ -128,6 +138,13 @@ export default function UserManagementPage() {
                     password: values.password,
                     role: values.role,
                 });
+
+                await logHistory({
+                    contentType: HistoryContentType.User,
+                    objectName: createdUser.username,
+                    changeAction: HistoryAction.Create,
+                });
+
                 setUsers((prev) => [...prev, createdUser]);
             }
 
@@ -147,18 +164,26 @@ export default function UserManagementPage() {
 
     const handleDelete = async (id: number) => {
         if (id === state.user?.id) {
-            setError(
-                t("validation.cannotDeleteSelf") ||
-                    "You cannot delete your own account.",
-            );
+            setError(t("validation.cannotDeleteSelf"));
             return;
         }
+
+        const user = users.find((u) => u.id === id);
+
+        if (!user) return;
 
         const confirmDelete = window.confirm(t("validation.confirmDeleteUser"));
         if (!confirmDelete) return;
 
         try {
             await deleteUser(id);
+
+            await logHistory({
+                contentType: HistoryContentType.User,
+                objectName: user.username,
+                changeAction: HistoryAction.Delete,
+            });
+
             setUsers((prev) => prev.filter((user) => user.id !== id));
         } catch (err) {
             console.error(err);

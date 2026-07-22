@@ -111,6 +111,7 @@
         "contentType": "コンテンツタイプ",
         "object": "オブジェクト",
         "changeAction": "変更アクション",
+        "details": "詳細",
         "searchAll": "すべてのフィールド",
         "selectAll": "すべて選択",
         "clearSelection": "選択を解除",

@@ -111,6 +111,7 @@
         "contentType": "Тип контента",
         "object": "Объект",
         "changeAction": "Действие изменения",
+        "details": "Подробности",
         "searchAll": "Все поля",
         "selectAll": "Выбрать все",
         "clearSelection": "Очистить выделение",

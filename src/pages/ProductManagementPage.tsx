@@ -16,6 +16,8 @@ import { useTranslation } from "react-i18next";
 import type { CategoryData } from "../types/category";
 import { getAllCategories } from "../services/categoryService";
 import { colors } from "../config/colors";
+import { useHistoryLogger } from "../hooks/useHistoryLogger";
+import { HistoryAction, HistoryContentType } from "../types/history";
 
 const { Search } = Input;
 
@@ -32,6 +34,7 @@ export default function ProductManagementPage() {
     const [error, setError] = useState("");
     const itemsPerPage = 10;
     const { state } = useAuth();
+    const { logHistory } = useHistoryLogger();
     const isAdmin = state.user?.role === "admin";
     const {
         control,
@@ -114,6 +117,12 @@ export default function ProductManagementPage() {
                     ...product,
                 });
 
+                await logHistory({
+                    contentType: HistoryContentType.Product,
+                    objectName: updatedProduct.title,
+                    changeAction: HistoryAction.Update,
+                });
+
                 setProducts((prev) =>
                     prev.map((p) =>
                         p.id === updatedProduct.id ? updatedProduct : p,
@@ -121,6 +130,12 @@ export default function ProductManagementPage() {
                 );
             } else {
                 const savedProduct = await createProduct(product);
+
+                await logHistory({
+                    contentType: HistoryContentType.Product,
+                    objectName: savedProduct.title,
+                    changeAction: HistoryAction.Create,
+                });
 
                 setProducts((prev) => [...prev, savedProduct]);
             }
@@ -150,14 +165,24 @@ export default function ProductManagementPage() {
     };
 
     const handleDelete = async (id: number) => {
+        const product = products.find((p) => p.id === id);
+
+        if (!product) return;
+
         const confirmDelete = window.confirm(
-            `${t("validation.confirmDeleteProduct")}`,
+            t("validation.confirmDeleteProduct"),
         );
 
         if (!confirmDelete) return;
 
         try {
             await deleteProduct(id);
+
+            await logHistory({
+                contentType: HistoryContentType.Product,
+                objectName: product.title,
+                changeAction: HistoryAction.Delete,
+            });
 
             setProducts((prev) => prev.filter((p) => p.id !== id));
         } catch (err) {

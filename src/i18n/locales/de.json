@@ -111,6 +111,7 @@
         "contentType": "Inhaltstyp",
         "object": "Objekt",
         "changeAction": "Aktion ändern",
+        "details": "Details",
         "searchAll": "Alle Felder",
         "selectAll": "Alle auswählen",
         "clearSelection": "Auswahl aufheben",

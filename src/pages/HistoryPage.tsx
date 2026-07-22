@@ -15,6 +15,7 @@ import {
     Table,
     Tabs,
     Tag,
+    Tooltip,
     Typography,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
@@ -22,8 +23,8 @@ import {
     ApartmentOutlined,
     AuditOutlined,
     BellOutlined,
-    CheckOutlined,
     DeleteOutlined,
+    EyeOutlined,
     SearchOutlined,
     StarFilled,
     StarOutlined,
@@ -35,9 +36,9 @@ import {
     deleteHistoryLog,
 } from "../services/historyService";
 import type {
+    ActiveTab,
     HistoryLog,
     HistorySearchField,
-    HistoryTab,
 } from "../types/history";
 import { colors } from "../config/colors";
 
@@ -50,7 +51,7 @@ export default function HistoryPage() {
     const [logs, setLogs] = useState<HistoryLog[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [activeTab, setActiveTab] = useState<HistoryTab>("system");
+    const [activeTab, setActiveTab] = useState<ActiveTab>("system");
     const [searchField, setSearchField] = useState<HistorySearchField>("all");
     const [searchKeyword, setSearchKeyword] = useState("");
     const [selectedKeys, setSelectedKeys] = useState<number[]>([]);
@@ -89,7 +90,13 @@ export default function HistoryPage() {
     }, []);
 
     const visibleLogs = useMemo(() => {
-        const filtered = logs.filter((log) => log.tab === activeTab);
+        const filtered = logs.filter((log) => {
+            if (activeTab === "user") {
+                return log.userId === state.user?.id;
+            }
+
+            return log.userId !== state.user?.id;
+        });
 
         const keyword = searchKeyword.trim().toLowerCase();
 
@@ -109,9 +116,9 @@ export default function HistoryPage() {
 
             return searchable.toLowerCase().includes(keyword);
         });
-    }, [logs, activeTab, searchField, searchKeyword]);
+    }, [logs, activeTab, searchField, searchKeyword, state.user?.id]);
 
-    const unreadCount = logs.filter((log) => !log.isRead).length;
+    const unreadCount = visibleLogs.filter((log) => !log.isRead).length;
     const allSelected =
         visibleLogs.length > 0 &&
         visibleLogs.every((log) => selectedKeys.includes(log.id));
@@ -284,30 +291,56 @@ export default function HistoryPage() {
             render: (value: string) => <Tag color="violet">{value}</Tag>,
         },
         {
+            title: t("history.details"),
+            dataIndex: "details",
+            key: "details",
+            width: 300,
+        },
+        {
             title: t("common.actions"),
             key: "actions",
             width: 110,
             render: (_, record) => (
                 <Space>
-                    <Button
-                        type="text"
-                        size="small"
-                        onClick={() => handleToggleStar(record)}
+                    <Tooltip
+                        title={
+                            record.isStarred
+                                ? t("history.mark")
+                                : t("history.unmark")
+                        }
                     >
-                        {record.isStarred ? (
-                            <StarFilled style={{ color: "#fadb14" }} />
-                        ) : (
-                            <StarOutlined />
-                        )}
-                    </Button>
+                        <Button
+                            type="text"
+                            size="small"
+                            onClick={() => handleToggleStar(record)}
+                        >
+                            {record.isStarred ? (
+                                <StarFilled style={{ color: colors.warning }} />
+                            ) : (
+                                <StarOutlined />
+                            )}
+                        </Button>
+                    </Tooltip>
 
-                    <Button
-                        type="text"
-                        size="small"
-                        onClick={() => handleToggleRead(record)}
+                    <Tooltip
+                        title={
+                            record.isRead
+                                ? t("history.read")
+                                : t("history.unread")
+                        }
                     >
-                        <BellOutlined />
-                    </Button>
+                        <Button
+                            type="text"
+                            size="small"
+                            onClick={() => handleToggleRead(record)}
+                        >
+                            {record.isRead ? (
+                                <EyeOutlined style={{ color: colors.read }} />
+                            ) : (
+                                <BellOutlined />
+                            )}
+                        </Button>
+                    </Tooltip>
                 </Space>
             ),
         },
@@ -348,7 +381,7 @@ export default function HistoryPage() {
 
             <Tabs
                 activeKey={activeTab}
-                onChange={(key) => setActiveTab(key as HistoryTab)}
+                onChange={(key) => setActiveTab(key as ActiveTab)}
                 items={[
                     {
                         key: "system",
@@ -361,7 +394,7 @@ export default function HistoryPage() {
                                     count={
                                         logs.filter(
                                             (log) =>
-                                                log.tab === "system" &&
+                                                log.userId !== state.user?.id &&
                                                 !log.isRead,
                                         ).length
                                     }
@@ -383,7 +416,7 @@ export default function HistoryPage() {
                                     count={
                                         logs.filter(
                                             (log) =>
-                                                log.tab === "user" &&
+                                                log.userId === state.user?.id &&
                                                 !log.isRead,
                                         ).length
                                     }
@@ -447,7 +480,7 @@ export default function HistoryPage() {
                                 type="primary"
                                 color="cyan"
                                 variant="outlined"
-                                icon={<CheckOutlined />}
+                                icon={<EyeOutlined />}
                                 onClick={handleMarkAsRead}
                                 disabled={!selectedKeys.length}
                             >

@@ -14,6 +14,8 @@ import type { ColumnsType, TableProps } from "antd/es/table";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { colors } from "../config/colors";
+import { useHistoryLogger } from "../hooks/useHistoryLogger";
+import { HistoryAction, HistoryContentType } from "../types/history";
 
 const { Search } = Input;
 
@@ -29,6 +31,7 @@ export default function CategoryManagementPage() {
     const [error, setError] = useState("");
     const itemsPerPage = 10;
     const { state } = useAuth();
+    const { logHistory } = useHistoryLogger();
     const isAdmin = state.user?.role === "admin";
     const {
         control,
@@ -81,6 +84,12 @@ export default function CategoryManagementPage() {
                     ...category,
                 });
 
+                await logHistory({
+                    contentType: HistoryContentType.Category,
+                    objectName: updatedCategory.categoryName,
+                    changeAction: HistoryAction.Update,
+                });
+
                 setCategories((prev) =>
                     prev.map((c) =>
                         c.id === updatedCategory.id ? updatedCategory : c,
@@ -88,6 +97,12 @@ export default function CategoryManagementPage() {
                 );
             } else {
                 const savedCategory = await createCategory(category);
+
+                await logHistory({
+                    contentType: HistoryContentType.Category,
+                    objectName: savedCategory.categoryName,
+                    changeAction: HistoryAction.Create,
+                });
 
                 setCategories((prev) => [...prev, savedCategory]);
             }
@@ -114,6 +129,10 @@ export default function CategoryManagementPage() {
     };
 
     const handleDelete = async (id: number) => {
+        const category = categories.find((c) => c.id === id);
+
+        if (!category) return;
+
         const confirmDelete = window.confirm(
             `${t("validation.confirmDeleteCategory")}`,
         );
@@ -122,6 +141,12 @@ export default function CategoryManagementPage() {
 
         try {
             await deleteCategory(id);
+
+            await logHistory({
+                contentType: HistoryContentType.Category,
+                objectName: category.categoryName,
+                changeAction: HistoryAction.Delete,
+            });
 
             setCategories((prev) => prev.filter((c) => c.id !== id));
         } catch (err) {
