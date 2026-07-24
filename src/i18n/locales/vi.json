@@ -14,7 +14,8 @@
         "no": "Không",
         "Admin": "Quản lý",
         "User": "Người dùng",
-        "upload": "Tải lên"
+        "upload": "Tải lên",
+        "viewAll": "Xem tất cả"
     },
     "home": {
         "title": "Hệ Thống Quản Lý Cửa Hàng Tạp Hóa",
@@ -45,8 +46,16 @@
     },
     "dashboard": {
         "title": "Bảng điều khiển",
+        "welcome": "Chào mừng bạn quay lại! Dưới đây là tổng quan về kho hàng của bạn.",
         "totalCategories": "Tổng số danh mục",
-        "totalProducts": "Tổng số sản phẩm"
+        "totalProducts": "Tổng số sản phẩm",
+        "totalUsers": "Tổng số người dùng",
+        "charts": "Biểu đồ",
+        "productsByCategory": "Sản phẩm theo danh mục",
+        "categoryDistribution": "Phân bố danh mục",
+        "recentItems": "Sản phẩm gần đây",
+        "recentCategories": "Danh mục gần đây",
+        "recentProducts": "Sản phẩm gần đây"
     },
     "product": {
         "productManagement": "Quản lý Sản phẩm",
@@ -111,14 +120,14 @@
         "contentType": "Loại Nội dung",
         "object": "Đối tượng",
         "changeAction": "Hành động đã thực hiện",
+        "details": "Chi tiết",
         "searchAll": "Tất cả các trường",
         "selectAll": "Chọn tất cả",
         "clearSelection": "Xóa chọn",
         "mark": "Đánh dấu",
         "unmark": "Bỏ đánh dấu",
         "read": "Đã đọc",
-        "unread": "Chưa đọc",
-        "viewAll": "Xem tất cả"
+        "unread": "Chưa đọc"
     },
     "settings": {
         "title": "Cài đặt",

@@ -14,15 +14,16 @@
         "no": "Nein",
         "Admin": "Administrator",
         "User": "Benutzer",
-        "upload": "Hochladen"
+        "upload": "Hochladen",
+        "viewAll": "Alle anzeigen"
     },
     "home": {
         "title": "Lebensmittelverwaltungssystem",
-        "description": "Verwalten Sie Ihre Lebensmittelprodukte, Kategorien und Bestände einfach mit einem einfachen und modernen Dashboard.",
-        "access": "Zum Dashboard",
+        "description": "Verwalten Sie Ihre Lebensmittelprodukte, Kategorien und Bestände einfach mit einem einfachen und modernen Armaturenbrett.",
+        "access": "Zum Armaturenbrett",
         "categoryManagementDescription": "Erstellen und organisieren Sie Lebensmittelkategorien einfach.",
         "productManagementDescription": "Fügen Sie Produkte hinzu, aktualisieren und verwalten Sie sie.",
-        "dashboardTitle": "Dashboard-Analyse",
+        "dashboardTitle": "Armaturenbrett-Analyse",
         "dashboardDescription": "Sehen Sie wichtige Informationen an einem Ort."
     },
     "login": {
@@ -34,7 +35,7 @@
         "loggingIn": "Anmeldung läuft..."
     },
     "nav": {
-        "dashboard": "Dashboard",
+        "dashboard": "Armaturenbrett",
         "management": "Verwaltung",
         "product": "Produkt",
         "category": "Kategorie",
@@ -44,9 +45,17 @@
         "history": "Verlauf"
     },
     "dashboard": {
-        "title": "Dashboard",
+        "title": "Armaturenbrett",
+        "welcome": "Willkommen zurück! Hier ist eine Übersicht Ihres Inventars.",
         "totalCategories": "Gesamtanzahl Kategorien",
-        "totalProducts": "Gesamtanzahl Produkte"
+        "totalProducts": "Gesamtanzahl Produkte",
+        "totalUsers": "Gesamtnutzer",
+        "charts": "Diagramme",
+        "productsByCategory": "Produkte nach Kategorie",
+        "categoryDistribution": "Kategorieverteilung",
+        "recentItems": "Neueste Artikel",
+        "recentCategories": "Neueste Kategorien",
+        "recentProducts": "Neueste Produkte"
     },
     "product": {
         "productManagement": "Produktverwaltung",
@@ -111,14 +120,14 @@
         "contentType": "Inhaltstyp",
         "object": "Objekt",
         "changeAction": "Aktion ändern",
+        "details": "Details",
         "searchAll": "Alle Felder",
         "selectAll": "Alle auswählen",
         "clearSelection": "Auswahl aufheben",
         "mark": "Markierung",
         "unmark": "Markierung entfernen",
         "read": "Gelesen",
-        "unread": "Ungelesen",
-        "viewAll": "Alle anzeigen"
+        "unread": "Ungelesen"
     },
     "settings": {
         "title": "Einstellungen",
@@ -132,7 +141,7 @@
         "notifications": "Benachrichtigungen",
         "notificationsDescription": "Erhalten Sie Updates über Systemaktivitäten.",
         "autoSave": "Automatisches Speichern",
-        "autoSaveDescription": "Änderungen im Dashboard automatisch speichern.",
+        "autoSaveDescription": "Änderungen im Armaturenbrett automatisch speichern.",
         "accountSummary": "Kontozusammenfassung",
         "username": "Benutzername",
         "email": "E-Mail",

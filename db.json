@@ -1,319 +1,317 @@
 {
-  "users": [
-    {
-      "id": 1,
-      "username": "Wendy",
-      "email": "admin@gmail.com",
-      "password": "123456",
-      "role": "admin",
-      "avatar": "/images/avatar1.jpg"
-    },
-    {
-      "id": 2,
-      "username": "Widfrig",
-      "email": "user1@gmail.com",
-      "password": "123456",
-      "role": "user",
-      "avatar": ""
-    },
-    {
-      "id": 3,
-      "username": "Asuka",
-      "email": "user2@gmail.com",
-      "password": "123456",
-      "role": "user",
-      "avatar": ""
-    },
-    {
-      "id": 4,
-      "username": "Beowolf",
-      "email": "user3@gmail.com",
-      "password": "123456",
-      "role": "user",
-      "avatar": ""
-    }
-  ],
-  "categories": [
-    {
-      "id": 1,
-      "categoryName": "Bakery",
-      "description": "Coffee, tea, water, juice, and soda"
-    },
-    {
-      "id": 2,
-      "categoryName": "Snacks & Sweets",
-      "description": "Chips, crackers, nuts, and candy"
-    },
-    {
-      "id": 3,
-      "categoryName": "Produce",
-      "description": "Fruits & Vegetables"
-    },
-    {
-      "id": 4,
-      "categoryName": "Meat & Seafood",
-      "description": "Chicken, beef, pork, shrimp, and salmon"
-    },
-    {
-      "id": 5,
-      "categoryName": "Personal Care",
-      "description": "Shampoo, toothpaste, and body soap"
-    },
-    {
-      "id": 6,
-      "categoryName": "Deli",
-      "description": "Sliced cheeses, cold cuts, and pre-made salads"
-    },
-    {
-      "id": 7,
-      "categoryName": "Dairy & Refrigerated",
-      "description": "Milk, butter, eggs, yogurt, and plant-based milks"
-    },
-    {
-      "id": 8,
-      "categoryName": "Pantry",
-      "description": "Canned Goods, Pasta & Grains, Baking, Condiments & Oils"
-    },
-    {
-      "id": 9,
-      "categoryName": "Beverages",
-      "description": "Coffee, tea, water, juice, and soda"
-    },
-    {
-      "id": 10,
-      "categoryName": "Frozen Foods",
-      "description": "Ice cream, frozen vegetables, and ready-to-eat meals"
-    },
-    {
-      "id": 11,
-      "categoryName": "Household & Cleaning",
-      "description": "Paper towels, dish soap, laundry detergent, and trash bags"
-    }
-  ],
-  "products": [
-    {
-      "id": 1,
-      "title": "Coca-Cola",
-      "thumbnail": "/images/cocaCola-can.jpg",
-      "price": 11000,
-      "description": "",
-      "categoryId": 9
-    },
-    {
-      "id": 2,
-      "title": "Rice Paper Salad",
-      "thumbnail": "/images/rice-paper-salad.jpg",
-      "price": 15000,
-      "description": "",
-      "categoryId": 2
-    },
-    {
-      "id": 3,
-      "title": "Honeycrisp",
-      "thumbnail": "/images/honeycrisp.jpg",
-      "price": 250000,
-      "description": "",
-      "categoryId": 3
-    },
-    {
-      "id": 4,
-      "title": "Hass Avocado",
-      "thumbnail": "/images/hass-avocado.jpg",
-      "price": 50000,
-      "description": "",
-      "categoryId": 3
-    },
-    {
-      "id": 5,
-      "title": "Croissant",
-      "thumbnail": "/images/croissant.jpg",
-      "price": 19000,
-      "description": "",
-      "categoryId": 1
-    },
-    {
-      "id": 6,
-      "title": "White Bread",
-      "thumbnail": "/images/white-bread.jpg",
-      "price": 15000,
-      "description": "",
-      "categoryId": 1
-    },
-    {
-      "id": 7,
-      "title": "Ground Beef",
-      "thumbnail": "/images/ground-beef.jpg",
-      "price": 180000,
-      "description": "",
-      "categoryId": 4
-    },
-    {
-      "id": 8,
-      "title": "Bacon",
-      "thumbnail": "/images/bacon.jpg",
-      "price": 170000,
-      "description": "",
-      "categoryId": 4
-    },
-    {
-      "id": 9,
-      "title": "Sliced Turkey Breast",
-      "thumbnail": "/images/sliced-turkey-breast.jpg",
-      "price": 75000,
-      "description": "",
-      "categoryId": 6
-    },
-    {
-      "id": 10,
-      "title": "Swiss Cheese",
-      "thumbnail": "/images/swiss-cheese.jpg",
-      "price": 45000,
-      "description": "",
-      "categoryId": 6
-    },
-    {
-      "id": 11,
-      "title": "Large Brown Eggs",
-      "thumbnail": "/images/large-brown-eggs.jpg",
-      "price": 2500,
-      "description": "",
-      "categoryId": 7
-    },
-    {
-      "id": 12,
-      "title": "Unsalted Butter",
-      "thumbnail": "/images/unsalted-butter.jpg",
-      "price": 65000,
-      "description": "",
-      "categoryId": 7
-    },
-    {
-      "id": 13,
-      "title": "Jasmine Rice",
-      "thumbnail": "/images/jasmine-rice.jpg",
-      "price": 16000,
-      "description": "",
-      "categoryId": 8
-    },
-    {
-      "id": 14,
-      "title": "Black Pepper",
-      "thumbnail": "/images/black-pepper.jpg",
-      "price": 138000,
-      "description": "",
-      "categoryId": 8
-    },
-    {
-      "id": 15,
-      "title": "Chickpeas",
-      "thumbnail": "/images/chickpeas.jpg",
-      "price": 60000,
-      "description": "",
-      "categoryId": 8
-    },
-    {
-      "id": 16,
-      "title": "Mayonnaise",
-      "thumbnail": "/images/mayonnaise.jpg",
-      "price": 22000,
-      "description": "",
-      "categoryId": 8
-    },
-    {
-      "id": 17,
-      "title": "Ritz Crackers",
-      "thumbnail": "/images/ritz-crackers.jpg",
-      "price": 55000,
-      "description": "",
-      "categoryId": 2
-    },
-    {
-      "id": 18,
-      "title": "Robusta Coffee",
-      "thumbnail": "/images/robusta-coffee.jpg",
-      "price": 95000,
-      "description": "",
-      "categoryId": 9
-    },
-    {
-      "id": 19,
-      "title": "Frozen peas",
-      "thumbnail": "/images/frozen-peas.jpg",
-      "price": 50000,
-      "description": "",
-      "categoryId": 10
-    },
-    {
-      "id": 20,
-      "title": "Vanilla Ice Cream",
-      "thumbnail": "/images/vanilla-ice-cream.jpg",
-      "price": 15000,
-      "description": "",
-      "categoryId": 10
-    },
-    {
-      "id": 21,
-      "title": "Tide Detergent",
-      "thumbnail": "/images/tide-detergent.jpg",
-      "price": 100000,
-      "description": "",
-      "categoryId": 11
-    },
-    {
-      "id": 22,
-      "title": "Chopstick",
-      "thumbnail": "/images/chopstick.jpg",
-      "price": 1500,
-      "description": "",
-      "categoryId": 11
-    },
-    {
-      "id": 23,
-      "title": "Colgate Toothpaste",
-      "thumbnail": "/images/colgate-toothpaste.jpg",
-      "price": 30000,
-      "description": "",
-      "categoryId": 5
-    },
-    {
-      "id": 24,
-      "title": "Dove Body Wash",
-      "thumbnail": "/images/dove-body-wash.jpg",
-      "price": 125000,
-      "description": "",
-      "categoryId": 5
-    }
-  ],
-  "historyLogs": [
-    {
-      "id": 1,
-      "createdAt": "2026-07-16T06:30:00.000Z",
-      "date": "2026-07-16",
-      "time": "06:30",
-      "userId": 1,
-      "userName": "Admin",
-      "contentType": "Product",
-      "objectName": "Milk",
-      "changeAction": "Update",
-      "details": "Price updated",
-      "isRead": true,
-      "isStarred": true,
-      "tab": "system"
-    },
-    {
-      "id": 2,
-      "createdAt": "2026-07-16T06:45:00.000Z",
-      "date": "2026-07-16",
-      "time": "06:30",
-      "userId": 1,
-      "userName": "User",
-      "contentType": "Product",
-      "objectName": "Milk",
-      "changeAction": "Delete",
-      "details": "Delete product",
-      "isRead": false,
-      "isStarred": false,
-      "tab": "user"
-    }
-  ]
+    "users": [
+        {
+            "id": 1,
+            "username": "Wendy",
+            "email": "admin@gmail.com",
+            "password": "123456",
+            "role": "admin",
+            "avatar": "images/avatar1.jpg"
+        },
+        {
+            "id": 2,
+            "username": "Widfrig",
+            "email": "user1@gmail.com",
+            "password": "123456",
+            "role": "admin",
+            "avatar": ""
+        },
+        {
+            "id": 3,
+            "username": "Asuka",
+            "email": "user2@gmail.com",
+            "password": "123456",
+            "role": "user",
+            "avatar": ""
+        },
+        {
+            "id": 4,
+            "username": "Beowolf",
+            "email": "user3@gmail.com",
+            "password": "123456",
+            "role": "user",
+            "avatar": ""
+        }
+    ],
+    "categories": [
+        {
+            "id": 1,
+            "categoryName": "Bakery",
+            "description": "Coffee, tea, water, juice, and soda"
+        },
+        {
+            "id": 2,
+            "categoryName": "Snacks & Sweets",
+            "description": "Chips, crackers, nuts, and candy"
+        },
+        {
+            "id": 3,
+            "categoryName": "Produce",
+            "description": "Fruits & Vegetables"
+        },
+        {
+            "id": 4,
+            "categoryName": "Meat & Seafood",
+            "description": "Chicken, beef, pork, shrimp, and salmon"
+        },
+        {
+            "id": 5,
+            "categoryName": "Personal Care",
+            "description": "Shampoo, toothpaste, and body soap"
+        },
+        {
+            "id": 6,
+            "categoryName": "Deli",
+            "description": "Sliced cheeses, cold cuts, and pre-made salads"
+        },
+        {
+            "id": 7,
+            "categoryName": "Dairy & Refrigerated",
+            "description": "Milk, butter, eggs, yogurt, and plant-based milks"
+        },
+        {
+            "id": 8,
+            "categoryName": "Pantry",
+            "description": "Canned Goods, Pasta & Grains, Baking, Condiments & Oils"
+        },
+        {
+            "id": 9,
+            "categoryName": "Beverages",
+            "description": "Coffee, tea, water, juice, and soda"
+        },
+        {
+            "id": 10,
+            "categoryName": "Frozen Foods",
+            "description": "Ice cream, frozen vegetables, and ready-to-eat meals"
+        },
+        {
+            "id": 11,
+            "categoryName": "Household & Cleaning",
+            "description": "Paper towels, dish soap, laundry detergent, and trash bags"
+        }
+    ],
+    "products": [
+        {
+            "id": 1,
+            "title": "Coca-Cola",
+            "thumbnail": "/images/cocaCola-can.jpg",
+            "price": 12000,
+            "description": "",
+            "categoryId": 9
+        },
+        {
+            "id": 2,
+            "title": "Rice Paper Salad",
+            "thumbnail": "/images/rice-paper-salad.jpg",
+            "price": 15000,
+            "description": "",
+            "categoryId": 2
+        },
+        {
+            "id": 3,
+            "title": "Honeycrisp",
+            "thumbnail": "/images/honeycrisp.jpg",
+            "price": 250000,
+            "description": "",
+            "categoryId": 3
+        },
+        {
+            "id": 4,
+            "title": "Hass Avocado",
+            "thumbnail": "/images/hass-avocado.jpg",
+            "price": 50000,
+            "description": "",
+            "categoryId": 3
+        },
+        {
+            "id": 5,
+            "title": "Croissant",
+            "thumbnail": "/images/croissant.jpg",
+            "price": 19000,
+            "description": "",
+            "categoryId": 1
+        },
+        {
+            "id": 6,
+            "title": "White Bread",
+            "thumbnail": "/images/white-bread.jpg",
+            "price": 15000,
+            "description": "",
+            "categoryId": 1
+        },
+        {
+            "id": 7,
+            "title": "Ground Beef",
+            "thumbnail": "/images/ground-beef.jpg",
+            "price": 180000,
+            "description": "",
+            "categoryId": 4
+        },
+        {
+            "id": 8,
+            "title": "Bacon",
+            "thumbnail": "/images/bacon.jpg",
+            "price": 170000,
+            "description": "",
+            "categoryId": 4
+        },
+        {
+            "id": 9,
+            "title": "Sliced Turkey Breast",
+            "thumbnail": "/images/sliced-turkey-breast.jpg",
+            "price": 75000,
+            "description": "",
+            "categoryId": 6
+        },
+        {
+            "id": 10,
+            "title": "Swiss Cheese",
+            "thumbnail": "/images/swiss-cheese.jpg",
+            "price": 45000,
+            "description": "",
+            "categoryId": 6
+        },
+        {
+            "id": 11,
+            "title": "Large Brown Eggs",
+            "thumbnail": "/images/large-brown-eggs.jpg",
+            "price": 2500,
+            "description": "",
+            "categoryId": 7
+        },
+        {
+            "id": 12,
+            "title": "Unsalted Butter",
+            "thumbnail": "/images/unsalted-butter.jpg",
+            "price": 65000,
+            "description": "",
+            "categoryId": 7
+        },
+        {
+            "id": 13,
+            "title": "Jasmine Rice",
+            "thumbnail": "/images/jasmine-rice.jpg",
+            "price": 16000,
+            "description": "",
+            "categoryId": 8
+        },
+        {
+            "id": 14,
+            "title": "Black Pepper",
+            "thumbnail": "/images/black-pepper.jpg",
+            "price": 138000,
+            "description": "",
+            "categoryId": 8
+        },
+        {
+            "id": 15,
+            "title": "Chickpeas",
+            "thumbnail": "/images/chickpeas.jpg",
+            "price": 60000,
+            "description": "",
+            "categoryId": 8
+        },
+        {
+            "id": 16,
+            "title": "Mayonnaise",
+            "thumbnail": "/images/mayonnaise.jpg",
+            "price": 22000,
+            "description": "",
+            "categoryId": 8
+        },
+        {
+            "id": 17,
+            "title": "Ritz Crackers",
+            "thumbnail": "/images/ritz-crackers.jpg",
+            "price": 55000,
+            "description": "",
+            "categoryId": 2
+        },
+        {
+            "id": 18,
+            "title": "Robusta Coffee",
+            "thumbnail": "/images/robusta-coffee.jpg",
+            "price": 95000,
+            "description": "",
+            "categoryId": 9
+        },
+        {
+            "id": 19,
+            "title": "Frozen peas",
+            "thumbnail": "/images/frozen-peas.jpg",
+            "price": 50000,
+            "description": "",
+            "categoryId": 10
+        },
+        {
+            "id": 20,
+            "title": "Vanilla Ice Cream",
+            "thumbnail": "/images/vanilla-ice-cream.jpg",
+            "price": 15000,
+            "description": "",
+            "categoryId": 10
+        },
+        {
+            "id": 21,
+            "title": "Tide Detergent",
+            "thumbnail": "/images/tide-detergent.jpg",
+            "price": 100000,
+            "description": "",
+            "categoryId": 11
+        },
+        {
+            "id": 22,
+            "title": "Chopstick",
+            "thumbnail": "/images/chopstick.jpg",
+            "price": 1500,
+            "description": "",
+            "categoryId": 11
+        },
+        {
+            "id": 23,
+            "title": "Colgate Toothpaste",
+            "thumbnail": "/images/colgate-toothpaste.jpg",
+            "price": 30000,
+            "description": "",
+            "categoryId": 5
+        },
+        {
+            "id": 24,
+            "title": "Dove Body Wash",
+            "thumbnail": "/images/dove-body-wash.jpg",
+            "price": 125000,
+            "description": "",
+            "categoryId": 5
+        }
+    ],
+    "historyLogs": [
+        {
+            "id": 1,
+            "createdAt": "2026-07-16T06:30:00.000Z",
+            "date": "2026-07-16",
+            "time": "06:30",
+            "userId": 1,
+            "userName": "Wendy",
+            "contentType": "Product",
+            "objectName": "Milk",
+            "changeAction": "Update",
+            "details": "Price updated",
+            "isRead": true,
+            "isStarred": true
+        },
+        {
+            "id": 2,
+            "createdAt": "2026-07-16T06:45:00.000Z",
+            "date": "2026-07-16",
+            "time": "06:30",
+            "userId": 2,
+            "userName": "Widfrig",
+            "contentType": "Product",
+            "objectName": "Milk",
+            "changeAction": "Delete",
+            "details": "Delete product",
+            "isRead": false,
+            "isStarred": false
+        }
+    ]
 }

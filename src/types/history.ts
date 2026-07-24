@@ -1,5 +1,3 @@
-export type HistoryTab = "system" | "user";
-
 export interface HistoryLog {
     id: number;
     createdAt: string;
@@ -7,14 +5,35 @@ export interface HistoryLog {
     time: string;
     userId: number;
     userName: string;
-    contentType: string;
+    contentType: HistoryContentType;
     objectName: string;
-    changeAction: string;
+    changeAction: HistoryAction;
     details: string;
     isRead: boolean;
     isStarred: boolean;
-    tab: HistoryTab;
 }
+
+export type ActiveTab = "system" | "user";
+
+export const HistoryAction = {
+    Create: "Create",
+    Update: "Update",
+    Delete: "Delete",
+    Login: "Login",
+    Logout: "Logout",
+} as const;
+
+export type HistoryAction = (typeof HistoryAction)[keyof typeof HistoryAction];
+
+export const HistoryContentType = {
+    Product: "Product",
+    Category: "Category",
+    User: "User",
+    Account: "Account",
+} as const;
+
+export type HistoryContentType =
+    (typeof HistoryContentType)[keyof typeof HistoryContentType];
 
 export type HistoryLogInput = Omit<
     HistoryLog,

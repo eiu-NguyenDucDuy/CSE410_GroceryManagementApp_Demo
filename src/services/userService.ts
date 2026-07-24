@@ -1,9 +1,9 @@
-import type { User } from "../context/AuthContext";
+import type { UserData } from "../types/user";
 import { api, API_URL } from "./api";
 
 // Using backend API
 // export async function login(email: string, password: string) {
-//     return api<User>(`${API_URL}/login`, {
+//     return api<UserData>(`${API_URL}/login`, {
 //         method: "POST",
 //         headers: {
 //             "Content-Type": "application/json",
@@ -20,7 +20,7 @@ function normalizeEmail(email: string): string {
 export async function login(
     email: string,
     password: string,
-): Promise<User | null> {
+): Promise<UserData | null> {
     const users = await getAllUsers();
     const normalizedEmail = normalizeEmail(email);
 
@@ -33,11 +33,13 @@ export async function login(
     );
 }
 
-export async function getAllUsers(): Promise<User[]> {
-    return api<User[]>(`${API_URL}/users`);
+export async function getAllUsers(): Promise<UserData[]> {
+    return api<UserData[]>(`${API_URL}/users`);
 }
 
-export async function createUser(user: Omit<User, "id">): Promise<User> {
+export async function createUser(
+    user: Omit<UserData, "id">,
+): Promise<UserData> {
     const existingUsers = await getAllUsers();
     const normalizedEmail = normalizeEmail(user.email);
     const emailExists = existingUsers.some(
@@ -49,13 +51,13 @@ export async function createUser(user: Omit<User, "id">): Promise<User> {
         throw new Error("Email already exists.");
     }
 
-    return api<User>(`${API_URL}/users`, {
+    return api<UserData>(`${API_URL}/users`, {
         method: "POST",
         body: JSON.stringify(user),
     });
 }
 
-export async function updateUser(user: User): Promise<User> {
+export async function updateUser(user: UserData): Promise<UserData> {
     const existingUsers = await getAllUsers();
     const normalizedEmail = normalizeEmail(user.email);
     const emailExists = existingUsers.some(
@@ -68,7 +70,7 @@ export async function updateUser(user: User): Promise<User> {
         throw new Error("Email already exists.");
     }
 
-    return api<User>(`${API_URL}/users/${user.id}`, {
+    return api<UserData>(`${API_URL}/users/${user.id}`, {
         method: "PUT",
         body: JSON.stringify(user),
     });

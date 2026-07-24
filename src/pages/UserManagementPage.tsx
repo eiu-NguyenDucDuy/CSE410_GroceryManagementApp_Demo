@@ -31,30 +31,26 @@ import {
     getAllUsers,
     updateUser,
 } from "../services/userService";
-import type { User } from "../context/AuthContext";
 import { colors } from "../config/colors";
+import { useHistoryLogger } from "../hooks/useHistoryLogger";
+import { HistoryAction, HistoryContentType } from "../types/history";
+import type { UserData, UserFormData } from "../types/user";
 
 const { Search } = Input;
 const { Option } = Select;
 
-type UserFormValues = {
-    username: string;
-    email: string;
-    password: string;
-    role: User["role"];
-};
-
 export default function UserManagementPage() {
-    const [users, setUsers] = useState<User[]>([]);
+    const [users, setUsers] = useState<UserData[]>([]);
     const [showModal, setShowModal] = useState(false);
-    const [editingUser, setEditingUser] = useState<User | null>(null);
+    const [editingUser, setEditingUser] = useState<UserData | null>(null);
     const [activeSearchKeyword, setActiveSearchKeyword] = useState("");
     const [loading, setLoading] = useState(false);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState("");
-    const [form] = Form.useForm<UserFormValues>();
+    const [form] = Form.useForm<UserFormData>();
     const itemsPerPage = 10;
     const { state } = useAuth();
+    const { logHistory } = useHistoryLogger();
     const isAdmin = state.user?.role === "admin";
     const { t } = useTranslation();
 
@@ -92,7 +88,7 @@ export default function UserManagementPage() {
         setShowModal(true);
     };
 
-    const handleEdit = (user: User) => {
+    const handleEdit = (user: UserData) => {
         setEditingUser(user);
         form.setFieldsValue({
             username: user.username,
@@ -103,7 +99,7 @@ export default function UserManagementPage() {
         setShowModal(true);
     };
 
-    const handleSubmit = async (values: UserFormValues) => {
+    const handleSubmit = async (values: UserFormData) => {
         setSaving(true);
         setError("");
 
@@ -116,6 +112,13 @@ export default function UserManagementPage() {
                     password: editingUser.password,
                     role: values.role,
                 });
+
+                await logHistory({
+                    contentType: HistoryContentType.User,
+                    objectName: updatedUser.username,
+                    changeAction: HistoryAction.Update,
+                });
+
                 setUsers((prev) =>
                     prev.map((user) =>
                         user.id === updatedUser.id ? updatedUser : user,
@@ -128,6 +131,13 @@ export default function UserManagementPage() {
                     password: values.password,
                     role: values.role,
                 });
+
+                await logHistory({
+                    contentType: HistoryContentType.User,
+                    objectName: createdUser.username,
+                    changeAction: HistoryAction.Create,
+                });
+
                 setUsers((prev) => [...prev, createdUser]);
             }
 
@@ -147,18 +157,26 @@ export default function UserManagementPage() {
 
     const handleDelete = async (id: number) => {
         if (id === state.user?.id) {
-            setError(
-                t("validation.cannotDeleteSelf") ||
-                    "You cannot delete your own account.",
-            );
+            setError(t("validation.cannotDeleteSelf"));
             return;
         }
+
+        const user = users.find((u) => u.id === id);
+
+        if (!user) return;
 
         const confirmDelete = window.confirm(t("validation.confirmDeleteUser"));
         if (!confirmDelete) return;
 
         try {
             await deleteUser(id);
+
+            await logHistory({
+                contentType: HistoryContentType.User,
+                objectName: user.username,
+                changeAction: HistoryAction.Delete,
+            });
+
             setUsers((prev) => prev.filter((user) => user.id !== id));
         } catch (err) {
             console.error(err);
@@ -178,7 +196,7 @@ export default function UserManagementPage() {
         );
     });
 
-    const columns: ColumnsType<User> = [
+    const columns: ColumnsType<UserData> = [
         {
             title: "ID",
             dataIndex: "id",
@@ -205,7 +223,7 @@ export default function UserManagementPage() {
             key: "role",
             width: 120,
             sorter: (a, b) => a.role.localeCompare(b.role),
-            render: (role: User["role"]) => (
+            render: (role: UserData["role"]) => (
                 <Tag color={role === "admin" ? "gold" : "blue"}>
                     {role === "admin" ? t("common.Admin") : t("common.User")}
                 </Tag>
@@ -218,7 +236,7 @@ export default function UserManagementPage() {
                       key: "actions",
                       width: 160,
                       fixed: "right" as const,
-                      render: (_: unknown, record: User) => {
+                      render: (_: unknown, record: UserData) => {
                           const isCurrentAccount = record.id === state.user?.id;
 
                           return (
@@ -338,7 +356,7 @@ export default function UserManagementPage() {
                 />
             </div>
 
-            <Table<User>
+            <Table<UserData>
                 rowKey="id"
                 columns={columns}
                 dataSource={filteredUsers}

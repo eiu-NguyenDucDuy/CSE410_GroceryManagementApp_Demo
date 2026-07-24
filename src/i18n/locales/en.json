@@ -14,7 +14,8 @@
         "no": "No",
         "Admin": "Admin",
         "User": "User",
-        "upload": "Upload"
+        "upload": "Upload",
+        "viewAll": "View All"
     },
     "home": {
         "title": "Grocery Management System",
@@ -45,8 +46,16 @@
     },
     "dashboard": {
         "title": "Dashboard",
+        "welcome": "Welcome back! Here's an overview of your inventory.",
         "totalCategories": "Total Categories",
-        "totalProducts": "Total Products"
+        "totalProducts": "Total Products",
+        "totalUsers": "Total Users",
+        "charts": "Charts",
+        "productsByCategory": "Products by Category",
+        "categoryDistribution": "Category Distribution",
+        "recentItems": "Recent Items",
+        "recentCategories": "Recent Categories",
+        "recentProducts": "Recent Products"
     },
     "product": {
         "productManagement": "Product Management",
@@ -111,14 +120,14 @@
         "contentType": "Content Type",
         "object": "Object",
         "changeAction": "Change Action",
+        "details": "Details",
         "searchAll": "All fields",
         "selectAll": "Select all",
         "clearSelection": "Clear selection",
         "mark": "Mark",
         "unmark": "Unmark",
         "read": "Read",
-        "unread": "Unread",
-        "viewAll": "View all"
+        "unread": "Unread"
     },
     "settings": {
         "title": "Settings",

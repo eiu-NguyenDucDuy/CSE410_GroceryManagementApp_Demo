@@ -14,7 +14,8 @@
         "no": "Non",
         "Admin": "Administrateur",
         "User": "Utilisateur",
-        "upload": "Télécharger"
+        "upload": "Télécharger",
+        "viewAll": "Tout afficher"
     },
     "home": {
         "title": "Système de gestion d'épicerie",
@@ -45,8 +46,16 @@
     },
     "dashboard": {
         "title": "Tableau de bord",
+        "welcome": "Bienvenue à nouveau ! Voici un aperçu de votre inventaire.",
         "totalCategories": "Nombre total de catégories",
-        "totalProducts": "Nombre total de produits"
+        "totalProducts": "Nombre total de produits",
+        "totalUsers": "Nombre total d'utilisateurs",
+        "charts": "Graphiques",
+        "productsByCategory": "Produits par catégorie",
+        "categoryDistribution": "Répartition par catégorie",
+        "recentItems": "Articles récents",
+        "recentCategories": "Catégories récentes",
+        "recentProducts": "Produits récents"
     },
     "product": {
         "productManagement": "Gestion des produits",
@@ -111,14 +120,14 @@
         "contentType": "Type de contenu",
         "object": "Objet",
         "changeAction": "Action de modification",
+        "details": "Détails",
         "searchAll": "Tous les champs",
         "selectAll": "Tout sélectionner",
         "clearSelection": "Effacer la sélection",
         "mark": "Marquer",
         "unmark": "Démarquer",
         "read": "Lu",
-        "unread": "Non lu",
-        "viewAll": "Tout afficher"
+        "unread": "Non lu"
     },
     "settings": {
         "title": "Paramètres",

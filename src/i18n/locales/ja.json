@@ -14,11 +14,12 @@
         "no": "いいえ",
         "Admin": "管理者",
         "User": "ユーザー",
-        "upload": "アップロード"
+        "upload": "アップロード",
+        "viewAll": "すべて表示"
     },
     "home": {
         "title": "食料品管理システム",
-        "description": "シンプルでモダンなダッシュボードで、食品の製品・カテゴリ・在庫を簡単に管理できます。",
+        "description": "シンプルでモダンなダッシュボードで,食品の製品・カテゴリ・在庫を簡単に管理できます。",
         "access": "ダッシュボードにアクセス",
         "categoryManagementDescription": "食品カテゴリを簡単に作成・整理できます。",
         "productManagementDescription": "食品製品を追加・更新・管理できます。",
@@ -45,8 +46,16 @@
     },
     "dashboard": {
         "title": "ダッシュボード",
+        "welcome": "おかえりなさい！在庫の概要はこちらです。",
         "totalCategories": "カテゴリ数",
-        "totalProducts": "商品数"
+        "totalProducts": "商品数",
+        "totalUsers": "総ユーザー数",
+        "charts": "グラフ",
+        "productsByCategory": "カテゴリ別製品数",
+        "categoryDistribution": "カテゴリ別分布",
+        "recentItems": "最近購入した商品",
+        "recentCategories": "最近購入したカテゴリ",
+        "recentProducts": "最近購入した商品"
     },
     "product": {
         "productManagement": "商品管理",
@@ -88,7 +97,7 @@
     },
     "profile": {
         "title": "プロフィール",
-        "updateWarning": "プロフィールを更新後、再度ログインしてください。",
+        "updateWarning": "プロフィールを更新後,再度ログインしてください。",
         "username": "ユーザー名",
         "usernamePlaceholder": "ユーザー名を入力",
         "email": "メール",
@@ -111,18 +120,18 @@
         "contentType": "コンテンツタイプ",
         "object": "オブジェクト",
         "changeAction": "変更アクション",
+        "details": "詳細",
         "searchAll": "すべてのフィールド",
         "selectAll": "すべて選択",
         "clearSelection": "選択を解除",
         "mark": "マーク",
         "unmark": "マークを解除",
         "read": "既読",
-        "unread": "未読",
-        "viewAll": "すべて表示"
+        "unread": "未読"
     },
     "settings": {
         "title": "設定",
-        "description": "体験をカスタマイズして、設定を管理します。",
+        "description": "体験をカスタマイズして,設定を管理します。",
         "preferences": "環境設定",
         "theme": "テーマ",
         "themeDescription": "ライトモードとダークモードを切り替えます。",

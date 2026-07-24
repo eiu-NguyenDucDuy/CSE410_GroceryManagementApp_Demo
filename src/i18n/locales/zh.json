@@ -14,7 +14,8 @@
         "no": "否",
         "Admin": "管理员",
         "User": "用户",
-        "upload": "上传"
+        "upload": "上传",
+        "viewAll": "查看全部"
     },
     "home": {
         "title": "杂货管理系统",
@@ -45,8 +46,16 @@
     },
     "dashboard": {
         "title": "仪表板",
+        "welcome": "以下是您的库存概览。",
         "totalCategories": "分类总数",
-        "totalProducts": "产品总数"
+        "totalProducts": "产品总数",
+        "totalUsers": "总用户数",
+        "charts": "图表",
+        "productsByCategory": "按类别划分的产品",
+        "categoryDistribution": "类别分布",
+        "recentItems": "最近购买的产品",
+        "recentCategories": "最近购买的类别",
+        "recentProducts": "最近购买的产品"
     },
     "product": {
         "productManagement": "产品管理",
@@ -111,14 +120,14 @@
         "contentType": "内容类型",
         "object": "对象",
         "changeAction": "更改操作",
+        "details": "详情",
         "searchAll": "所有字段",
         "selectAll": "全选",
         "clearSelection": "清除选择",
         "mark": "标记",
         "unmark": "取消标记",
         "read": "已读",
-        "unread": "未读",
-        "viewAll": "查看全部"
+        "unread": "未读"
     },
     "settings": {
         "title": "设置",

@@ -14,7 +14,7 @@ import {
     ApartmentOutlined,
     AuditOutlined,
     BellOutlined,
-    CheckCircleOutlined,
+    EyeOutlined,
     StarFilled,
     StarOutlined,
 } from "@ant-design/icons";
@@ -25,19 +25,22 @@ import {
     getAllHistoryLogs,
     toggleHistoryStarState,
     areNotificationsEnabled,
+    toggleHistoryReadState,
 } from "../services/historyService";
-import type { HistoryLog, HistoryTab } from "../types/history";
+import type { HistoryLog, ActiveTab } from "../types/history";
 import { colors } from "../config/colors";
+import { useAuth } from "../hooks/useAuth";
 
 const { Text } = Typography;
 
 export default function NotificationBell() {
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const { state } = useAuth();
     const { token } = theme.useToken();
     const [logs, setLogs] = useState<HistoryLog[]>([]);
     const [open, setOpen] = useState(false);
-    const [activeTab, setActiveTab] = useState<HistoryTab>("system");
+    const [activeTab, setActiveTab] = useState<ActiveTab>("system");
     const [notificationsEnabled, setNotificationsEnabled] = useState(
         areNotificationsEnabled(),
     );
@@ -57,7 +60,13 @@ export default function NotificationBell() {
         [logs],
     );
 
-    const filteredLogs = logs.filter((log) => log.tab === activeTab);
+    const filteredLogs = logs.filter((log) => {
+        if (activeTab === "user") {
+            return log.userId === state.user?.id;
+        }
+
+        return log.userId !== state.user?.id;
+    });
 
     const handleOpenChange = async (nextOpen: boolean) => {
         setOpen(nextOpen);
@@ -75,10 +84,25 @@ export default function NotificationBell() {
     };
 
     const handleToggleStar = async (id: number) => {
-        await toggleHistoryStarState(id);
+        try {
+            await toggleHistoryStarState(id);
 
-        const data = await getAllHistoryLogs();
-        setLogs(data);
+            const data = await getAllHistoryLogs();
+            setLogs(data);
+        } catch (error) {
+            console.error("Failed to toggle star:", error);
+        }
+    };
+
+    const handleToggleRead = async (id: number) => {
+        try {
+            await toggleHistoryReadState(id);
+
+            const data = await getAllHistoryLogs();
+            setLogs(data);
+        } catch (error) {
+            console.error("Failed to toggle read:", error);
+        }
     };
 
     const handleGoToHistory = () => {
@@ -111,7 +135,7 @@ export default function NotificationBell() {
                     <Text strong>{t("history.title")}</Text>
 
                     <Button size="small" onClick={handleGoToHistory}>
-                        {t("history.viewAll")}
+                        {t("common.viewAll")}
                     </Button>
                 </Space>
 
@@ -148,7 +172,7 @@ export default function NotificationBell() {
                 />
             ) : (
                 <List
-                    dataSource={filteredLogs
+                    dataSource={[...filteredLogs]
                         .sort(
                             (a, b) =>
                                 new Date(b.createdAt).getTime() -
@@ -162,8 +186,8 @@ export default function NotificationBell() {
                                 <Tooltip
                                     title={
                                         item.isStarred
-                                            ? t("history.mark")
-                                            : t("history.unmark")
+                                            ? t("history.unmark")
+                                            : t("history.mark")
                                     }
                                 >
                                     <Button
@@ -175,7 +199,7 @@ export default function NotificationBell() {
                                     >
                                         {item.isStarred ? (
                                             <StarFilled
-                                                style={{ color: "#fadb14" }}
+                                                style={{ color: colors.mark }}
                                             />
                                         ) : (
                                             <StarOutlined />
@@ -183,23 +207,29 @@ export default function NotificationBell() {
                                     </Button>
                                 </Tooltip>,
 
-                                item.isRead ? (
-                                    <Tooltip title={t("history.read")}>
-                                        <CheckCircleOutlined
-                                            style={{
-                                                color: token.colorSuccess,
-                                            }}
-                                        />
-                                    </Tooltip>
-                                ) : (
-                                    <Tooltip title={t("history.unread")}>
-                                        <BellOutlined
-                                            style={{
-                                                color: token.colorPrimary,
-                                            }}
-                                        />
-                                    </Tooltip>
-                                ),
+                                <Tooltip
+                                    title={
+                                        item.isRead
+                                            ? t("history.read")
+                                            : t("history.unread")
+                                    }
+                                >
+                                    <Button
+                                        type="text"
+                                        size="small"
+                                        onClick={() =>
+                                            handleToggleRead(item.id)
+                                        }
+                                    >
+                                        {item.isRead ? (
+                                            <EyeOutlined
+                                                style={{ color: colors.read }}
+                                            />
+                                        ) : (
+                                            <BellOutlined />
+                                        )}
+                                    </Button>
+                                </Tooltip>,
                             ]}
                         >
                             <List.Item.Meta
@@ -208,7 +238,7 @@ export default function NotificationBell() {
                                         <Text strong>{item.objectName}</Text>
                                         <Tag
                                             color={
-                                                item.tab === "system"
+                                                activeTab === "system"
                                                     ? colors.management
                                                     : colors.profile
                                             }
