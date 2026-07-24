@@ -8,7 +8,7 @@ export const colors = {
 
     dashboard: "#dc143c",
     management: "#ff6600",
-    category: "#dddd00",
+    category: "#ffd700",
     product: "#77aa00",
     users: "#69f",
     profile: "#0000bb",

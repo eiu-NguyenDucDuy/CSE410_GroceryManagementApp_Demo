@@ -1,19 +1,13 @@
 import { createContext } from "react";
-
-export type User = {
-    id: number;
-    username: string;
-    email: string;
-    password: string;
-    role: "admin" | "user";
-    avatar?: string;
-};
+import type { UserData } from "../types/user";
 
 export type AuthState = {
-    user: User | null;
+    user: UserData | null;
 };
 
-export type AuthAction = { type: "LOGIN"; payload: User } | { type: "LOGOUT" };
+export type AuthAction =
+    | { type: "LOGIN"; payload: UserData }
+    | { type: "LOGOUT" };
 
 export const AuthContext = createContext<{
     state: AuthState;

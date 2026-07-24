@@ -14,6 +14,7 @@ import {
     MoonFilled,
     SunFilled,
     ProfileOutlined,
+    DownOutlined,
 } from "@ant-design/icons";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
@@ -118,23 +119,50 @@ export default function MainLayout() {
                                 items: menuItems,
                                 onClick: handleMenuClick,
                             }}
-                            placement="bottomRight"
                             trigger={["click"]}
+                            placement="bottomRight"
                         >
-                            <Avatar
-                                src={state.user?.avatar}
-                                icon={<UserOutlined />}
-                                style={{ cursor: "pointer" }}
-                            />
-                        </Dropdown>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 8,
+                                    cursor: "pointer",
+                                    padding: "6px 12px",
+                                    borderRadius: 8,
+                                    transition: "all .2s",
+                                }}
+                                onMouseEnter={(e) =>
+                                    (e.currentTarget.style.background =
+                                        token.colorFillSecondary)
+                                }
+                                onMouseLeave={(e) =>
+                                    (e.currentTarget.style.background =
+                                        "transparent")
+                                }
+                            >
+                                <Avatar
+                                    src={state.user?.avatar}
+                                    icon={<UserOutlined />}
+                                />
 
-                        <Text
-                            style={{
-                                color: token.colorText,
-                            }}
-                        >
-                            <b>{state.user?.username}</b>
-                        </Text>
+                                <Text
+                                    style={{
+                                        color: token.colorText,
+                                        fontWeight: 600,
+                                    }}
+                                >
+                                    {state.user?.username}
+                                </Text>
+
+                                <DownOutlined
+                                    style={{
+                                        color: token.colorTextSecondary,
+                                        fontSize: 12,
+                                    }}
+                                />
+                            </div>
+                        </Dropdown>
                     </Space>
                 </Header>
 
@@ -143,7 +171,6 @@ export default function MainLayout() {
                     style={{
                         margin: 24,
                         padding: 24,
-                        background: token.colorBgContainer,
                         borderRadius: 8,
                         minHeight: 280,
                     }}

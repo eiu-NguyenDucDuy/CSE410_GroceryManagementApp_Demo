@@ -135,7 +135,7 @@ export default function NotificationBell() {
                     <Text strong>{t("history.title")}</Text>
 
                     <Button size="small" onClick={handleGoToHistory}>
-                        {t("history.viewAll")}
+                        {t("common.viewAll")}
                     </Button>
                 </Space>
 
